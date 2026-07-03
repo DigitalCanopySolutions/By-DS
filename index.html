@@ -2,14 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5RGX394L2"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-R5RGX394L2');
-  </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R5RGX394L2"></script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Canopy — Zoho CRM reports in Google Sheets, automatically.</title>
   <meta name="description" content="Canopy syncs Zoho CRM data into shareable Google Sheets reports with pre-built templates, daily sync, and zero manual exports."/>
@@ -49,159 +44,484 @@
     ::selection{background:rgba(37,117,232,.18);color:var(--dark)}
     a:focus-visible,button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:6px}
 
-    /* ── NAV ── */
-    nav{position:sticky;top:0;left:0;right:0;z-index:9999;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:68px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:saturate(180%) blur(16px);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--border);color:var(--dark)}
-    .nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none}
-    .nav-logo img{height:42px;object-fit:contain}
-    .nav-logo-text{font-family:var(--serif);font-size:1.18rem;font-weight:600;color:var(--dark);letter-spacing:-.01em;font-variation-settings:"opsz" 144}
-    .nav-ds{font-size:.58rem;font-weight:700;color:var(--slate);background:var(--slate-ll);padding:2px 8px;border-radius:999px;border:1px solid var(--border);letter-spacing:.04em;text-transform:uppercase}
-    .nav-center{display:flex;align-items:center;gap:7px;background:var(--blue-ll);border:1px solid rgba(37,117,232,.18);padding:5px 14px;border-radius:999px}
-    .nav-center-dot{width:7px;height:7px;background:var(--blue);border-radius:50%;animation:blink 2s ease-in-out infinite;box-shadow:0 0 0 3px rgba(37,117,232,.15)}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-    .nav-center span{font-size:.7rem;font-weight:700;color:var(--blue-d);text-transform:uppercase;letter-spacing:.07em}
-    .nav-cta{background:var(--dark);color:var(--white);border:none;padding:9px 18px;border-radius:999px;font-weight:700;font-size:.84rem;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;text-decoration:none;display:inline-block;white-space:nowrap;font-family:'Inter',sans-serif}
-    .nav-cta:hover{background:var(--blue);transform:translateY(-1px);box-shadow:var(--shadow-blue)}
+/* ── 1. TOPBAR ── */
+    .topbar-canopy {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 1000;
+      background: transparent;
+    }
+    .topbar-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .topbar-logo img { height: 32px; width: 32px; object-fit: contain; }
+    .topbar-text {
+      font-size: 1.05rem; font-weight: 800; color: var(--dark);
+      letter-spacing: -.02em;
+    }
+    .topbar-right-actions { display: flex; align-items: center; gap: 12px; }
+    .btn-topbar {
+      padding: 10px 22px; border-radius: 999px;
+      font-size: .84rem; font-weight: 700; text-decoration: none;
+      transition: transform .2s, box-shadow .2s, background .2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-topbar.primary {
+      background: var(--blue); color: white;
+      box-shadow: 0 4px 14px rgba(37,117,232,.3);
+    }
+    .btn-topbar.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(37,117,232,.4);
+    }
+    .btn-topbar.secondary {
+      background: transparent; color: var(--dark);
+      border: 1px solid var(--border-d);
+    }
+    .btn-topbar.secondary:hover {
+      border-color: var(--blue); color: var(--blue-d);
+    }
 
-    /* ── HERO (immersive data canopy) ── */
-    .hero{min-height:auto;padding:100px 48px 120px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:linear-gradient(180deg,#F2F6FE 0%,#F8FAFE 45%,#FFFFFF 100%);border-bottom:1px solid var(--border)}
-    .hero-canopy{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
-    .hero-canopy svg{width:100%;height:100%;display:block}
-    .hero-sun{position:absolute;top:8%;right:14%;width:340px;height:340px;background:radial-gradient(circle,rgba(255,221,150,.45) 0%,rgba(255,221,150,.12) 35%,transparent 65%);pointer-events:none;animation:sun-pulse 9s ease-in-out infinite;z-index:0}
-    @keyframes sun-pulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
-    .hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 50% 38%,rgba(255,255,255,.94) 0%,rgba(255,255,255,.75) 40%,rgba(255,255,255,.25) 75%,transparent 100%);pointer-events:none;z-index:1}
-    .hero-content{position:relative;z-index:3;max-width:920px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+    /* ── 2. HERO LIGHT ── */
+    .hero-light-section {
+      position: relative;
+      background: #FFFFFF;
+      padding: 150px 0 200px;
+      overflow: visible;
+      isolation: isolate;
+    }
+    /* Animated canopy tree background */
+    .hero-tree-bg {
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 100%; max-width: 1400px;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: .07;
+    }
+    .hero-tree-bg .trunk { stroke: #2575E8; stroke-width: 2.5; fill: none; stroke-linecap: round; }
+    .hero-tree-bg .branch { stroke: #2575E8; stroke-width: 1.8; fill: none; stroke-linecap: round; }
+    .hero-tree-bg .twig { stroke: #2575E8; stroke-width: 1.2; fill: none; stroke-linecap: round; }
+    .hero-tree-bg .node-big { fill: #2575E8; }
+    .hero-tree-bg .node-sm { fill: none; stroke: #2575E8; stroke-width: 2; }
+    .hero-tree-bg .leaf { fill: #2575E8; opacity: .5; }
+    .hero-tree-bg .data-pulse {
+      fill: none; stroke: #2575E8; stroke-width: 2;
+      stroke-dasharray: 8 120;
+      animation: tree-pulse 3s linear infinite;
+    }
+    .hero-tree-bg .data-pulse.d2 { animation-delay: 1s; }
+    .hero-tree-bg .data-pulse.d3 { animation-delay: 2s; }
+    .hero-tree-bg .node-glow {
+      fill: #2575E8; opacity: 0;
+      animation: node-blink 3s ease-in-out infinite;
+    }
+    .hero-tree-bg .node-glow.g2 { animation-delay: 1s; }
+    .hero-tree-bg .node-glow.g3 { animation-delay: 2s; }
+    .hero-tree-bg .node-glow.g4 { animation-delay: .5s; }
+    .hero-tree-bg .node-glow.g5 { animation-delay: 1.5s; }
+    @keyframes tree-pulse {
+      0% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -128; }
+    }
+    @keyframes node-blink {
+      0%, 100% { opacity: 0; transform: scale(1); }
+      50% { opacity: .6; transform: scale(1.5); }
+    }
+    .hero-split-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 48px;
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 0 48px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
 
-    /* 1. On restaure le conteneur du texte (C'est lui qui était cassé) */
-.hero-content {
-  position: relative;
-  z-index: 3;
-  max-width: 920px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column; /* Le coupable était ici ! */
-  align-items: center;
-}
+    /* Left column */
+    .hero-left-content { display: flex; flex-direction: column; }
+    .hero-left-content h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+      font-weight: 600;
+      color: var(--dark);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+      font-variation-settings: "opsz" 144;
+    }
+    .hero-left-content h1 em { font-style: italic; color: var(--slate); font-weight: 400; }
+    .hero-sub {
+      font-size: 1.02rem; color: var(--slate);
+      line-height: 1.65; max-width: 420px; margin-bottom: 36px;
+    }
 
-/* 2. Le logo géant en arrière-plan */
-.hero-bg-logo {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 45vw;
-  max-width: 800px;
-  min-width: 350px;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.08;
-  animation: logo-breathe 8s ease-in-out infinite;
-}
+    /* Flow diagram */
+    .hero-flow-diagram {
+      display: flex; align-items: center; gap: 20px;
+      width: fit-content;
+    }
+    .flow-node { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .flow-node img { height: 36px; width: 36px; object-fit: contain; }
+    .flow-node span { font-size: .76rem; font-weight: 700; color: var(--slate); }
+    .flow-arrow-animated {
+      width: 40px; height: 2px;
+      background: rgba(37,117,232,.15);
+      position: relative; overflow: hidden;
+      border-radius: 999px; margin-top: -14px;
+    }
+    .flow-arrow-animated::after {
+      content: ''; position: absolute; right: 0; top: 50%;
+      width: 6px; height: 6px;
+      border-top: 1.5px solid var(--blue); border-right: 1.5px solid var(--blue);
+      transform: translateY(-50%) rotate(45deg);
+    }
+    .flow-arrow-animated span {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      animation: data-flow 1.2s linear infinite;
+    }
+    @keyframes data-flow { from{transform:translateX(-100%)} to{transform:translateX(100%)} }
 
-.hero-bg-logo img {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: drop-shadow(0 30px 60px rgba(37,117,232,.3));
-}
+    /* Right column — Google Sheets mockup */
+    .hero-right-display { position: relative; perspective: 1200px; }
+    .hero-screen-mockup {
+      width: 100%;
+      background: var(--white);
+      border: 1px solid #D4D4D4;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,.12), 0 8px 20px rgba(0,0,0,.06);
+      transform: rotateY(-2deg) rotateX(1deg);
+      transition: transform .4s ease;
+    }
+    .hero-screen-mockup:hover { transform: rotateY(0) rotateX(0); }
+    /* macOS chrome */
+    .hsm-chrome {
+      background: linear-gradient(180deg, #E8E8E8 0%, #D6D6D6 100%);
+      padding: 8px 14px; display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid #C0C0C0;
+    }
+    .hsm-dots { display: flex; gap: 6px; }
+    .hsm-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .hsm-dots .d-r { background: #FF5F57; }
+    .hsm-dots .d-y { background: #FEBC2E; }
+    .hsm-dots .d-g { background: #28C840; }
+    .hsm-url-bar {
+      flex: 1; background: white; border: 1px solid #C8C8C8;
+      border-radius: 5px; padding: 3px 10px;
+      font-size: .62rem; color: #5F6368; font-family: var(--mono);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .hsm-url-lock { color: #34A853; font-size: .6rem; }
+    /* Sheets green header */
+    .hsm-sheets-head {
+      background: white; padding: 6px 14px 0;
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid #E0E0E0;
+    }
+    .hsm-sheets-icon { width: 28px; height: 28px; flex-shrink: 0; }
+    .hsm-sheets-meta { flex: 1; min-width: 0; }
+    .hsm-sheets-name { font-size: .72rem; font-weight: 600; color: #202124; }
+    .hsm-sheets-menu {
+      display: flex; gap: 0; margin-top: 2px; padding-bottom: 4px;
+    }
+    .hsm-sheets-menu span {
+      font-size: .58rem; color: #5F6368; padding: 2px 7px;
+      cursor: default;
+    }
+    .hsm-share-btn {
+      background: #1A73E8; color: white; border: none; border-radius: 4px;
+      padding: 5px 14px; font-size: .6rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; flex-shrink: 0;
+    }
+    /* Toolbar */
+    .hsm-toolbar {
+      background: #F9FBFD; padding: 3px 10px;
+      border-bottom: 1px solid #E0E0E0;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .hsm-toolbar-item {
+      font-size: .56rem; color: #5F6368; padding: 2px 4px;
+      border: 1px solid transparent; border-radius: 3px;
+    }
+    .hsm-fx {
+      display: flex; align-items: center; gap: 6px;
+      padding: 2px 10px; border-bottom: 1px solid #E0E0E0;
+      background: white;
+    }
+    .hsm-fx-ref {
+      background: #F1F3F4; border: 1px solid #DADCE0; border-radius: 3px;
+      padding: 1px 8px; font-size: .58rem; color: #202124;
+      font-family: var(--mono); min-width: 40px; text-align: center;
+    }
+    .hsm-fx-bar {
+      flex: 1; font-size: .58rem; color: #202124; font-family: var(--mono);
+    }
+    /* Slide area */
+    .hero-slides-container {
+      position: relative; overflow: hidden; background: white;
+      height: 320px;
+    }
+    .hero-slide {
+      position: absolute; inset: 0; opacity: 0;
+      transition: opacity .5s ease; display: flex;
+    }
+    .hero-slide.active { opacity: 1; }
+    /* Sheets tabs */
+    .hsm-tabs {
+      background: #F8F9FA; border-top: 1px solid #E0E0E0;
+      display: flex; align-items: flex-end; gap: 1px; padding: 0 10px;
+    }
+    .hsm-tab {
+      padding: 5px 14px; font-size: .6rem; font-weight: 500;
+      color: #5F6368; background: #F0F0F0; border-top: 2px solid transparent;
+      cursor: default; white-space: nowrap;
+    }
+    .hsm-tab.on {
+      background: white; color: var(--blue-d);
+      border-top-color: #1A73E8; font-weight: 700;
+    }
+    /* Cells inside slides */
+    .gs-grid {
+      flex: 1; display: flex; flex-direction: column;
+      font-size: .58rem; font-family: 'Inter', sans-serif;
+    }
+    .gs-row {
+      display: flex; border-bottom: 1px solid #E8EAED;
+    }
+    .gs-row:first-child { background: #F8F9FA; font-weight: 700; color: #5F6368; }
+    .gs-c {
+      flex: 1; padding: 4px 8px; border-right: 1px solid #E8EAED;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      color: #202124; min-width: 0;
+    }
+    .gs-c.rn { flex: 0 0 24px; text-align: center; background: #F8F9FA; color: #9AA0A6; }
+    .gs-c.num { text-align: right; }
+    .gs-c.grn { color: #137333; font-weight: 600; }
+    .gs-c.red { color: #C5221F; }
+    .gs-badge {
+      display: inline-block; padding: 1px 6px; border-radius: 3px;
+      font-size: .52rem; font-weight: 600;
+    }
+    .gs-badge.won { background: #E6F4EA; color: #137333; }
+    .gs-badge.neg { background: #E8F0FE; color: #1967D2; }
+    .gs-badge.prop { background: #FEF7E0; color: #E37400; }
+    .gs-badge.lost { background: #FCE8E6; color: #C5221F; }
+    /* Chart area in slides */
+    .gs-chart-area {
+      flex: 0 0 45%; padding: 10px; display: flex;
+      flex-direction: column; gap: 6px;
+      border-left: 1px solid #E8EAED;
+    }
+    .gs-chart-title {
+      font-size: .6rem; font-weight: 700; color: #202124;
+    }
+    /* Slide dots */
+    .hero-slide-dots {
+      position: absolute; bottom: 8px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; gap: 6px; z-index: 2;
+    }
+    .hero-slide-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #C0C0C0; transition: all .3s; cursor: pointer;
+    }
+    .hero-slide-dot.active { background: #1A73E8; transform: scale(1.4); }
 
-@keyframes logo-breathe {
-  0%, 100% {
-    opacity: 0.08;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    opacity: 0.12;
-    transform: translate(-50%, -50%) scale(1.03);
-  }
-}
+    /* ── 3. DARK CURTAIN (video block) ── */
+    .hero-dark-curtain {
+      background: #0B1120;
+      padding: 80px 48px 120px;
+      position: relative; z-index: 2;
+    }
+    .hero-video-overflow {
+      max-width: 960px;
+      margin: -140px auto 0;
+      position: relative; z-index: 10;
+    }
+    .hero-video-screen {
+      width: 100%; background: #111;
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 40px 100px rgba(0,0,0,.45), 0 12px 30px rgba(0,0,0,.25);
+    }
+    .hero-video-screen video { width: 100%; display: block; object-fit: cover; }
+    .hero-dark-tagline {
+      text-align: center; margin-top: 48px;
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+      font-weight: 400; color: rgba(255,255,255,.6);
+      line-height: 1.4; font-variation-settings: "opsz" 144;
+    }
+    .hero-dark-tagline em { color: var(--blue-l); font-style: italic; }
 
-    /* Bridge schema (Zoho → Canopy → Sheets) */
-    .hero-bridge{margin-top:54px;width:100%;max-width:780px;position:relative}
-    .hero-bridge-card{background:rgba(255,255,255,.85);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:1px solid rgba(15,23,42,.08);border-radius:22px;padding:30px 36px;box-shadow:0 22px 60px -22px rgba(14,32,64,.22);position:relative}
-    .hero-bridge-label{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-d);background:var(--blue-ll);padding:5px 12px;border-radius:999px;position:absolute;top:-14px;left:50%;transform:translateX(-50%);border:1px solid rgba(37,117,232,.2)}
-    .hero-bridge-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:20px}
-    .hero-bridge-node{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
-    .hero-bridge-icon{width:64px;height:64px;border-radius:16px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);background:white;box-shadow:var(--shadow-xs);overflow:hidden}
-    .hero-bridge-icon img{width:42px;height:42px;object-fit:contain}
-    .hero-bridge-node.bridge-canopy .hero-bridge-icon{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-d) 100%);border-color:rgba(37,117,232,.5);box-shadow:0 14px 28px -10px rgba(37,117,232,.45);transform:scale(1.08)}
-    .hero-bridge-node.bridge-canopy .hero-bridge-icon img{filter:brightness(0) invert(1);width:38px;height:38px}
-    .hero-bridge-name{font-family:'Inter',sans-serif;font-size:.78rem;font-weight:700;color:var(--dark);letter-spacing:-.01em}
-    .hero-bridge-role{font-family:'Inter',sans-serif;font-size:.66rem;color:var(--slate);font-weight:500}
-    .hero-bridge-arrow{display:flex;align-items:center;justify-content:center;width:80px;height:36px;position:relative}
-    .hero-bridge-arrow svg{width:100%;height:100%}
-    .hero-bridge-arrow .ba-track{stroke:rgba(37,117,232,.18);stroke-width:2.5;fill:none}
-    .hero-bridge-arrow .ba-flow{stroke:var(--blue);stroke-width:2.5;fill:none;stroke-dasharray:8 6;animation:flow-x 1.6s linear infinite}
-    @keyframes flow-x{from{stroke-dashoffset:28}to{stroke-dashoffset:0}}
-    .hero-bridge-arrow .ba-tip{fill:var(--blue)}
-    .hero-bridge-arrow-tag{position:absolute;top:-22px;left:50%;transform:translateX(-50%);background:white;border:1px solid var(--border);color:var(--slate);font-family:var(--mono);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:999px;white-space:nowrap;box-shadow:var(--shadow-xs)}
-    .hero-bridge-time{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);background:white;border:1px solid rgba(37,117,232,.3);color:var(--blue-d);font-family:var(--mono);font-size:.58rem;font-weight:700;letter-spacing:.06em;padding:3px 9px;border-radius:999px;white-space:nowrap;box-shadow:var(--shadow-xs)}
-    .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(15,23,42,.08);color:var(--dark);font-size:.72rem;font-weight:600;padding:7px 9px 7px 16px;border-radius:999px;margin-bottom:32px;box-shadow:0 4px 18px -8px rgba(15,23,42,.12);font-family:'Inter',sans-serif}
-    .hero-eyebrow .he-dot{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 3px rgba(37,117,232,.18);animation:blink 2s ease-in-out infinite}
-    .hero-eyebrow .he-pill{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--blue-d);background:var(--blue-ll);padding:3px 10px;border-radius:999px}
-    .hero h1{font-family:var(--serif);font-size:clamp(2.8rem,6.2vw,5.4rem);font-weight:500;line-height:1.02;color:var(--dark);letter-spacing:-.025em;margin-bottom:30px;font-variation-settings:"opsz" 144;max-width:14ch}
-    .hero h1 em{font-style:italic;font-weight:500;color:var(--canopy-leaf-d);font-variation-settings:"opsz" 144,"SOFT" 100}
-    .hero h1 .hero-amp{display:inline-block;font-style:italic;color:var(--blue);font-weight:400}
-    .hero-sub{font-family:'Inter',sans-serif;font-size:1.12rem;color:var(--slate);max-width:600px;margin:0 auto 44px;line-height:1.6;font-weight:400}
-    .hero-actions{display:flex;align-items:center;justify-content:center;gap:22px;flex-wrap:wrap;margin-bottom:48px}
-    .hero-btn{font-family:'Inter',sans-serif;font-size:.95rem;font-weight:700;color:#fff;text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:var(--dark);padding:16px 32px;border-radius:999px;box-shadow:0 14px 34px -10px rgba(14,32,64,.4);transition:transform .25s,box-shadow .25s,background .25s}
-    .hero-btn:hover{background:var(--blue);transform:translateY(-3px);box-shadow:0 18px 42px -10px rgba(37,117,232,.55)}
-    .hero-btn svg{transition:transform .25s}
-    .hero-btn:hover svg{transform:translateX(4px)}
-    .hero-link{font-family:'Inter',sans-serif;font-size:.9rem;color:var(--dark);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;padding:14px 6px;border-bottom:1.5px solid transparent;transition:border-color .25s,color .25s}
-    .hero-link:hover{color:var(--blue);border-bottom-color:var(--blue)}
-    .hero-meta{display:flex;align-items:center;gap:24px;font-family:'Inter',sans-serif;font-size:.78rem;color:var(--slate);flex-wrap:wrap;justify-content:center}
-    .hero-meta-item{display:inline-flex;align-items:center;gap:7px}
-    .hero-meta-item svg{color:var(--canopy-leaf-d);width:15px;height:15px;flex-shrink:0}
-    .hero-meta-divider{width:3px;height:3px;border-radius:50%;background:var(--border-d)}
-    .hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;font-family:var(--mono);font-size:.62rem;font-weight:700;letter-spacing:.18em;color:var(--slate);text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.7}
-    .hero-scroll-line{width:1px;height:36px;background:linear-gradient(180deg,var(--slate-l),transparent);animation:scroll-pulse 2s ease-in-out infinite}
-    @keyframes scroll-pulse{0%,100%{transform:scaleY(1);opacity:.6}50%{transform:scaleY(1.2);opacity:1}}
-    .hero-tree-glow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:40%;background:radial-gradient(ellipse 50% 50% at 50% 100%,rgba(159,196,168,.35) 0%,transparent 70%);pointer-events:none;z-index:0}
+    /* ── 4. VALUE CARDS (Airbook-style) ── */
+    .value-section {
+      background: #F7F8FA;
+      padding: 100px 48px;
+    }
+    .value-header {
+      text-align: center;
+      max-width: 660px;
+      margin: 0 auto 56px;
+    }
+    .value-header h2 {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.4vw, 2.8rem);
+      font-weight: 500;
+      color: var(--dark);
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      margin-bottom: 14px;
+      font-variation-settings: "opsz" 144;
+    }
+    .value-header p {
+      font-size: 1rem;
+      color: var(--slate);
+      line-height: 1.6;
+    }
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+    .value-card {
+      background: white;
+      border: 1px solid #E2E5EA;
+      border-radius: 14px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .value-card:hover {
+      border-color: #C8CDD4;
+      box-shadow: 0 8px 24px rgba(0,0,0,.06);
+    }
+    .value-card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .value-card-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; line-height: 1; flex-shrink: 0;
+    }
+    .value-card-icon.v-time { background: #FEF3C7; }
+    .value-card-icon.v-money { background: #D1FAE5; }
+    .value-card-icon.v-skills { background: #EDE9FE; }
+    .value-card-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -.01em;
+    }
+    .value-card-rule {
+      width: 100%; height: 1px;
+      background: #E2E5EA; margin-bottom: 16px;
+    }
+    .value-card-stat {
+      font-family: var(--mono);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -.03em;
+      margin-bottom: 8px;
+      line-height: 1;
+    }
+    .value-card-stat-label {
+      font-size: .72rem;
+      color: var(--slate-l);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 14px;
+    }
+    .value-card-body {
+      font-size: .9rem;
+      color: var(--slate);
+      line-height: 1.65;
+      flex: 1;
+      margin-bottom: 28px;
+    }
+    .value-card-cta {
+      display: block; text-align: center;
+      padding: 13px 24px;
+      background: var(--dark); color: white;
+      border-radius: 10px;
+      font-size: .86rem; font-weight: 700;
+      text-decoration: none;
+      transition: background .2s, transform .2s;
+    }
+    .value-card-cta:hover {
+      background: #1a2d4d;
+      transform: translateY(-2px);
+    }
 
-    @keyframes flow{0%{stroke-dashoffset:28}100%{stroke-dashoffset:0}}
-    .flow-anim{animation:flow 1.4s linear infinite}
+    @media(max-width: 960px) {
+      .value-grid { grid-template-columns: 1fr; max-width: 440px; }
+      .value-section { padding: 72px 24px; }
+    }
 
-    /* ── PILLARS (What Canopy gives back) ── */
-    .pillars-section{background:#FBFAF7;padding:104px 48px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
-    .pillars-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent)}
-    .pillars-wrap{max-width:1140px;margin:0 auto;position:relative}
-    .pillars-header{text-align:center;margin-bottom:72px}
-    .pillars-header h2{font-family:var(--serif);font-size:clamp(2.2rem,3.8vw,3.2rem);font-weight:500;color:var(--dark);line-height:1.06;letter-spacing:-.02em;margin-bottom:18px;font-variation-settings:"opsz" 144}
-    .pillars-header h2 em{font-style:italic;font-weight:500;background:linear-gradient(120deg,#F59E0B 0%,#2575E8 50%,#7C3AED 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-    .pillars-header p{font-size:1.02rem;color:var(--slate);max-width:560px;margin:0 auto;line-height:1.6}
-    .pillars-list{display:flex;flex-direction:column;gap:24px}
-    .pillar{position:relative;display:grid;grid-template-columns:180px 1fr;gap:48px;align-items:center;background:white;border:1px solid var(--border);border-radius:24px;padding:44px 48px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s}
-    .pillar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--pillar-accent);transform:scaleY(.3);transform-origin:center;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
-    .pillar::after{content:'';position:absolute;top:-150px;right:-150px;width:400px;height:400px;background:radial-gradient(circle,var(--pillar-glow) 0%,transparent 65%);pointer-events:none;opacity:.5;transition:opacity .35s}
-    .pillar:hover{transform:translateX(4px);box-shadow:0 14px 40px -12px rgba(15,23,42,.12);border-color:transparent}
-    .pillar:hover::before{transform:scaleY(1)}
-    .pillar:hover::after{opacity:1}
-    .pillar.p-time{--pillar-accent:linear-gradient(180deg,#F59E0B,#FB923C);--pillar-glow:rgba(251,146,60,.16);--pillar-ink:#92400E}
-    .pillar.p-money{--pillar-accent:linear-gradient(180deg,#10B981,#059669);--pillar-glow:rgba(16,185,129,.14);--pillar-ink:#065F46}
-    .pillar.p-skills{--pillar-accent:linear-gradient(180deg,#8B5CF6,#7C3AED);--pillar-glow:rgba(124,58,237,.14);--pillar-ink:#5B21B6}
-    .pillar-visual{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:14px;z-index:1}
-    .pillar-ord{font-family:var(--mono);font-size:.7rem;font-weight:700;color:var(--slate-l);letter-spacing:.15em}
-    .pillar-icon{width:88px;height:88px;border-radius:22px;background:var(--pillar-accent);display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 14px 30px -8px var(--pillar-glow);position:relative;overflow:hidden}
-    .pillar-icon svg{width:42px;height:42px;stroke-width:1.8;position:relative;z-index:1}
-    .pillar-icon::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.35),transparent 60%);pointer-events:none}
-    .pillar:hover .pillar-icon{animation:pillar-float 2s ease-in-out infinite}
-    @keyframes pillar-float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(-3deg)}}
-    .pillar-content{position:relative;z-index:1}
-    .pillar-word{font-family:var(--serif);font-size:clamp(1.8rem,2.4vw,2.1rem);font-weight:500;color:var(--dark);letter-spacing:-.02em;line-height:1.05;margin-bottom:4px;display:flex;align-items:baseline;gap:14px;font-variation-settings:"opsz" 144}
-    .pillar-word strong{color:var(--pillar-ink);font-weight:600;font-style:italic}
-    .pillar-tag{font-family:var(--mono);font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--pillar-ink);background:var(--pillar-glow);padding:5px 11px;border-radius:999px}
-    .pillar-body{font-size:1rem;color:var(--slate);line-height:1.65;max-width:620px;margin-top:14px}
-    .pillar-body strong{color:var(--dark);font-weight:700}
+    @media(max-width: 960px) {
+      .topbar-canopy { padding: 0 24px; }
+      .hero-light-section { padding-top: 120px; }
+      .hero-split-grid { grid-template-columns: 1fr; gap: 40px; padding: 0 24px; }
+      .hero-left-content { align-items: center; text-align: center; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-flow-diagram { margin: 0 auto; }
+      .hero-screen-mockup { transform: none; }
+      .hero-video-overflow { margin-top: -100px; margin-left: 24px; margin-right: 24px; }
+      .hero-dark-curtain { padding: 60px 24px 80px; }
+    }
+    @media(max-width: 640px) {
+      .hero-light-section { padding-top: 110px; }
+      .hero-split-grid { padding: 0 20px; }
+      .hero-video-overflow { margin-left: 16px; margin-right: 16px; }
+      .hero-slides-container { height: 240px; }
+    }
 
-    /* ── TRUST BAR ── */
-    .trust-bar{background:linear-gradient(180deg,#FFFFFF 0%,#F7FAFE 100%);border-bottom:1px solid var(--border);padding:20px 48px;display:flex;align-items:center;justify-content:center;gap:36px;flex-wrap:wrap}
-    .trust-item{display:flex;align-items:center;gap:9px;color:var(--dark);font-size:.82rem;font-weight:600;animation:fade-lift .8s ease both;font-family:'Inter',sans-serif}
-    .trust-item svg{color:var(--blue);flex-shrink:0}
-    .trust-divider{width:14px;height:14px;flex-shrink:0;color:var(--blue-l);opacity:.7}
-    .trust-item:nth-child(1){animation-delay:.05s}
-    .trust-item:nth-child(3){animation-delay:.15s}
-    .trust-item:nth-child(5){animation-delay:.25s}
-    .trust-item:nth-child(7){animation-delay:.35s}
+
+   
+  
+
+
+    /* ── PILLARS (What Canopy gives back) — editorial, no icon boxes ── */
+    .pillars-section{background:var(--white);padding:120px 48px;border-bottom:1px solid var(--border)}
+    .pillars-wrap{max-width:920px;margin:0 auto}
+    .pillars-header{margin-bottom:88px;max-width:640px}
+    .pillars-header h2{font-family:var(--serif);font-size:clamp(2.1rem,3.4vw,2.9rem);font-weight:500;color:var(--dark);line-height:1.14;letter-spacing:-.02em;margin-bottom:16px;font-variation-settings:"opsz" 144}
+    .pillars-header h2 em{font-style:italic;font-weight:500;color:var(--blue)}
+    .pillars-header p{font-size:1.02rem;color:var(--slate);line-height:1.6}
+    .pillars-list{display:flex;flex-direction:column}
+    .pillar{position:relative;display:grid;grid-template-columns:88px 1fr;gap:40px;padding:48px 0;border-top:1px solid var(--border)}
+    .pillars-list .pillar:last-child{border-bottom:1px solid var(--border)}
+    .pillar-num{font-family:var(--serif);font-size:2.6rem;font-weight:400;color:var(--pillar-ink);opacity:.28;line-height:1;font-variation-settings:"opsz" 144}
+    .pillar.p-time{--pillar-ink:#B45309}
+    .pillar.p-money{--pillar-ink:#047857}
+    .pillar.p-skills{--pillar-ink:#6D28D9}
+    .pillar-content{max-width:600px}
+    .pillar-rule{width:36px;height:3px;border-radius:2px;background:var(--pillar-ink);margin-bottom:16px}
+    .pillar-word{font-family:var(--serif);font-size:clamp(1.5rem,2vw,1.75rem);font-weight:500;color:var(--dark);letter-spacing:-.01em;margin-bottom:10px;font-variation-settings:"opsz" 144}
+    .pillar-word em{font-style:italic;color:var(--pillar-ink);font-weight:500}
+    .pillar-body{font-size:1rem;color:var(--slate);line-height:1.7}
+    .pillar-body strong{color:var(--dark);font-weight:600}
 
     /* ── SECTIONS ── */
     section{padding:104px 48px}
@@ -220,6 +540,34 @@
     .centered{text-align:center}
     .centered .s-title,.centered .s-sub{margin-left:auto;margin-right:auto}
     .max-w{max-width:1140px;margin:0 auto}
+
+    /* ── WALL OF PAIN (QUOTES) ── */
+    .pain-section { background: var(--bg); padding: 104px 48px; border-bottom: 1px solid var(--border); }
+    .quotes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1140px; margin: 0 auto; align-items: start; }
+    .pain-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 36px 32px; box-shadow: var(--shadow-xs); transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease; position: relative; overflow: hidden; }
+    .pain-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--border-d); }
+    .pain-card::before { content: '"'; position: absolute; top: 10px; left: 24px; font-family: var(--serif); font-size: 5rem; color: var(--blue-ll); line-height: 1; z-index: 0; }
+    .pain-card-q { font-size: .95rem; color: var(--dark); line-height: 1.6; margin-bottom: 28px; position: relative; z-index: 1; font-weight: 500; }
+    .pain-card-q em { background: rgba(239, 68, 68, 0.1); color: #B91C1C; padding: 2px 6px; border-radius: 4px; font-style: normal; font-weight: 600; }
+    .pain-author { display: flex; align-items: center; gap: 14px; position: relative; z-index: 1; border-top: 1px solid var(--border-d); padding-top: 20px; }
+    .pa-av { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .85rem; font-weight: 700; flex-shrink: 0; }
+    .pa-av.c1 { background: #DBEAFE; color: #1E3A8A; }
+    .pa-av.c2 { background: #FEF3C7; color: #92400E; }
+    .pa-av.c3 { background: #DCFCE7; color: #14532D; }
+    .pa-av.c4 { background: #F3E8FD; color: #581C87; }
+    .pa-av.c5 { background: #FFE4E6; color: #881337; }
+    .pa-av.c6 { background: #F1F5F9; color: #0F172A; }
+    .pa-info { display: flex; flex-direction: column; }
+    .pa-info strong { font-size: .85rem; color: var(--dark); font-weight: 700; }
+    .pa-info span { font-size: .75rem; color: var(--slate); }
+
+    @media(max-width: 1024px) {
+      .quotes-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media(max-width: 640px) {
+      .quotes-grid { grid-template-columns: 1fr; }
+      .pain-section { padding-left: 20px; padding-right: 20px; }
+    }
 
     /* ── TEMPLATES ── */
     .tmpl-section{background:var(--bg);padding:88px 48px}
@@ -385,6 +733,10 @@
     .btn-fi:hover{background:var(--blue-d);transform:translateY(-2px);box-shadow:0 12px 28px -6px rgba(37,117,232,.55)}
     .btn-gold{background:var(--gold);color:#3D2A06;font-size:.84rem;box-shadow:0 6px 18px -4px rgba(245,158,11,.5);transition:background .2s,transform .2s,box-shadow .2s}
     .btn-gold:hover{background:#D97706;transform:translateY(-2px);box-shadow:0 12px 28px -6px rgba(245,158,11,.6)}
+    .p-input-wrap{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+    .p-input-wrap input{padding:13px 18px;border-radius:999px;font-size:.92rem;outline:none;font-family:'Inter',sans-serif;width:100%;border:1.5px solid var(--border-d);background:white;color:var(--dark)}
+    .p-input-wrap input:focus{border-color:var(--blue)}
+    .p-price-note{font-size:.72rem;color:var(--slate-l);text-align:center}
 
     /* ── CTA SECTION ── */
     .cta-section{background:var(--dark);padding:100px 48px;text-align:center;position:relative;overflow:hidden}
@@ -404,53 +756,6 @@
     .ti{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
     .ti .ico{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center}
     .ti p{font-size:.8rem;color:rgba(255,255,255,.6);font-weight:500;line-height:1.5}
-
-    /* ── JOIN SECTION ── */
-    .join-section{background:var(--white);padding:96px 48px;border-top:1px solid var(--border)}
-    .join-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;max-width:1100px;margin:0 auto}
-    .join-card{border-radius:var(--r-xl);padding:40px 36px;display:flex;flex-direction:column;gap:0}
-    .join-card.inform{background:var(--bg);border:1.5px solid var(--border)}
-    .join-card.preorder{background:var(--dark);border:1.5px solid rgba(37,117,232,.4);box-shadow:0 8px 40px rgba(14,32,64,.2)}
-    .join-option-tag{display:inline-block;font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:4px 12px;border-radius:999px;margin-bottom:18px;width:fit-content;animation:pulse-soft 4.8s ease-in-out infinite}
-    .join-card.inform .join-option-tag{background:var(--slate-ll);color:var(--slate)}
-    .join-card.preorder .join-option-tag{background:var(--gold);color:var(--dark)}
-    .join-card h3{font-size:1.4rem;font-weight:700;margin-bottom:10px;line-height:1.2}
-    .join-card.inform h3{color:var(--dark)}
-    .join-card.preorder h3{color:white}
-    .join-card .join-desc{font-size:.88rem;line-height:1.7;margin-bottom:24px}
-    .join-card.inform .join-desc{color:var(--slate)}
-    .join-card.preorder .join-desc{color:rgba(255,255,255,.65)}
-    .join-feats{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:28px}
-    .join-feats li{font-size:.85rem;display:flex;align-items:center;gap:9px}
-    .join-card.inform .join-feats li{color:var(--slate)}
-    .join-card.preorder .join-feats li{color:rgba(255,255,255,.8)}
-    .join-feats li::before{content:'\2713';font-weight:700;flex-shrink:0}
-    .join-card.inform .join-feats li::before{color:var(--blue)}
-    .join-card.preorder .join-feats li::before{color:var(--gold)}
-    .join-input-wrap{display:flex;flex-direction:column;gap:10px;margin-top:auto}
-    .join-input-wrap input{padding:13px 18px;border-radius:999px;font-size:.92rem;outline:none;font-family:'Inter',sans-serif;width:100%}
-    .join-card.inform .join-input-wrap input{border:1.5px solid var(--border);background:white;color:var(--dark)}
-    .join-card.inform .join-input-wrap input:focus{border-color:var(--blue)}
-    .join-card.preorder .join-input-wrap input{border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:white}
-    .join-card.preorder .join-input-wrap input::placeholder{color:rgba(255,255,255,.4)}
-    .join-card.preorder .join-input-wrap input:focus{border-color:white}
-    .join-btn{padding:13px 20px;border-radius:999px;font-size:.92rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;border:none;width:100%;transition:background .2s,transform .2s,box-shadow .2s}
-    .join-btn.inform-btn{background:var(--blue-ll);color:var(--blue-d);border:1.5px solid rgba(37,117,232,.25)}
-    .join-btn.inform-btn:hover{background:var(--blue);color:white;transform:translateY(-2px);box-shadow:0 8px 22px rgba(37,117,232,.35)}
-    .join-btn.preorder-btn{background:var(--gold);color:var(--dark);box-shadow:0 4px 16px rgba(245,158,11,.3)}
-    .join-btn.preorder-btn:hover{background:#D97706;transform:translateY(-2px);box-shadow:0 10px 28px rgba(245,158,11,.5)}
-    .join-card.apex{background:linear-gradient(135deg,#0E2040 0%,#1a3a6a 100%);border:1.5px solid var(--gold);box-shadow:0 8px 40px rgba(245,158,11,.15)}
-    .join-card.apex .join-option-tag{background:var(--gold);color:var(--dark)}
-    .join-card.apex h3{color:white}
-    .join-card.apex .join-desc{color:rgba(255,255,255,.65)}
-    .join-card.apex .join-feats li{color:rgba(255,255,255,.8)}
-    .join-card.apex .join-feats li::before{color:var(--gold)}
-    .join-card.apex .join-input-wrap input{border:1.5px solid rgba(245,158,11,.3);background:rgba(255,255,255,.08);color:white}
-    .join-card.apex .join-input-wrap input::placeholder{color:rgba(255,255,255,.4)}
-    .join-card.apex .join-input-wrap input:focus{border-color:var(--gold)}
-    .join-btn.apex-btn{background:var(--gold);color:var(--dark);box-shadow:0 4px 16px rgba(245,158,11,.3)}
-    .join-btn.apex-btn:hover{background:#D97706;transform:translateY(-2px);box-shadow:0 10px 28px rgba(245,158,11,.5)}
-    .join-price-note{font-size:.76rem;color:rgba(255,255,255,.4);text-align:center;margin-top:8px}
 
     /* ── FAQ ── */
     .faq-section{background:var(--bg);padding:88px 48px}
@@ -513,26 +818,21 @@
     .reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
     .reveal.visible{opacity:1;transform:translateY(0)}
     .reveal.visible .p-card,
-    .reveal.visible .join-card,
     .reveal.visible .faq-item,
     .reveal.visible .tmpl-card,
     .reveal.visible .uc-item,
-    .reveal.visible .step,
-    .reveal.visible .trust-item{animation:fade-lift .7s ease both}
+    .reveal.visible .step{animation:fade-lift .7s ease both}
     .reveal.visible .p-card:nth-child(1),
-    .reveal.visible .join-card:nth-child(1),
     .reveal.visible .tmpl-card:nth-child(1),
     .reveal.visible .uc-item:nth-child(1),
     .reveal.visible .step:nth-child(1),
     .reveal.visible .faq-item:nth-child(1){animation-delay:.05s}
     .reveal.visible .p-card:nth-child(2),
-    .reveal.visible .join-card:nth-child(2),
     .reveal.visible .tmpl-card:nth-child(2),
     .reveal.visible .uc-item:nth-child(2),
     .reveal.visible .step:nth-child(2),
     .reveal.visible .faq-item:nth-child(2){animation-delay:.15s}
     .reveal.visible .p-card:nth-child(3),
-    .reveal.visible .join-card:nth-child(3),
     .reveal.visible .tmpl-card:nth-child(3),
     .reveal.visible .uc-item:nth-child(3),
     .reveal.visible .step:nth-child(3),
@@ -565,14 +865,6 @@
       0%,100%{filter:saturate(1);opacity:.92}
       50%{filter:saturate(1.08);opacity:1}
     }
-
-    /* ── COUNTER BAR ── */
-    .counter-bar{background:var(--white);border-bottom:1px solid var(--border);padding:44px 48px}
-    .counter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:960px;margin:0 auto;text-align:center}
-    .counter-item{position:relative}
-    .counter-item:not(:last-child)::after{content:'';position:absolute;right:-12px;top:50%;transform:translateY(-50%);width:1px;height:38px;background:var(--border)}
-    .counter-item .counter-value{font-family:var(--mono);font-size:2.3rem;font-weight:700;color:var(--dark);letter-spacing:-.03em;line-height:1}
-    .counter-item .counter-label{font-size:.76rem;color:var(--slate);margin-top:8px;font-weight:500}
 
     /* ── RESPONSIVE ── */
     @media(max-width:960px){
@@ -614,9 +906,6 @@
       .quote-mark{width:32px;height:28px}
       .quote-text p{font-size:1rem}
     }
-    @media(max-width:720px){
-      .join-grid{grid-template-columns:1fr}
-    }
     @media(max-width:640px){
       nav{padding:0 20px}
       .nav-center{display:none}
@@ -628,11 +917,6 @@
       .ft-right{align-items:center}.ft-contact{text-align:center}
       .ft-legal-toggle,.ft-legal-inner{padding-left:20px;padding-right:20px}
       .ft-bottom{padding:14px 20px}
-      .trust-bar{gap:14px;padding:12px 20px}
-      .trust-divider{display:none}
-      .counter-grid{grid-template-columns:1fr 1fr;gap:24px 16px}
-      .counter-item .counter-value{font-size:1.9rem}
-      .counter-item::after{display:none}
       .s-title{font-size:1.7rem}
     }
     @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
@@ -749,6 +1033,20 @@
 </head>
 <body>
 
+
+<header class="topbar-canopy">
+  <a href="#" class="topbar-logo">
+    <img src="transparent-logo-simple.png" alt="Canopy Logo"/>
+    <span class="topbar-text">Digital Canopy</span>
+  </a>
+  <div class="topbar-right-actions">
+    <a href="#pricing" class="btn-topbar primary">Get early access</a>
+    <a href="#demo" class="btn-topbar secondary">Learn more &rarr;</a>
+  </div>
+</header>
+
+
+
 <!-- THANK YOU OVERLAY -->
 <div class="ty-ov" id="tyOverlay" role="dialog" aria-modal="true" aria-labelledby="tyTitle" onclick="if(event.target===this)tyClose()">
   <div class="ty-card">
@@ -764,510 +1062,406 @@
   </div>
 </div>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">
-    <img src="transparent-logo-simple.png" alt="Canopy"/>
-    <span class="nav-logo-text">Canopy</span>
-    <span class="nav-ds">by Digital Substrate</span>
-  </a>
-  <div class="nav-center">
-    <span class="nav-center-dot"></span>
-    <span>Early access &mdash; Coming soon</span>
-  </div>
-  <a href="#join" class="nav-cta">Get early access &rarr;</a>
-</nav>
 
-<!-- HERO — clean canopy -->
-<section class="hero hero-clean" id="top" aria-labelledby="hero-title">
-  <svg class="hero-canopy-sketch" viewBox="0 0 1180 360" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="heroBlue" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#1E73E6"/>
-        <stop offset="100%" stop-color="#5A9BF0"/>
-      </linearGradient>
-  background-clip: text;
-      <linearGradient id="heroGreen" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#6FA47C"/>
-        <stop offset="100%" stop-color="#9FC4A8"/>
-      </linearGradient>
-    </defs>
-    <g class="canopy-scribbles" fill="none" stroke="url(#heroBlue)" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M100 210 C70 135 155 82 255 103 C310 70 415 62 467 112 C540 55 666 65 710 140 C792 90 922 105 968 185 C1015 260 910 315 770 284 C690 338 560 318 520 260 C430 316 300 298 285 230 C205 262 126 255 100 210Z"/>
-      <path d="M205 178 C280 132 395 142 475 184 C565 236 690 238 780 190 C855 148 947 160 970 214"/>
-      <path d="M300 245 C388 180 516 171 612 221 C700 266 795 252 870 222"/>
-      <path d="M402 120 C440 63 540 58 574 112 C617 61 721 70 754 132"/>
-      <path d="M170 156 C245 118 348 117 386 160"/>
-      <path d="M710 128 C773 80 886 85 935 143"/>
-      <path d="M442 206 C518 240 630 252 706 216"/>
-    </g>
-    <g class="canopy-pulses" fill="none" stroke="url(#heroGreen)" stroke-width="2.5" stroke-linecap="round">
-      <path d="M62 158 C26 146 0 132 -28 116"/>
-      <path d="M142 267 C94 288 75 329 82 363"/>
-      <path d="M982 98 C1032 100 1071 112 1114 130"/>
-      <path d="M1012 252 C1058 282 1076 322 1062 359"/>
-      <path d="M455 82 C485 58 530 50 572 55"/>
-    </g>
-    <g class="canopy-nodes" fill="#FFFFFF" stroke="#2575E8" stroke-width="2">
-      <circle cx="212" cy="150" r="22"/>
-      <circle cx="370" cy="185" r="18"/>
-      <circle cx="514" cy="138" r="20"/>
-      <circle cx="675" cy="190" r="18"/>
-      <circle cx="825" cy="150" r="22"/>
-    </g>
+
+
+
+<section class="hero-light-section">
+
+  <!-- Animated connected tree background -->
+  <svg class="hero-tree-bg" viewBox="0 0 1000 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Trunk -->
+    <path class="trunk" d="M500 780 C500 680 498 620 495 560 C492 500 488 440 485 380"/>
+    <path class="trunk" d="M500 780 C502 700 505 640 508 580 C511 520 515 460 520 400"/>
+
+    <!-- Main branches -->
+    <path class="branch" d="M485 380 C470 340 440 300 400 270 C360 240 310 220 260 210"/>
+    <path class="branch" d="M485 380 C480 340 470 290 450 250 C430 210 400 170 360 140"/>
+    <path class="branch" d="M520 400 C540 360 570 320 610 290 C650 260 700 240 750 230"/>
+    <path class="branch" d="M520 400 C530 350 550 300 580 260 C610 220 650 180 700 160"/>
+    <path class="branch" d="M490 460 C480 420 460 370 430 330 C400 290 360 260 320 250"/>
+
+    <!-- Twigs -->
+    <path class="twig" d="M260 210 C230 200 200 200 170 210"/>
+    <path class="twig" d="M260 210 C250 185 240 160 220 145"/>
+    <path class="twig" d="M360 140 C340 120 310 105 280 100"/>
+    <path class="twig" d="M360 140 C355 115 360 90 370 70"/>
+    <path class="twig" d="M750 230 C780 225 810 230 840 245"/>
+    <path class="twig" d="M750 230 C765 210 780 190 800 180"/>
+    <path class="twig" d="M700 160 C720 140 745 130 775 125"/>
+    <path class="twig" d="M700 160 C710 135 710 110 700 90"/>
+    <path class="twig" d="M320 250 C290 245 260 250 235 265"/>
+    <path class="twig" d="M400 270 C380 250 355 240 325 235"/>
+
+    <!-- Data nodes (big = endpoints, small = relays) -->
+    <circle class="node-big" cx="170" cy="210" r="6"/>
+    <circle class="node-big" cx="220" cy="145" r="5"/>
+    <circle class="node-big" cx="280" cy="100" r="6"/>
+    <circle class="node-big" cx="370" cy="70" r="5"/>
+    <circle class="node-big" cx="840" cy="245" r="6"/>
+    <circle class="node-big" cx="800" cy="180" r="5"/>
+    <circle class="node-big" cx="775" cy="125" r="6"/>
+    <circle class="node-big" cx="700" cy="90" r="5"/>
+    <circle class="node-big" cx="235" cy="265" r="5"/>
+    <circle class="node-big" cx="325" cy="235" r="5"/>
+
+    <!-- Relay nodes along branches -->
+    <circle class="node-sm" cx="400" cy="270" r="4"/>
+    <circle class="node-sm" cx="485" cy="380" r="5"/>
+    <circle class="node-sm" cx="520" cy="400" r="5"/>
+    <circle class="node-sm" cx="610" cy="290" r="4"/>
+    <circle class="node-sm" cx="450" cy="250" r="4"/>
+    <circle class="node-sm" cx="580" cy="260" r="4"/>
+    <circle class="node-sm" cx="500" cy="560" r="4"/>
+    <circle class="node-sm" cx="320" cy="250" r="4"/>
+    <circle class="node-sm" cx="490" cy="460" r="4"/>
+
+    <!-- Leaf shapes -->
+    <ellipse class="leaf" cx="160" cy="200" rx="10" ry="6" transform="rotate(-20 160 200)"/>
+    <ellipse class="leaf" cx="290" cy="92" rx="9" ry="5" transform="rotate(15 290 92)"/>
+    <ellipse class="leaf" cx="375" cy="62" rx="8" ry="5" transform="rotate(-10 375 62)"/>
+    <ellipse class="leaf" cx="850" cy="240" rx="10" ry="6" transform="rotate(25 850 240)"/>
+    <ellipse class="leaf" cx="785" cy="118" rx="9" ry="5" transform="rotate(-15 785 118)"/>
+    <ellipse class="leaf" cx="705" cy="82" rx="8" ry="5" transform="rotate(10 705 82)"/>
+    <ellipse class="leaf" cx="225" cy="272" rx="8" ry="5" transform="rotate(30 225 272)"/>
+
+    <!-- Animated data pulses running through branches -->
+    <path class="data-pulse" d="M500 780 C500 680 498 620 495 560 C492 500 488 440 485 380 C470 340 440 300 400 270 C360 240 310 220 260 210 C230 200 200 200 170 210"/>
+    <path class="data-pulse d2" d="M500 780 C502 700 505 640 508 580 C511 520 515 460 520 400 C540 360 570 320 610 290 C650 260 700 240 750 230 C780 225 810 230 840 245"/>
+    <path class="data-pulse d3" d="M500 780 C500 680 498 620 495 560 C492 500 488 440 485 380 C480 340 470 290 450 250 C430 210 400 170 360 140 C340 120 310 105 280 100"/>
+
+    <!-- Glowing nodes -->
+    <circle class="node-glow" cx="170" cy="210" r="8"/>
+    <circle class="node-glow g2" cx="840" cy="245" r="8"/>
+    <circle class="node-glow g3" cx="280" cy="100" r="8"/>
+    <circle class="node-glow g4" cx="775" cy="125" r="8"/>
+    <circle class="node-glow g5" cx="700" cy="90" r="8"/>
   </svg>
 
-  <svg class="hero-side-flow hero-side-flow-left" viewBox="0 0 230 420" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-    <path d="M198 32 C116 66 67 132 82 222 C96 307 42 326 38 388" fill="none" stroke="#73B15D" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="78 22 12 18"/>
-    <g class="digital-tree-shape" fill="none" stroke="#50B000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M58 392 C78 334 55 292 89 257"/>
-      <path d="M89 257 C72 244 64 226 74 212 C93 187 133 199 153 174 C155 204 134 223 105 220"/>
-      <path d="M89 257 C106 250 123 255 135 269 C112 281 92 279 75 270"/>
-      <path d="M71 315 C49 322 31 341 24 366"/>
-      <path d="M71 315 C90 329 104 354 101 389"/>
-    </g>
-    <g class="app-dots" fill="#FFFFFF" stroke="#50B000" stroke-width="2">
-      <circle cx="196" cy="32" r="8"/>
-      <circle cx="82" cy="222" r="6"/>
-      <circle cx="38" cy="388" r="7"/>
-    </g>
-  </svg>
+  <div class="hero-split-grid">
 
-  <svg class="hero-side-flow hero-side-flow-right" viewBox="0 0 260 430" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-    <path d="M34 40 C126 75 190 148 174 238 C159 326 212 342 220 398" fill="none" stroke="#73B15D" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="84 24 12 18"/>
-    <g class="digital-tree-shape" fill="none" stroke="#50B000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M189 398 C174 337 197 298 161 260"/>
-      <path d="M161 260 C176 235 190 212 208 196 C219 217 215 240 194 257"/>
-      <path d="M161 260 C146 232 125 214 104 210 C102 237 118 256 145 264"/>
-      <path d="M184 316 C213 326 231 346 236 379"/>
-      <path d="M184 316 C162 329 148 356 151 395"/>
-    </g>
-    <g class="app-dots" fill="#FFFFFF" stroke="#50B000" stroke-width="2">
-      <circle cx="34" cy="40" r="8"/>
-      <circle cx="174" cy="238" r="6"/>
-      <circle cx="220" cy="398" r="7"/>
-    </g>
-  </svg>
-
-  <div class="hero-content">
-    <div class="hero-panel">
-      <div class="hero-eyebrow hero-eyebrow-clean">
-      </div>
-
-     <h1 id="hero-title">Digital <span class="word-shine">Canopy</span></h1>
-     
-     <br> <br> <h2>Your Data CRM Viewer for the whole team!</h2>
-      <br> 
-    
-      <p class="hero-sub">Zoho CRM reports, live inside Google Sheets. Clean dashboards, shared with everyone, without another CRM seat.</p>
-
-      <div class="hero-mini-bridge" aria-label="Zoho CRM data flows through Canopy into Google Sheets">
-        <div class="mini-node">
-          <img src="ZohoCRM.png" alt="Zoho CRM"/>
-          <span>Zoho CRM</span>
-        </div>
-        <div class="mini-arrow" aria-hidden="true"><span></span></div>
-        <div class="mini-node mini-canopy">
-          <img src="transparent-logo-simple.png" alt="Canopy"/>
-          <span>Canopy</span>
-        </div>
-        <div class="mini-arrow" aria-hidden="true"><span></span></div>
-        <div class="mini-node">
-          <img src="googlesheet.png" alt="Google Sheets"/>
-          <span>Google Sheets</span>
-        </div>
-      </div>
-
-      <div class="hero-actions">
-        <a href="#join" class="hero-btn">
-          Get early access
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-        <a href="#why" class="hero-link">
-          See what Canopy gives back
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
-        </a>
+    <div class="hero-left-content">
+      <h1>The CRM data Viwer in Google Sheets.<br><em>Without paying for seats.</em></h1>
+      <p class="hero-sub">Pre-built templates sync your Zoho CRM into clean dashboards anyone on the team can read <br>Say stop to extra licences</p>
+      <div class="hero-flow-diagram">
+        <div class="flow-node"><img src="ZohoCRM.png" alt="Zoho CRM"/><span>Zoho</span></div>
+        <div class="flow-arrow-animated"><span></span></div>
+        <div class="flow-node"><img src="transparent-logo-simple.png" alt="Canopy"/><span>Canopy</span></div>
+        <div class="flow-arrow-animated"><span></span></div>
+        <div class="flow-node"><img src="googlesheet.png" alt="Google Sheets"/><span>Sheets</span></div>
       </div>
     </div>
 
-    <svg class="hero-trunks" viewBox="0 0 420 120" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-      <path d="M170 0 C172 42 155 78 96 96 C70 104 42 106 20 106"/>
-      <path d="M250 0 C248 42 265 78 324 96 C350 104 378 106 400 106"/>
-      <path d="M210 0 C210 42 210 72 210 112"/>
-    </svg>
+    <div class="hero-right-display">
+      <div class="hero-screen-mockup">
+        <!-- macOS chrome -->
+        <div class="hsm-chrome">
+          <div class="hsm-dots"><span class="d-r"></span><span class="d-y"></span><span class="d-g"></span></div>
+          <div class="hsm-url-bar"><span class="hsm-url-lock">&#x1F512;</span> docs.google.com/spreadsheets/d/canopy-pipeline</div>
+        </div>
+        <!-- Sheets header -->
+        <div class="hsm-sheets-head">
+          <svg class="hsm-sheets-icon" viewBox="0 0 24 24"><rect x="3" y="1" width="18" height="22" rx="2" fill="#0F9D58"/><rect x="6" y="5" width="12" height="14" rx="1" fill="white"/><line x1="6" y1="9" x2="18" y2="9" stroke="#E0E0E0" stroke-width=".8"/><line x1="6" y1="13" x2="18" y2="13" stroke="#E0E0E0" stroke-width=".8"/><line x1="12" y1="5" x2="12" y2="19" stroke="#E0E0E0" stroke-width=".8"/></svg>
+          <div class="hsm-sheets-meta">
+            <div class="hsm-sheets-name">Sales Pipeline — Canopy Sync</div>
+            <div class="hsm-sheets-menu">
+              <span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Data</span><span>Tools</span><span>Add-ons</span><span>Help</span>
+            </div>
+          </div>
+          <button class="hsm-share-btn">&#x1F513; Share</button>
+        </div>
+        <!-- Toolbar -->
+        <div class="hsm-toolbar">
+          <span class="hsm-toolbar-item">&#8630;</span>
+          <span class="hsm-toolbar-item">&#8631;</span>
+          <span class="hsm-toolbar-item" style="border:1px solid #DADCE0;padding:1px 6px;border-radius:3px;margin-left:4px">100%</span>
+          <span class="hsm-toolbar-item" style="margin-left:6px">$</span>
+          <span class="hsm-toolbar-item">%</span>
+          <span class="hsm-toolbar-item" style="margin-left:6px"><b>B</b></span>
+          <span class="hsm-toolbar-item"><i>I</i></span>
+          <span class="hsm-toolbar-item" style="text-decoration:underline">U</span>
+          <span class="hsm-toolbar-item" style="margin-left:8px;color:#202124">A</span>
+          <span class="hsm-toolbar-item" style="width:14px;height:8px;background:#F4B400;display:inline-block;vertical-align:middle;border-radius:1px;margin-left:4px"></span>
+          <span class="hsm-toolbar-item" style="margin-left:10px">&#9776;</span>
+        </div>
+        <!-- Formula bar -->
+        <div class="hsm-fx">
+          <span class="hsm-fx-ref">B2</span>
+          <span style="color:#9AA0A6;font-size:.6rem">&#402;x</span>
+          <span class="hsm-fx-bar">Acme Corp — Enterprise</span>
+        </div>
 
-    <div class="hero-logo-root" aria-label="Canopy">
-      <img src="transparent-logo-simple.png" alt=""/>
-      <span>Canopy</span>
+        <!-- === SLIDE AREA === -->
+        <div class="hero-slides-container" id="heroSlides">
+
+          <!-- SLIDE 0 : Pipeline + bar chart -->
+          <div class="hero-slide active" data-slide="0">
+            <div class="gs-grid">
+              <div class="gs-row"><span class="gs-c rn"></span><span class="gs-c">A</span><span class="gs-c">B</span><span class="gs-c">C</span><span class="gs-c">D</span><span class="gs-c">E</span></div>
+              <div class="gs-row"><span class="gs-c rn">1</span><span class="gs-c" style="font-weight:700;color:#202124">Deal Name</span><span class="gs-c" style="font-weight:700;color:#202124">Stage</span><span class="gs-c" style="font-weight:700;color:#202124">Amount</span><span class="gs-c" style="font-weight:700;color:#202124">Close Date</span><span class="gs-c" style="font-weight:700;color:#202124">Owner</span></div>
+              <div class="gs-row"><span class="gs-c rn">2</span><span class="gs-c">Acme Corp — Enterprise</span><span class="gs-c"><span class="gs-badge neg">Negotiation</span></span><span class="gs-c num">$48,000</span><span class="gs-c">Jul 12</span><span class="gs-c">A. Martin</span></div>
+              <div class="gs-row"><span class="gs-c rn">3</span><span class="gs-c">GlobalTech Renewal</span><span class="gs-c"><span class="gs-badge won">Closed Won</span></span><span class="gs-c num grn">$125,000</span><span class="gs-c">Jun 28</span><span class="gs-c">T. Nguyen</span></div>
+              <div class="gs-row"><span class="gs-c rn">4</span><span class="gs-c">NovaPay Integration</span><span class="gs-c"><span class="gs-badge prop">Proposal</span></span><span class="gs-c num">$32,500</span><span class="gs-c">Jul 20</span><span class="gs-c">E. Clark</span></div>
+              <div class="gs-row"><span class="gs-c rn">5</span><span class="gs-c">Helios SaaS Upsell</span><span class="gs-c"><span class="gs-badge neg">Negotiation</span></span><span class="gs-c num">$67,000</span><span class="gs-c">Aug 3</span><span class="gs-c">R. Lopez</span></div>
+              <div class="gs-row"><span class="gs-c rn">6</span><span class="gs-c">Meridian Logistics</span><span class="gs-c"><span class="gs-badge won">Closed Won</span></span><span class="gs-c num grn">$89,200</span><span class="gs-c">Jun 15</span><span class="gs-c">A. Martin</span></div>
+              <div class="gs-row"><span class="gs-c rn">7</span><span class="gs-c">Finova Credit</span><span class="gs-c"><span class="gs-badge prop">Proposal</span></span><span class="gs-c num">$41,800</span><span class="gs-c">Jul 28</span><span class="gs-c">T. Nguyen</span></div>
+              <div class="gs-row"><span class="gs-c rn">8</span><span class="gs-c">BluePeak Analytics</span><span class="gs-c"><span class="gs-badge lost">Lost</span></span><span class="gs-c num red">$28,000</span><span class="gs-c">Jun 20</span><span class="gs-c">E. Clark</span></div>
+              <div class="gs-row" style="border-top:2px solid #DADCE0"><span class="gs-c rn">9</span><span class="gs-c" style="font-weight:700">Total Pipeline</span><span class="gs-c"></span><span class="gs-c num" style="font-weight:800;color:#202124">$431,500</span><span class="gs-c"></span><span class="gs-c"></span></div>
+            </div>
+            <div class="gs-chart-area">
+              <div class="gs-chart-title">Pipeline by Stage</div>
+              <svg viewBox="0 0 200 130" width="100%" style="margin-top:4px">
+                <rect x="15" y="85" width="32" height="35" rx="2" fill="#1A73E8" opacity=".85"/>
+                <rect x="57" y="55" width="32" height="65" rx="2" fill="#34A853" opacity=".85"/>
+                <rect x="99" y="70" width="32" height="50" rx="2" fill="#F4B400" opacity=".85"/>
+                <rect x="141" y="100" width="32" height="20" rx="2" fill="#EA4335" opacity=".85"/>
+                <text x="31" y="82" text-anchor="middle" font-size="6" fill="#5F6368">Nego.</text>
+                <text x="73" y="52" text-anchor="middle" font-size="6" fill="#5F6368">Won</text>
+                <text x="115" y="67" text-anchor="middle" font-size="6" fill="#5F6368">Prop.</text>
+                <text x="157" y="97" text-anchor="middle" font-size="6" fill="#5F6368">Lost</text>
+                <text x="31" y="80" text-anchor="middle" font-size="5.5" font-weight="700" fill="#202124" dy="-4">$115K</text>
+                <text x="73" y="52" text-anchor="middle" font-size="5.5" font-weight="700" fill="#202124" dy="-4">$214K</text>
+                <text x="115" y="67" text-anchor="middle" font-size="5.5" font-weight="700" fill="#202124" dy="-4">$74K</text>
+                <text x="157" y="97" text-anchor="middle" font-size="5.5" font-weight="700" fill="#202124" dy="-4">$28K</text>
+                <line x1="10" y1="120" x2="180" y2="120" stroke="#E0E0E0" stroke-width=".6"/>
+              </svg>
+              <div class="gs-chart-title" style="margin-top:8px">Win Rate</div>
+              <svg viewBox="0 0 100 60" width="50%" style="margin:0 auto;display:block">
+                <circle cx="50" cy="30" r="22" fill="none" stroke="#E8EAED" stroke-width="7"/>
+                <circle cx="50" cy="30" r="22" fill="none" stroke="#34A853" stroke-width="7" stroke-dasharray="92 46" stroke-dashoffset="0" transform="rotate(-90 50 30)"/>
+                <text x="50" y="32" text-anchor="middle" font-size="9" font-weight="800" fill="#202124">67%</text>
+              </svg>
+            </div>
+          </div>
+
+          <!-- SLIDE 1 : Contacts + donut -->
+          <div class="hero-slide" data-slide="1">
+            <div class="gs-grid">
+              <div class="gs-row"><span class="gs-c rn"></span><span class="gs-c">A</span><span class="gs-c">B</span><span class="gs-c">C</span><span class="gs-c">D</span><span class="gs-c">E</span></div>
+              <div class="gs-row"><span class="gs-c rn">1</span><span class="gs-c" style="font-weight:700;color:#202124">Contact</span><span class="gs-c" style="font-weight:700;color:#202124">Company</span><span class="gs-c" style="font-weight:700;color:#202124">Title</span><span class="gs-c" style="font-weight:700;color:#202124">Last Activity</span><span class="gs-c" style="font-weight:700;color:#202124">Deals</span></div>
+              <div class="gs-row"><span class="gs-c rn">2</span><span class="gs-c">Sarah Chen</span><span class="gs-c">Acme Corp</span><span class="gs-c">VP Sales</span><span class="gs-c grn">Today</span><span class="gs-c num">3</span></div>
+              <div class="gs-row"><span class="gs-c rn">3</span><span class="gs-c">Marc Dubois</span><span class="gs-c">GlobalTech</span><span class="gs-c">CTO</span><span class="gs-c">Yesterday</span><span class="gs-c num">2</span></div>
+              <div class="gs-row"><span class="gs-c rn">4</span><span class="gs-c">Priya Sharma</span><span class="gs-c">NovaPay</span><span class="gs-c">Head of Ops</span><span class="gs-c">2 days ago</span><span class="gs-c num">1</span></div>
+              <div class="gs-row"><span class="gs-c rn">5</span><span class="gs-c">James Wilson</span><span class="gs-c">Helios SaaS</span><span class="gs-c">CEO</span><span class="gs-c">3 days ago</span><span class="gs-c num">2</span></div>
+              <div class="gs-row"><span class="gs-c rn">6</span><span class="gs-c">Laura Kim</span><span class="gs-c">Meridian</span><span class="gs-c">COO</span><span class="gs-c">5 days ago</span><span class="gs-c num">1</span></div>
+              <div class="gs-row"><span class="gs-c rn">7</span><span class="gs-c">Tom Nguyen</span><span class="gs-c">BluePeak</span><span class="gs-c">Dir. Sales</span><span class="gs-c">1 week ago</span><span class="gs-c num">4</span></div>
+              <div class="gs-row"><span class="gs-c rn">8</span><span class="gs-c">Emma Clark</span><span class="gs-c">Finova</span><span class="gs-c">VP Eng</span><span class="gs-c red">2 weeks ago</span><span class="gs-c num">1</span></div>
+              <div class="gs-row" style="border-top:2px solid #DADCE0"><span class="gs-c rn">9</span><span class="gs-c" style="font-weight:700">Total</span><span class="gs-c"></span><span class="gs-c"></span><span class="gs-c"></span><span class="gs-c num" style="font-weight:800;color:#202124">847</span></div>
+            </div>
+            <div class="gs-chart-area">
+              <div class="gs-chart-title">Contacts by Industry</div>
+              <svg viewBox="0 0 120 120" width="70%" style="margin:8px auto;display:block">
+                <circle cx="60" cy="60" r="40" fill="none" stroke="#E8EAED" stroke-width="16"/>
+                <circle cx="60" cy="60" r="40" fill="none" stroke="#1A73E8" stroke-width="16" stroke-dasharray="100 152" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+                <circle cx="60" cy="60" r="40" fill="none" stroke="#34A853" stroke-width="16" stroke-dasharray="65 187" stroke-dashoffset="-100" transform="rotate(-90 60 60)"/>
+                <circle cx="60" cy="60" r="40" fill="none" stroke="#F4B400" stroke-width="16" stroke-dasharray="50 202" stroke-dashoffset="-165" transform="rotate(-90 60 60)"/>
+                <circle cx="60" cy="60" r="40" fill="none" stroke="#EA4335" stroke-width="16" stroke-dasharray="37 215" stroke-dashoffset="-215" transform="rotate(-90 60 60)"/>
+              </svg>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:.5rem;color:#5F6368;justify-content:center">
+                <span style="display:flex;align-items:center;gap:3px"><span style="width:6px;height:6px;border-radius:1px;background:#1A73E8"></span>SaaS 40%</span>
+                <span style="display:flex;align-items:center;gap:3px"><span style="width:6px;height:6px;border-radius:1px;background:#34A853"></span>Finance 26%</span>
+                <span style="display:flex;align-items:center;gap:3px"><span style="width:6px;height:6px;border-radius:1px;background:#F4B400"></span>Logistics 20%</span>
+                <span style="display:flex;align-items:center;gap:3px"><span style="width:6px;height:6px;border-radius:1px;background:#EA4335"></span>Other 14%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SLIDE 2 : Commissions + line chart -->
+          <div class="hero-slide" data-slide="2">
+            <div class="gs-grid">
+              <div class="gs-row"><span class="gs-c rn"></span><span class="gs-c">A</span><span class="gs-c">B</span><span class="gs-c">C</span><span class="gs-c">D</span><span class="gs-c">E</span></div>
+              <div class="gs-row"><span class="gs-c rn">1</span><span class="gs-c" style="font-weight:700;color:#202124">Sales Rep</span><span class="gs-c" style="font-weight:700;color:#202124">Deals Closed</span><span class="gs-c" style="font-weight:700;color:#202124">Revenue</span><span class="gs-c" style="font-weight:700;color:#202124">Commission (5%)</span><span class="gs-c" style="font-weight:700;color:#202124">Quota %</span></div>
+              <div class="gs-row"><span class="gs-c rn">2</span><span class="gs-c">Alice Martin</span><span class="gs-c num">8</span><span class="gs-c num">$186,400</span><span class="gs-c num grn">$9,320</span><span class="gs-c num grn">124%</span></div>
+              <div class="gs-row"><span class="gs-c rn">3</span><span class="gs-c">Tom Nguyen</span><span class="gs-c num">6</span><span class="gs-c num">$142,000</span><span class="gs-c num grn">$7,100</span><span class="gs-c num grn">105%</span></div>
+              <div class="gs-row"><span class="gs-c rn">4</span><span class="gs-c">Emma Clark</span><span class="gs-c num">5</span><span class="gs-c num">$98,500</span><span class="gs-c num grn">$4,925</span><span class="gs-c num">82%</span></div>
+              <div class="gs-row"><span class="gs-c rn">5</span><span class="gs-c">Ryan Lopez</span><span class="gs-c num">4</span><span class="gs-c num">$73,200</span><span class="gs-c num grn">$3,660</span><span class="gs-c num red">61%</span></div>
+              <div class="gs-row"><span class="gs-c rn">6</span><span class="gs-c">Léa Fournier</span><span class="gs-c num">7</span><span class="gs-c num">$159,800</span><span class="gs-c num grn">$7,990</span><span class="gs-c num grn">118%</span></div>
+              <div class="gs-row"><span class="gs-c rn">7</span><span class="gs-c">David Park</span><span class="gs-c num">3</span><span class="gs-c num">$52,400</span><span class="gs-c num grn">$2,620</span><span class="gs-c num red">44%</span></div>
+              <div class="gs-row" style="border-top:2px solid #DADCE0"><span class="gs-c rn">8</span><span class="gs-c" style="font-weight:700">Total</span><span class="gs-c num" style="font-weight:700">33</span><span class="gs-c num" style="font-weight:800;color:#202124">$712,300</span><span class="gs-c num" style="font-weight:800;color:#137333">$35,615</span><span class="gs-c"></span></div>
+            </div>
+            <div class="gs-chart-area">
+              <div class="gs-chart-title">Monthly Revenue Trend</div>
+              <svg viewBox="0 0 200 100" width="100%" style="margin-top:6px">
+                <defs><linearGradient id="hfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1A73E8" stop-opacity=".2"/><stop offset="100%" stop-color="#1A73E8" stop-opacity="0"/></linearGradient></defs>
+                <polygon points="15,70 45,58 75,65 105,42 135,38 165,28 185,22 185,88 15,88" fill="url(#hfill)"/>
+                <polyline points="15,70 45,58 75,65 105,42 135,38 165,28 185,22" fill="none" stroke="#1A73E8" stroke-width="2" stroke-linejoin="round"/>
+                <circle cx="15" cy="70" r="2.5" fill="white" stroke="#1A73E8" stroke-width="1.5"/>
+                <circle cx="45" cy="58" r="2.5" fill="white" stroke="#1A73E8" stroke-width="1.5"/>
+                <circle cx="75" cy="65" r="2.5" fill="white" stroke="#1A73E8" stroke-width="1.5"/>
+                <circle cx="105" cy="42" r="2.5" fill="white" stroke="#1A73E8" stroke-width="1.5"/>
+                <circle cx="135" cy="38" r="2.5" fill="white" stroke="#1A73E8" stroke-width="1.5"/>
+                <circle cx="165" cy="28" r="2.5" fill="white" stroke="#1A73E8" stroke-width="1.5"/>
+                <circle cx="185" cy="22" r="3" fill="#1A73E8"/>
+                <text x="15" y="96" font-size="5" fill="#9AA0A6">Jan</text>
+                <text x="45" y="96" font-size="5" fill="#9AA0A6">Feb</text>
+                <text x="75" y="96" font-size="5" fill="#9AA0A6">Mar</text>
+                <text x="105" y="96" font-size="5" fill="#9AA0A6">Apr</text>
+                <text x="135" y="96" font-size="5" fill="#9AA0A6">May</text>
+                <text x="165" y="96" font-size="5" fill="#9AA0A6">Jun</text>
+                <text x="185" y="96" font-size="5" fill="#9AA0A6">Jul</text>
+                <line x1="10" y1="88" x2="195" y2="88" stroke="#E0E0E0" stroke-width=".5"/>
+              </svg>
+              <div class="gs-chart-title" style="margin-top:8px">Top Performer</div>
+              <div style="display:flex;align-items:center;gap:6px;margin-top:4px">
+                <div style="width:22px;height:22px;border-radius:50%;background:#E8F0FE;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:800;color:#1967D2">AM</div>
+                <div><div style="font-size:.55rem;font-weight:700;color:#202124">Alice Martin</div><div style="font-size:.48rem;color:#5F6368">$186,400 · 124% quota</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-slide-dots">
+            <span class="hero-slide-dot active" onclick="goHeroSlide(0)"></span>
+            <span class="hero-slide-dot" onclick="goHeroSlide(1)"></span>
+            <span class="hero-slide-dot" onclick="goHeroSlide(2)"></span>
+          </div>
+        </div>
+
+        <!-- Sheets tabs -->
+        <div class="hsm-tabs">
+          <span class="hsm-tab on">Pipeline</span>
+          <span class="hsm-tab">Contacts</span>
+          <span class="hsm-tab">Commissions</span>
+          <span class="hsm-tab">Settings</span>
+        </div>
+      </div>
     </div>
 
-    <a class="hero-scroll-clean" href="#why" aria-label="Scroll to the next section">
-      <span>Scroll</span>
-      <i aria-hidden="true"></i>
-    </a>
   </div>
 </section>
 
-<!-- WHAT CANOPY GIVES BACK (3 PILLARS) -->
-<section class="pillars-section reveal" id="why">
-  <div class="pillars-wrap">
-    <div class="pillars-header">
-      <svg class="deco-tree" viewBox="0 0 60 60" aria-hidden="true">
-        <line x1="30" y1="58" x2="30" y2="36"/>
-        <line x1="30" y1="36" x2="14" y2="22"/>
-        <line x1="30" y1="36" x2="46" y2="22"/>
-        <line x1="30" y1="36" x2="30" y2="14"/>
-        <circle class="dt-node" cx="30" cy="36" r="3.5"/>
-        <circle class="dt-leaf" cx="14" cy="22" r="5"/>
-        <circle class="dt-leaf" cx="46" cy="22" r="5"/>
-        <circle class="dt-leaf" cx="30" cy="14" r="5.5"/>
-      </svg>
-      <h2>Canopy gives you back <em>time, money &amp; expertise.</em></h2>
-      <p>Three things every CRM quietly steals from your team. Canopy hands them back &mdash; one connection at a time.</p>
+<section class="hero-dark-curtain" id="demo">
+  <div class="hero-video-overflow">
+    <div class="hero-video-screen">
+      <video id="canopy-demo-video" autoplay muted loop playsinline>
+        <source src="Demo1.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+  <p class="hero-dark-tagline">See it live — <em>your data, refreshed every morning.</em></p>
+</section>
+
+<!-- VALUE PROPOSITION CARDS -->
+<section class="value-section reveal">
+  <div class="value-header">
+    <h2>What Canopy gives back</h2>
+    <p>Three problems every Zoho CRM team faces. One tool that solves all three.</p>
+  </div>
+  <div class="value-grid">
+
+    <div class="value-card">
+      <div class="value-card-head">
+        <span class="value-card-icon v-time">&#9201;</span>
+        <span class="value-card-title">Time, Back in Your Week</span>
+      </div>
+      <div class="value-card-rule"></div>
+      <div class="value-card-stat">5.5 hrs</div>
+      <div class="value-card-stat-label">saved per week on manual reporting</div>
+      <p class="value-card-body">No more Monday-morning CSV exports. Canopy syncs your pipeline, contacts and commissions overnight — your dashboards are ready before you open your laptop.</p>
+      <a href="#templates" class="value-card-cta">See templates &rarr;</a>
     </div>
 
-    <div class="pillars-list">
-
-      <!-- PILLAR 1 — TIME -->
-      <article class="pillar p-time">
-        <div class="pillar-visual">
-          <div class="pillar-ord">01 / TIME</div>
-          <div class="pillar-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="9"/>
-              <polyline points="12 7 12 12 15.5 14"/>
-            </svg>
-          </div>
-        </div>
-        <div class="pillar-content">
-          <div class="pillar-word"><strong>Time</strong> <span class="pillar-tag">Stop formatting, start analyzing</span></div>
-          <p class="pillar-body">Canopy <strong>formats your CRM data</strong> to make it actionable and relevant for you and your teams. No more weekly exports, no more pivot tables built from scratch &mdash; just the report you need, refreshed automatically.</p>
-        </div>
-      </article>
-
-      <!-- PILLAR 2 — MONEY -->
-      <article class="pillar p-money">
-        <div class="pillar-visual">
-          <div class="pillar-ord">02 / MONEY</div>
-          <div class="pillar-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <ellipse cx="12" cy="6" rx="8" ry="3"/>
-              <path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6"/>
-              <path d="M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/>
-            </svg>
-          </div>
-        </div>
-        <div class="pillar-content">
-          <div class="pillar-word"><strong>Money</strong> <span class="pillar-tag">One sub, whole team</span></div>
-          <p class="pillar-body">The math is simple: pay <strong>individual licenses for everyone</strong> &mdash; or a single Canopy subscription that lets the whole team view the data. Canopy gives the people who don't directly contribute to the CRM the ability to consult it <strong>without paying extra seats</strong>.</p>
-        </div>
-      </article>
-
-      <!-- PILLAR 3 — EXPERTISE -->
-      <article class="pillar p-skills">
-        <div class="pillar-visual">
-          <div class="pillar-ord">03 / EXPERTISE</div>
-          <div class="pillar-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="6" cy="6" r="2.4"/>
-              <circle cx="18" cy="6" r="2.4"/>
-              <circle cx="12" cy="18" r="2.4"/>
-              <path d="M7.6 7.6 11 16.4"/>
-              <path d="M16.4 7.6 13 16.4"/>
-              <path d="M8 6h8"/>
-            </svg>
-          </div>
-        </div>
-        <div class="pillar-content">
-          <div class="pillar-word"><strong>Expertise</strong> <span class="pillar-tag">Templates built by experts</span></div>
-          <p class="pillar-body">Canopy ships with <strong>ready-made templates</strong> designed around real business workflows. Sales pipeline, contact directory, project tracker &mdash; each one is built by people who know the job, so you don't have to start from a blank sheet.</p>
-        </div>
-      </article>
-
+    <div class="value-card">
+      <div class="value-card-head">
+        <span class="value-card-icon v-money">&#128176;</span>
+        <span class="value-card-title">Money, Saved Instantly</span>
+      </div>
+      <div class="value-card-rule"></div>
+      <div class="value-card-stat">$6,700</div>
+      <div class="value-card-stat-label">saved per year vs. viewer seats</div>
+      <p class="value-card-body">A read-only Zoho seat is $14/user/month. Multiply by 40 people who just need to see the data — Canopy replaces all of them with a single $9 subscription.</p>
+      <a href="#pricing" class="value-card-cta">Compare pricing &rarr;</a>
     </div>
+
+    <div class="value-card">
+      <div class="value-card-head">
+        <span class="value-card-icon v-skills">&#9889;</span>
+        <span class="value-card-title">Skills, No Longer Required</span>
+      </div>
+      <div class="value-card-rule"></div>
+      <div class="value-card-stat">0 lines</div>
+      <div class="value-card-stat-label">of code or API config needed</div>
+      <p class="value-card-body">No Zoho admin training. No Zapier flows to debug. Pick a template, connect your CRM, and your whole team reads live data in the Google Sheets they already use.</p>
+      <a href="#how" class="value-card-cta">How it works &rarr;</a>
+    </div>
+
   </div>
 </section>
 
-<!-- TRUST BAR -->
-<div class="trust-bar">
-  <div class="trust-item">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-    Up to &euro;1,100/yr saved on CRM seats
-  </div>
-  <svg class="trust-divider" viewBox="0 0 14 14" aria-hidden="true"><line x1="7" y1="13" x2="7" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="8" x2="3" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="8" x2="11" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="8" r="1.2" fill="currentColor"/><circle cx="3" cy="4" r="1.6" fill="currentColor"/><circle cx="11" cy="4" r="1.6" fill="currentColor"/></svg>
-  <div class="trust-item">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-    Business templates &mdash; no setup needed
-  </div>
-  <svg class="trust-divider" viewBox="0 0 14 14" aria-hidden="true"><line x1="7" y1="13" x2="7" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="8" x2="3" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="8" x2="11" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="8" r="1.2" fill="currentColor"/><circle cx="3" cy="4" r="1.6" fill="currentColor"/><circle cx="11" cy="4" r="1.6" fill="currentColor"/></svg>
-  <div class="trust-item">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    Share with anyone &mdash; no CRM login
-  </div>
-  <svg class="trust-divider" viewBox="0 0 14 14" aria-hidden="true"><line x1="7" y1="13" x2="7" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="8" x2="3" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="7" y1="8" x2="11" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="8" r="1.2" fill="currentColor"/><circle cx="3" cy="4" r="1.6" fill="currentColor"/><circle cx="11" cy="4" r="1.6" fill="currentColor"/></svg>
-  <div class="trust-item">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-    Cancel anytime &mdash; no lock-in
-  </div>
-</div>
-
-<!-- COUNTERS -->
-<div class="counter-bar reveal">
-  <div class="counter-grid">
-    <div class="counter-item">
-      <div class="counter-value" data-target="1100" data-prefix="&euro;" data-suffix="/yr">&euro;0/yr</div>
-      <div class="counter-label">Saved on CRM seats</div>
-    </div>
-    <div class="counter-item">
-      <div class="counter-value" data-target="5" data-suffix=" min">0 min</div>
-      <div class="counter-label">From signup to first sync</div>
-    </div>
-    <div class="counter-item">
-      <div class="counter-value" style="letter-spacing:- .02em">&infin;</div>
-      <div class="counter-label">Viewers, zero extra cost</div>
-    </div>
-    <div class="counter-item">
-      <div class="counter-value" data-target="5" data-suffix="+">0+</div>
-      <div class="counter-label">Ready-to-use templates</div>
-    </div>
-  </div>
-</div>
-
-<!-- QUOTE BAR -->
-<div class="quote-bar reveal">
-  <div class="quote-bar-inner">
-    <svg class="quote-mark" width="44" height="36" viewBox="0 0 44 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 36V20.4C0 14.4 1.4 9.6 4.2 6c2.8-3.6 6.8-5.6 12-6l1.6 4.4c-3.2.8-5.6 2.4-7.2 4.8-1.6 2.4-2.4 5.6-2.4 9.6h7.6V36H0zM26 36V20.4c0-6 1.4-10.8 4.2-14.4 2.8-3.6 6.8-5.6 12-6L43.8 4.4c-3.2.8-5.6 2.4-7.2 4.8-1.6 2.4-2.4 5.6-2.4 9.6h7.6V36H26z" fill="currentColor"/>
-    </svg>
-    <div class="quote-text">
-      <p>"40 people pay a CRM license just to view the data. That's the real cost."</p>
-      <cite>
-        <strong>Damien Roux</strong>
-        Salesforce consultant &mdash; interviewed 09/06/2026
-      </cite>
-    </div>
-  </div>
-</div>
-
-<!-- USE CASES -->
-<section class="uc-section reveal" id="usecases">
+<section class="pain-section reveal" id="frustrations">
   <div class="max-w">
-    <div class="centered" style="margin-bottom:48px">
+    <div class="centered">
       <span class="s-tag">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M9 12l2 2 4-4"/></svg>
-        Use cases
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        From the field
       </span>
-      <svg class="deco-tree" viewBox="0 0 60 60" aria-hidden="true">
-        <line x1="30" y1="58" x2="30" y2="36"/>
-        <line x1="30" y1="36" x2="14" y2="22"/>
-        <line x1="30" y1="36" x2="46" y2="22"/>
-        <line x1="30" y1="36" x2="30" y2="14"/>
-        <circle class="dt-node" cx="30" cy="36" r="3.5"/>
-        <circle class="dt-leaf" cx="14" cy="22" r="5"/>
-        <circle class="dt-leaf" cx="46" cy="22" r="5"/>
-        <circle class="dt-leaf" cx="30" cy="14" r="5.5"/>
-      </svg>
-      <h2 class="s-title">One tool,<br/><em>many problems solved.</em></h2>
-      <p class="s-sub">Zoho CRM users share the same frustrations. Canopy tackles them all with one connection.</p>
+      <h2 class="s-title">The CRM reporting problem<br/><em>is well-documented.</em></h2>
+      <p class="s-sub">These aren't our words. They come from industry surveys, CRM consultants, and ops teams who live this every quarter.</p>
     </div>
-    <div class="uc-split">
-      <!-- LEFT: clickable list -->
-      <div class="uc-list">
-        <div class="uc-item uc-active" onclick="switchUc(0)">
-          <div class="uc-ico"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
-          <div class="uc-body"><h4>CRM Reporting</h4><p class="uc-hint">Rigid native reports → formatted Google Sheets</p></div>
-          <span class="uc-tag uc-tag-main">Core</span>
-        </div>
-        <div class="uc-item" onclick="switchUc(1)">
-          <div class="uc-ico"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-          <div class="uc-body"><h4>License savings</h4><p class="uc-hint">Stop paying CRM seats just to view data</p></div>
-          <span class="uc-tag uc-tag-key">ROI</span>
-        </div>
-        <div class="uc-item" onclick="switchUc(2)">
-          <div class="uc-ico"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
-          <div class="uc-body"><h4>BI alternative</h4><p class="uc-hint">Dashboards &amp; KPIs without Power BI</p></div>
-        </div>
-        <div class="uc-item" onclick="switchUc(3)">
-          <div class="uc-ico"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <div class="uc-body"><h4>Daily backup</h4><p class="uc-hint">Automatic daily CRM data protection</p></div>
-        </div>
-        <div class="uc-item" onclick="switchUc(4)">
-          <div class="uc-ico"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-          <div class="uc-body"><h4>Integrator toolkit</h4><p class="uc-hint">Deploy client reports in minutes</p></div>
-        </div>
-        <div class="uc-item" onclick="switchUc(5)">
-          <div class="uc-ico"><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-          <div class="uc-body"><h4>Sales commissions</h4><p class="uc-hint">Automated commission calculations</p></div>
+
+    <div class="quotes-grid">
+      <div class="pain-card">
+        <div class="pain-card-q">"We're paying <em>$23,000 a year</em> in CRM licenses for people who log in once a week to check pipeline numbers. Finance flagged it in the last audit — we just couldn't find an alternative."</div>
+        <div class="pain-author">
+          <div class="pa-av c1">VP</div>
+          <div class="pa-info">
+            <strong>VP Sales, B2B SaaS</strong>
+            <span>180 employees · Zoho Enterprise</span>
+          </div>
         </div>
       </div>
-      <!-- RIGHT: animated stage -->
-      <div class="uc-stage">
-        <div class="uc-pulse-ring"><span class="uc-pr-dot"></span><span>Live demo</span></div>
-        <span class="uc-counter">01 / 06</span>
-        <!-- Scene 0: CRM Reporting -->
-        <div class="uc-scene uc-show" data-uc="0">
-          <svg viewBox="0 0 380 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="20" width="150" height="100" rx="12" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
-            <text x="95" y="48" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#991B1B">Native CRM Report</text>
-            <rect x="36" y="62" width="118" height="6" rx="3" fill="#FECACA"/><rect x="36" y="74" width="88" height="6" rx="3" fill="#FECACA"/><rect x="36" y="86" width="100" height="6" rx="3" fill="#FECACA"/>
-            <text x="95" y="108" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#DC2626">Rigid &amp; unusable</text>
-            <path d="M170 70 L220 70" stroke="#94A3B8" stroke-width="2" stroke-dasharray="5 4"/>
-            <polygon points="218,65 230,70 218,75" fill="#2575E8"/>
-            <circle cx="260" cy="70" r="28" fill="#2575E8" opacity=".9" class="uc-anim-pulse"/>
-            <text x="260" y="67" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="700" fill="white">Canopy</text>
-            <text x="260" y="78" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="rgba(255,255,255,.8)">Sync Engine</text>
-            <path d="M288 70 L320 70" stroke="#94A3B8" stroke-width="2" stroke-dasharray="5 4"/>
-            <polygon points="318,65 330,70 318,75" fill="#34A853"/>
-            <rect x="130" y="140" width="220" height="170" rx="14" fill="#F0FDF4" stroke="#34A853" stroke-width="1.5" class="uc-anim-float" style="animation-delay:.4s"/>
-            <rect x="144" y="156" width="56" height="9" rx="3" fill="#34A853"/>
-            <text x="216" y="164" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#166534">Sales Pipeline</text>
-            <rect x="148" y="178" width="32" height="45" rx="4" fill="#2575E8" opacity=".4"/><rect x="188" y="190" width="32" height="33" rx="4" fill="#2575E8" opacity=".6"/><rect x="228" y="174" width="32" height="49" rx="4" fill="#1B3F7A"/><rect x="268" y="184" width="32" height="39" rx="4" fill="#5A9BF0"/><rect x="308" y="196" width="32" height="27" rx="4" fill="#2575E8" opacity=".5"/>
-            <line x1="144" y1="228" x2="344" y2="228" stroke="#BBF7D0" stroke-width="1"/>
-            <rect x="148" y="238" width="70" height="5" rx="2" fill="#BBF7D0"/><rect x="148" y="250" width="100" height="5" rx="2" fill="#BBF7D0"/><rect x="148" y="262" width="55" height="5" rx="2" fill="#BBF7D0"/><rect x="148" y="274" width="85" height="5" rx="2" fill="#BBF7D0"/><rect x="148" y="286" width="60" height="5" rx="2" fill="#BBF7D0"/>
-          </svg>
-          <div class="uc-stage-title">Raw CRM data &rarr; formatted business report</div>
-        </div>
-        <!-- Scene 1: License savings -->
-        <div class="uc-scene" data-uc="1">
-          <svg viewBox="0 0 380 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="30" y="10" width="320" height="30" rx="8" fill="#FEE2E2" stroke="#EF4444" stroke-width="1"/>
-            <text x="190" y="30" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#991B1B">Before: 10 users &times; &euro;20/mo = &euro;200/mo</text>
-            <circle cx="55" cy="80" r="16" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><text x="55" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#991B1B">1</text>
-            <circle cx="100" cy="80" r="16" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><text x="100" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#991B1B">2</text>
-            <circle cx="145" cy="80" r="16" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><text x="145" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#991B1B">3</text>
-            <circle cx="190" cy="80" r="16" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><text x="190" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#991B1B">4</text>
-            <circle cx="235" cy="80" r="16" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/><text x="235" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#991B1B">5</text>
-            <circle cx="280" cy="80" r="16" fill="#FECACA" stroke="#EF4444" stroke-width="1" stroke-dasharray="3 2"/><text x="280" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#EF4444">+5</text>
-            <text x="190" y="116" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#DC2626">Each pays a full CRM license just to VIEW data</text>
-            <line x1="190" y1="128" x2="190" y2="148" stroke="#2575E8" stroke-width="2"/><polygon points="185,146 190,156 195,146" fill="#2575E8"/>
-            <rect x="30" y="160" width="320" height="30" rx="8" fill="#DCFCE7" stroke="#34A853" stroke-width="1"/>
-            <text x="190" y="180" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#166534">After: 2 licenses + Canopy = &euro;47/mo</text>
-            <circle cx="100" cy="225" r="18" fill="#DCFCE7" stroke="#34A853" stroke-width="1.5"/><text x="100" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#166534">Admin</text>
-            <circle cx="170" cy="225" r="18" fill="#DCFCE7" stroke="#34A853" stroke-width="1.5"/><text x="170" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#166534">Mgr</text>
-            <path d="M205 225 L240 225" stroke="#34A853" stroke-width="2" stroke-dasharray="5 3"/>
-            <rect x="245" y="205" width="120" height="44" rx="10" fill="#F0FDF4" stroke="#34A853" stroke-width="1.5" class="uc-anim-float" style="animation-delay:.2s"/>
-            <text x="305" y="224" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#166534">Shared Sheet</text>
-            <text x="305" y="240" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#166534">Everyone can view</text>
-            <rect x="120" y="275" width="140" height="36" rx="18" fill="#DCFCE7" stroke="#34A853" stroke-width="1.5"/>
-            <text x="190" y="298" text-anchor="middle" font-family="Inter,sans-serif" font-size="14" font-weight="800" fill="#166534">Save &euro;153/mo</text>
-          </svg>
-          <div class="uc-stage-title">Cut CRM costs by sharing a live Google Sheet</div>
-        </div>
-        <!-- Scene 2: BI alternative -->
-        <div class="uc-scene" data-uc="2">
-          <svg viewBox="0 0 380 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="20" width="150" height="120" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
-            <text x="95" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#92400E">Power BI / Looker</text>
-            <rect x="36" y="58" width="118" height="7" rx="3" fill="#FDE68A"/><rect x="36" y="72" width="88" height="7" rx="3" fill="#FDE68A"/><rect x="36" y="86" width="100" height="7" rx="3" fill="#FDE68A"/>
-            <text x="95" y="116" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#92400E">Complex &bull; Expensive &bull; Overkill</text>
-            <line x1="95" y1="145" x2="95" y2="168" stroke="#EF4444" stroke-width="2"/>
-            <circle cx="95" cy="182" r="14" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
-            <line x1="86" y1="173" x2="104" y2="191" stroke="#EF4444" stroke-width="2"/><line x1="104" y1="173" x2="86" y2="191" stroke="#EF4444" stroke-width="2"/>
-            <path d="M175 80 L205 80" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="4 3"/>
-            <text x="190" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="600" fill="#94A3B8">VS</text>
-            <rect x="210" y="20" width="150" height="150" rx="14" fill="#F0FDF4" stroke="#34A853" stroke-width="1.5" class="uc-anim-float" style="animation-delay:.2s"/>
-            <text x="285" y="45" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#166534">Canopy + Sheets</text>
-            <rect x="228" y="60" width="26" height="35" rx="4" fill="#2575E8" opacity=".4"/><rect x="260" y="50" width="26" height="45" rx="4" fill="#2575E8" opacity=".65"/><rect x="292" y="55" width="26" height="40" rx="4" fill="#2575E8" opacity=".8"/><rect x="324" y="42" width="26" height="53" rx="4" fill="#1B3F7A"/>
-            <line x1="226" y1="100" x2="352" y2="100" stroke="rgba(37,117,232,.15)" stroke-width="1"/>
-            <rect x="228" y="110" width="55" height="5" rx="2" fill="#BBF7D0"/><rect x="228" y="122" width="90" height="5" rx="2" fill="#BBF7D0"/><rect x="228" y="134" width="65" height="5" rx="2" fill="#BBF7D0"/><rect x="228" y="146" width="75" height="5" rx="2" fill="#BBF7D0"/>
-            <text x="285" y="162" text-anchor="middle" font-family="Inter,sans-serif" font-size="7" fill="#166534">5 min setup &bull; Free tier &bull; Familiar</text>
-            <line x1="285" y1="175" x2="285" y2="198" stroke="#34A853" stroke-width="2"/>
-            <circle cx="285" cy="212" r="14" fill="#DCFCE7" stroke="#34A853" stroke-width="1.5"/>
-            <polyline points="278,212 283,217 293,207" fill="none" stroke="#34A853" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <rect x="70" y="250" width="240" height="60" rx="14" fill="white" stroke="var(--blue)" stroke-width="1.5"/>
-            <text x="190" y="276" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="var(--blue-d)">Same insights. No BI budget.</text>
-            <text x="190" y="296" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="var(--slate)">KPIs, trends &amp; charts in a spreadsheet you already use.</text>
-          </svg>
-          <div class="uc-stage-title">Enterprise-grade insights without the enterprise price tag</div>
-        </div>
-        <!-- Scene 3: Daily backup -->
-        <div class="uc-scene" data-uc="3">
-          <svg viewBox="0 0 380 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="90" y="15" width="200" height="40" rx="10" fill="var(--blue-ll)" stroke="var(--blue)" stroke-width="1.5"/>
-            <text x="190" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="var(--blue-d)">Zoho CRM &mdash; your data</text>
-            <path d="M190 55 L190 82" stroke="var(--blue)" stroke-width="2" stroke-dasharray="5 3" class="flow-anim"/><polygon points="185,80 190,90 195,80" fill="var(--blue)"/>
-            <circle cx="190" cy="115" r="26" fill="var(--blue)" class="uc-anim-pulse"/>
-            <text x="190" y="112" text-anchor="middle" font-size="9" font-weight="700" fill="white">Canopy</text>
-            <text x="190" y="124" text-anchor="middle" font-size="7" fill="rgba(255,255,255,.75)">Auto sync</text>
-            <path d="M190 141 L190 168" stroke="#34A853" stroke-width="2" stroke-dasharray="5 3" class="flow-anim"/><polygon points="185,166 190,176 195,166" fill="#34A853"/>
-            <path d="M190 176 L90 200" stroke="#34A853" stroke-width="1.5" stroke-dasharray="4 3"/>
-            <path d="M190 176 L190 200" stroke="#34A853" stroke-width="1.5" stroke-dasharray="4 3"/>
-            <path d="M190 176 L290 200" stroke="#34A853" stroke-width="1.5" stroke-dasharray="4 3"/>
-            <rect x="40" y="205" width="100" height="60" rx="10" fill="#F0FDF4" stroke="#34A853" stroke-width="1.5" class="uc-anim-float" style="animation-delay:0s"/>
-            <text x="90" y="228" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#166534">Monday</text>
-            <rect x="54" y="238" width="72" height="4" rx="2" fill="#BBF7D0"/><rect x="54" y="248" width="55" height="4" rx="2" fill="#BBF7D0"/><rect x="54" y="258" width="62" height="4" rx="2" fill="#BBF7D0"/>
-            <rect x="150" y="205" width="100" height="60" rx="10" fill="#F0FDF4" stroke="#34A853" stroke-width="1.5" class="uc-anim-float" style="animation-delay:.3s"/>
-            <text x="200" y="228" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#166534">Tuesday</text>
-            <rect x="164" y="238" width="72" height="4" rx="2" fill="#BBF7D0"/><rect x="164" y="248" width="55" height="4" rx="2" fill="#BBF7D0"/><rect x="164" y="258" width="62" height="4" rx="2" fill="#BBF7D0"/>
-            <rect x="260" y="205" width="100" height="60" rx="10" fill="#F0FDF4" stroke="#34A853" stroke-width="1.5" class="uc-anim-float" style="animation-delay:.6s"/>
-            <text x="310" y="228" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#166534">Wednesday</text>
-            <rect x="274" y="238" width="72" height="4" rx="2" fill="#BBF7D0"/><rect x="274" y="248" width="55" height="4" rx="2" fill="#BBF7D0"/><rect x="274" y="258" width="62" height="4" rx="2" fill="#BBF7D0"/>
-            <rect x="105" y="285" width="170" height="35" rx="10" fill="white" stroke="#34A853" stroke-width="1.5"/>
-            <text x="190" y="307" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#166534">Auto-saved to Google Drive</text>
-          </svg>
-          <div class="uc-stage-title">Your CRM data, backed up every day &mdash; automatically</div>
-        </div>
-        <!-- Scene 4: Integrator toolkit -->
-        <div class="uc-scene" data-uc="4">
-          <svg viewBox="0 0 380 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="115" y="15" width="150" height="36" rx="10" fill="var(--blue)"/>
-            <text x="190" y="38" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="white">Zoho Partner / Integrator</text>
-            <path d="M140 51 L80 85" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="5 3"/><path d="M190 51 L190 85" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="5 3"/><path d="M240 51 L300 85" stroke="var(--blue)" stroke-width="1.5" stroke-dasharray="5 3"/>
-            <rect x="25" y="88" width="110" height="80" rx="12" fill="#F0FDF4" stroke="#34A853" stroke-width="1.5" class="uc-anim-float"/>
-            <text x="80" y="110" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#166534">Client A</text>
-            <rect x="40" y="120" width="80" height="5" rx="2" fill="#BBF7D0"/><rect x="40" y="130" width="62" height="5" rx="2" fill="#BBF7D0"/><rect x="40" y="140" width="72" height="5" rx="2" fill="#BBF7D0"/><rect x="40" y="150" width="55" height="5" rx="2" fill="#BBF7D0"/>
-            <rect x="145" y="88" width="110" height="80" rx="12" fill="#F0FDF4" stroke="#34A853" stroke-width="1.5" class="uc-anim-float" style="animation-delay:.2s"/>
-            <text x="200" y="110" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#166534">Client B</text>
-            <rect x="160" y="120" width="80" height="5" rx="2" fill="#BBF7D0"/><rect x="160" y="130" width="62" height="5" rx="2" fill="#BBF7D0"/><rect x="160" y="140" width="72" height="5" rx="2" fill="#BBF7D0"/><rect x="160" y="150" width="55" height="5" rx="2" fill="#BBF7D0"/>
-            <rect x="265" y="88" width="110" height="80" rx="12" fill="#F0FDF4" stroke="#34A853" stroke-width="1.5" class="uc-anim-float" style="animation-delay:.4s"/>
-            <text x="320" y="110" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#166534">Client C</text>
-            <rect x="280" y="120" width="80" height="5" rx="2" fill="#BBF7D0"/><rect x="280" y="130" width="62" height="5" rx="2" fill="#BBF7D0"/><rect x="280" y="140" width="72" height="5" rx="2" fill="#BBF7D0"/><rect x="280" y="150" width="55" height="5" rx="2" fill="#BBF7D0"/>
-            <rect x="50" y="200" width="280" height="100" rx="16" fill="white" stroke="var(--blue)" stroke-width="1.5"/>
-            <text x="190" y="232" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" font-weight="700" fill="var(--blue-d)">Deploy reports in 5 min per client</text>
-            <text x="190" y="254" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="var(--slate)">Instead of hours building custom exports.</text>
-            <text x="190" y="272" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="var(--slate)">Focus on consulting &mdash; not data plumbing.</text>
-            <text x="190" y="292" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="var(--blue)">Agency plan: &euro;39/mo for up to 10 CRMs</text>
-          </svg>
-          <div class="uc-stage-title">One subscription, reports for all your clients</div>
-        </div>
-        <!-- Scene 5: Sales commissions -->
-        <div class="uc-scene" data-uc="5">
-          <svg viewBox="0 0 380 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="30" y="15" width="320" height="165" rx="14" fill="#F0FDF4" stroke="#34A853" stroke-width="1.5"/>
-            <text x="190" y="40" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" fill="#166534">Commission Calculator</text>
-            <line x1="48" y1="52" x2="332" y2="52" stroke="#BBF7D0" stroke-width="1"/>
-            <text x="68" y="70" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#475569">Rep</text>
-            <text x="155" y="70" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#475569">Deals</text>
-            <text x="225" y="70" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="#475569">Revenue</text>
-            <text x="312" y="70" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#166534">Commission</text>
-            <line x1="48" y1="78" x2="332" y2="78" stroke="#E5E7EB" stroke-width=".5"/>
-            <text x="68" y="96" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">Alice M.</text><text x="158" y="96" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">12</text><text x="228" y="96" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">&euro;48,200</text><text x="316" y="96" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#166534">&euro;2,410</text>
-            <line x1="48" y1="104" x2="332" y2="104" stroke="#F0FDF4" stroke-width=".5"/>
-            <text x="68" y="120" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">Bob K.</text><text x="158" y="120" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">8</text><text x="228" y="120" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">&euro;31,500</text><text x="316" y="120" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#166534">&euro;1,575</text>
-            <line x1="48" y1="128" x2="332" y2="128" stroke="#F0FDF4" stroke-width=".5"/>
-            <text x="68" y="144" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">Clara J.</text><text x="158" y="144" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">15</text><text x="228" y="144" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">&euro;62,800</text><text x="316" y="144" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#166534">&euro;3,140</text>
-            <line x1="48" y1="152" x2="332" y2="152" stroke="#F0FDF4" stroke-width=".5"/>
-            <text x="68" y="168" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">David L.</text><text x="158" y="168" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">6</text><text x="228" y="168" font-family="Inter,sans-serif" font-size="9" fill="var(--dark)">&euro;19,300</text><text x="316" y="168" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#166534">&euro;965</text>
-            <rect x="40" y="205" width="140" height="80" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" class="uc-anim-float"/>
-            <text x="110" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#92400E">Before</text>
-            <text x="110" y="248" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#92400E">Manual Excel calculation</text>
-            <text x="110" y="264" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#92400E">Errors + delays every month</text>
-            <rect x="200" y="205" width="140" height="80" rx="12" fill="#DCFCE7" stroke="#34A853" stroke-width="1.5" class="uc-anim-float" style="animation-delay:.3s"/>
-            <text x="270" y="230" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#166534">After</text>
-            <text x="270" y="248" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#166534">Auto-calculated from CRM</text>
-            <text x="270" y="264" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#166534">Live data, zero errors</text>
-            <rect x="130" y="305" width="120" height="28" rx="14" fill="#DCFCE7" stroke="#34A853" stroke-width="1.5"/>
-            <text x="190" y="324" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" fill="#166534">Zero manual work</text>
-          </svg>
-          <div class="uc-stage-title">Commission reports calculated automatically from CRM deals</div>
-        </div>
-        <!-- Navigation + progress dots -->
-        <div class="uc-nav">
-          <button class="uc-nav-btn" onclick="ucPrev()" aria-label="Previous use case"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-          <div class="uc-progress">
-            <div class="uc-dot uc-dot-on"></div><div class="uc-dot"></div><div class="uc-dot"></div><div class="uc-dot"></div><div class="uc-dot"></div><div class="uc-dot"></div>
+
+      <div class="pain-card">
+        <div class="pain-card-q">"Every Monday I export four CSVs, clean the headers, fix the date formats, paste into our master Sheet and update the pivot tables. It takes <em>almost two hours</em>. Every single week."</div>
+        <div class="pain-author">
+          <div class="pa-av c2">SO</div>
+          <div class="pa-info">
+            <strong>Sales Ops Analyst</strong>
+            <span>Mid-market · Manufacturing</span>
           </div>
-          <button class="uc-nav-btn" onclick="ucNext()" aria-label="Next use case"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+      </div>
+
+      <div class="pain-card">
+        <div class="pain-card-q">"The built-in CRM reports look fine in demos, but in practice they're <em>too rigid to customize</em>. My sales managers end up screenshotting dashboards and pasting them into Slides."</div>
+        <div class="pain-author">
+          <div class="pa-av c3">RM</div>
+          <div class="pa-info">
+            <strong>RevOps Manager</strong>
+            <span>Series B startup · 90 reps</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pain-card">
+        <div class="pain-card-q">"43% of CRM users say they use <em>less than half</em> of the features they pay for. The reporting module is always the first thing they stop opening — the data's there, but it's not accessible."</div>
+        <div class="pain-author">
+          <div class="pa-av c4">An</div>
+          <div class="pa-info">
+            <strong>Industry Analyst</strong>
+            <span>CRM adoption benchmark, 2024</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pain-card">
+        <div class="pain-card-q">"I've set up Zapier→Sheets automations for 12 clients this year. Every one breaks within a month — <em>a field name changes, a module gets renamed</em>, the whole flow dies silently."</div>
+        <div class="pain-author">
+          <div class="pa-av c5">JL</div>
+          <div class="pa-info">
+            <strong>CRM Consultant, freelance</strong>
+            <span>Zoho & HubSpot specialist</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pain-card">
+        <div class="pain-card-q">"Our CEO asked for a commission report last quarter. It took <em>three people and four days</em> to reconcile CRM data with the actual payroll numbers. We still aren't sure it was right."</div>
+        <div class="pain-author">
+          <div class="pa-av c6">CF</div>
+          <div class="pa-info">
+            <strong>Head of Finance</strong>
+            <span>Professional services · 60 staff</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1668,168 +1862,100 @@
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
         Pricing
       </span>
-      <svg class="deco-tree" viewBox="0 0 60 60" aria-hidden="true">
-        <line x1="30" y1="58" x2="30" y2="36"/>
-        <line x1="30" y1="36" x2="14" y2="22"/>
-        <line x1="30" y1="36" x2="46" y2="22"/>
-        <line x1="30" y1="36" x2="30" y2="14"/>
-        <circle class="dt-node" cx="30" cy="36" r="3.5"/>
-        <circle class="dt-leaf" cx="14" cy="22" r="5"/>
-        <circle class="dt-leaf" cx="46" cy="22" r="5"/>
-        <circle class="dt-leaf" cx="30" cy="14" r="5.5"/>
-      </svg>
-      <h2 class="s-title">Plans designed to<br/><em>grow with you.</em></h2>
-      <p class="s-sub">Pick the level of automation that matches how many reports you need to run, share, and refresh every week.</p>
+      <h2 class="s-title">One report free.<br/><em>Scale when you're ready.</em></h2>
+      <p class="s-sub">Start with a live template at no cost. Upgrade only when you need more reports, faster syncs, or unlimited data.</p>
     </div>
     <div class="pricing-grid">
       <div class="p-card">
         <div class="p-name">Explorer</div>
         <div class="p-amount">Free</div>
-        <p class="p-desc"><em style="color:var(--slate);font-style:italic">"Try Canopy in 2 minutes."</em></p>
+        <p class="p-desc">See Canopy work in 2 minutes — no card required.</p>
         <ul class="p-feats">
-          <li>1 standard template (lifetime)</li>
-          <li>Daily automatic sync (every 24h)</li>
-          <li>Up to 1,000 rows</li>
-          <li>Self-serve support</li>
+          <li>1 standard template (yours forever)</li>
+          <li>Daily sync (every 24h)</li>
+          <li>Up to 1,000 CRM rows</li>
+          <li>Community support</li>
           <li class="off">Additional templates</li>
-          <li class="off">Hourly sync</li>
+          <li class="off">Faster sync</li>
         </ul>
-        <a href="#join" class="p-btn btn-ol" style="text-align:center;text-decoration:none;display:block">Join the waitlist &rarr;</a>
+        <div class="p-input-wrap">
+          <input type="email" id="explorerEmail" placeholder="you@company.com" aria-label="Your email for the Explorer plan"/>
+          <button class="p-btn btn-ol" onclick="joinExplorer()">Join the waitlist &rarr;</button>
+        </div>
       </div>
       <div class="p-card featured">
         <div class="p-chip">Most popular</div>
         <div class="p-name">Pro</div>
-        <div class="p-amount">&euro;8.99 <sub>/ mo</sub></div>
-        <p class="p-desc"><em style="color:var(--blue);font-style:italic">"3 key reports, always up to date."</em></p>
+        <div class="p-amount">9.99 &euro; <sub>/ mo</sub></div>
+        <p class="p-desc">Three key dashboards, always fresh — for the cost of one coffee a week.</p>
         <ul class="p-feats">
           <li>3 standard templates</li>
-          <li>Sync every 12h + 3 manual syncs</li>
+          <li>Sync every 12h + 3 manual refreshes</li>
           <li>Up to 5,000 rows</li>
-          <li>Email support (48h)</li>
+          <li>Email support (48h SLA)</li>
           <li class="off">Custom template requests</li>
-          <li class="off">Hourly sync &amp; on-demand</li>
+          <li class="off">Hourly sync</li>
         </ul>
-        <a href="#join" class="p-btn btn-fi" style="text-align:center;text-decoration:none;display:block">Reserve Pro access &rarr;</a>
+        <div class="p-input-wrap">
+          <input type="email" id="proEmail" placeholder="you@company.com" aria-label="Your email for the Pro plan"/>
+          <button class="p-btn btn-fi" onclick="joinPro()">Reserve Pro &rarr;</button>
+          <p class="p-price-note">No payment until launch &middot; Just tell us which plan you would like to reserve</p>
+        </div>
       </div>
       <div class="p-card">
         <div class="p-chip" style="background:var(--gold)">Full power</div>
         <div class="p-name">Apex</div>
-        <div class="p-amount">&euro;17.99 <sub>/ mo</sub></div>
-        <p class="p-desc"><em style="color:var(--gold);font-style:italic">"Everything, unlimited &mdash; for power users."</em></p>
+        <div class="p-amount">17.99 &euro; <sub>/ mo</sub></div>
+        <p class="p-desc">Unlimited templates, hourly sync, on-demand refresh — zero limits.</p>
         <ul class="p-feats">
           <li>Unlimited templates</li>
-          <li>Custom template requests</li>
           <li>Hourly sync + on-demand refresh</li>
           <li>Unlimited rows</li>
-          <li>Priority email support (24h)</li>
-          <li>Dedicated onboarding</li>
+          <li>Custom template requests</li>
+          <li>Priority support (24h SLA)</li>
+          <li>Dedicated onboarding call</li>
         </ul>
-        <a href="#join" class="p-btn btn-gold" style="text-align:center;text-decoration:none;display:block">Reserve Apex &rarr;</a>
+        <div class="p-input-wrap">
+          <input type="email" id="apexEmail" placeholder="you@company.com" aria-label="Your email for the Apex plan"/>
+          <button class="p-btn btn-gold" onclick="joinApex()">Reserve Apex &rarr;</button>
+          <p class="p-price-note">No payment until launch &middot; Just tell us which plan you would like to reserve</p>
+        </div>
       </div>
     </div>
 
-    <!-- AGENCY PACK -->
+    <!-- PARTNER PROGRAM (ex Agency Pack) -->
     <div class="agency-pack reveal">
       <div class="agency-pack-content">
         <div class="agency-pack-tag">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          For CRM integrators &amp; consultants
+          Partner Program &mdash; for CRM consultants &amp; integrators
         </div>
-        <h3>Agency Pack &mdash; &euro;39<sub>/ mo</sub></h3>
-        <p>Connect up to 10 client CRMs from one dashboard. Bill it as your own automated reporting service.</p>
+        <h3>&euro;39 <sub>/ mo</sub> &mdash; up to 10 client CRMs</h3>
+        <p>Turn your CRM expertise into a recurring revenue stream. Deploy Canopy for your clients, brand the reports as your own deliverable, and stop burning hours on manual data formatting.</p>
         <div class="agency-math">
           <div class="agency-math-item">
             <div class="agency-math-num">&euro;39</div>
-            <div class="agency-math-lbl">Your monthly cost</div>
+            <div class="agency-math-lbl">Your monthly cost<br>(all 10 clients included)</div>
           </div>
           <div class="agency-math-arrow">&rarr;</div>
           <div class="agency-math-item">
-            <div class="agency-math-num">&euro;200/client</div>
-            <div class="agency-math-lbl">What you can bill</div>
+            <div class="agency-math-num">&euro;3.90</div>
+            <div class="agency-math-lbl">Per client, per month<br>(if you serve 10)</div>
           </div>
           <div class="agency-math-arrow">=</div>
           <div class="agency-math-item highlight">
-            <div class="agency-math-num">~&euro;800-1,200</div>
-            <div class="agency-math-lbl">Replaces 1-2 days of setup work</div>
+            <div class="agency-math-num">95%</div>
+            <div class="agency-math-lbl">Gross margin on every<br>reporting retainer you bill</div>
           </div>
         </div>
-        <a href="#join" class="agency-cta">Get on the Agency waitlist &rarr;</a>
+        <p style="font-size:.85rem;color:var(--slate);margin:18px 0 24px;max-width:580px;line-height:1.6">Your clients get live dashboards in Google Sheets. You skip the Zapier debugging, the CSV exports, the broken automations. Bill it as a monthly reporting service — we stay invisible.</p>
+        <div class="p-input-wrap" style="max-width:360px">
+          <input type="email" id="agencyEmail" placeholder="you@consultancy.com" aria-label="Your email for the Partner program"/>
+          <button class="p-btn btn-fi" onclick="joinAgency()">Apply for Partner access &rarr;</button>
+        </div>
       </div>
     </div>
 
-  </div>
-</section>
-
-<!-- JOIN -->
-<section class="join-section reveal" id="join">
-  <div class="max-w">
-    <div class="centered" style="margin-bottom:52px">
-      <span class="s-tag">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Join Canopy
-      </span>
-      <svg class="deco-tree" viewBox="0 0 60 60" aria-hidden="true">
-        <line x1="30" y1="58" x2="30" y2="36"/>
-        <line x1="30" y1="36" x2="14" y2="22"/>
-        <line x1="30" y1="36" x2="46" y2="22"/>
-        <line x1="30" y1="36" x2="30" y2="14"/>
-        <circle class="dt-node" cx="30" cy="36" r="3.5"/>
-        <circle class="dt-leaf" cx="14" cy="22" r="5"/>
-        <circle class="dt-leaf" cx="46" cy="22" r="5"/>
-        <circle class="dt-leaf" cx="30" cy="14" r="5.5"/>
-      </svg>
-      <h2 class="s-title">Request early access<br/><em>for your team.</em></h2>
-      <p class="s-sub">Leave your email and we’ll send the beta invite plus the first template pack as soon as access opens.</p>
-    </div>
-    <div class="join-grid">
-      <div class="join-card inform">
-        <span class="join-option-tag">Explorer &mdash; Free forever</span>
-        <h3>Test Canopy in 2 minutes</h3>
-        <p class="join-desc">Be among the first to use Canopy. 1 standard template, 1,000 rows, daily sync &mdash; free forever.</p>
-        <ul class="join-feats">
-          <li>1 standard template (lifetime)</li>
-          <li>Daily automatic sync</li>
-          <li>Up to 1,000 rows</li>
-          <li>First in line at launch</li>
-        </ul>
-        <div class="join-input-wrap">
-          <input type="email" id="informEmail" placeholder="you@email.com" aria-label="Your email for the Explorer plan"/>
-          <button class="join-btn inform-btn" onclick="joinExplorer()">Join the waitlist &rarr;</button>
-        </div>
-      </div>
-      <div class="join-card preorder">
-        <span class="join-option-tag">Pro &mdash; Most popular</span>
-        <h3>3 key reports, always up to date</h3>
-        <p class="join-desc">Lock in early access. <strong style="color:var(--gold)">14-day free trial at launch.</strong></p>
-        <ul class="join-feats">
-          <li>3 standard templates</li>
-          <li>Sync every 12h + 3 manual syncs</li>
-          <li>Up to 5,000 rows</li>
-          <li>Email support (48h)</li>
-        </ul>
-        <div class="join-input-wrap">
-          <input type="email" id="preorderEmail" placeholder="you@email.com" aria-label="Your email for the Pro plan"/>
-          <button class="join-btn preorder-btn" onclick="joinPro()">Reserve my Pro access &rarr;</button>
-          <p class="join-price-note">No payment now &middot; &euro;8.99/mo after trial</p>
-        </div>
-      </div>
-      <div class="join-card apex">
-        <span class="join-option-tag">Apex &mdash; Full power</span>
-        <h3>Everything, unlimited</h3>
-        <p class="join-desc">Reserve the most powerful plan now. <strong style="color:var(--gold)">First month free for early adopters.</strong></p>
-        <ul class="join-feats">
-          <li>Unlimited templates</li>
-          <li>Hourly sync + on-demand refresh</li>
-          <li>Unlimited rows</li>
-          <li>Priority 24h support + dedicated onboarding</li>
-        </ul>
-        <div class="join-input-wrap">
-          <input type="email" id="apexEmail" placeholder="you@email.com" aria-label="Your email for the Apex plan"/>
-          <button class="join-btn apex-btn" onclick="joinApex()">Reserve Apex &rarr;</button>
-          <p class="join-price-note" style="color:rgba(255,255,255,.3)">No payment now &middot; &euro;17.99/mo at launch</p>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1901,7 +2027,7 @@
         <div style="text-align:center"><span style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em">Apex</span><br/><span style="font-size:1.1rem;font-weight:800;color:white">&euro;17.99<span style="font-size:.75rem;font-weight:500;color:rgba(255,255,255,.5)">/mo</span></span></div>
       </div>
       <p class="cta-dur">Free plan available &middot; No payment required to sign up &middot; Early adopters get priority access</p>
-      <a href="#join" style="display:inline-block;padding:14px 32px;background:var(--blue);color:white;border-radius:999px;font-size:.95rem;font-weight:800;text-decoration:none;font-family:'Inter',sans-serif;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 14px rgba(37,117,232,.5);margin-bottom:20px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 22px rgba(37,117,232,.5)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 14px rgba(37,117,232,.5)'">Join the early access &rarr;</a>
+      <a href="#pricing" style="display:inline-block;padding:14px 32px;background:var(--blue);color:white;border-radius:999px;font-size:.95rem;font-weight:800;text-decoration:none;font-family:'Inter',sans-serif;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 14px rgba(37,117,232,.5);margin-bottom:20px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 22px rgba(37,117,232,.5)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 14px rgba(37,117,232,.5)'">Join the early access &rarr;</a>
     </div>
     <div class="trust-row">
       <div class="ti">
@@ -1990,7 +2116,7 @@
     const el = document.getElementById(inputId);
     if(!el.value || !el.value.includes('@')){ el.style.borderColor='#EF4444'; el.focus(); return; }
     el.style.borderColor='';
-    const btn = el.parentElement.querySelector('.join-btn');
+    const btn = el.parentElement.querySelector('button');
     const origText = btn.textContent;
     const origBg = btn.style.background;
     const origColor = btn.style.color;
@@ -2006,9 +2132,10 @@
     setTimeout(() => { btn.textContent = origText; btn.style.background=origBg; btn.style.color=origColor; btn.style.borderColor=origBorder; btn.disabled=false; }, 3000);
   }
 
-  function joinExplorer() { joinSignup('informEmail', 'Explorer — Free', 'You\'re in!'); }
-  function joinPro() { joinSignup('preorderEmail', 'Pro — €8.99/mo', 'Signed up!'); }
+  function joinExplorer() { joinSignup('explorerEmail', 'Explorer — Free', 'You\'re in!'); }
+  function joinPro() { joinSignup('proEmail', 'Pro — €8.99/mo', 'Signed up!'); }
   function joinApex() { joinSignup('apexEmail', 'Apex — €17.99/mo', 'Welcome to Apex!'); }
+  function joinAgency() { joinSignup('agencyEmail', 'Agency — €39/mo', 'Welcome to the Agency Pack!'); }
 
   function tyClose() {
     document.getElementById('tyOverlay').classList.remove('show');
@@ -2028,7 +2155,7 @@
   function ucStartTimer(){
     clearInterval(ucAutoTimer);
     ucAutoTimer = setInterval(() => {
-      if(!ucPaused) switchUc((ucCurrentIdx()+1)%6, true);
+      if(!ucPaused) switchUc((ucCurrentIdx()+1)%4, true);
     }, 7000);
   }
   function switchUc(idx, fromTimer) {
@@ -2043,11 +2170,11 @@
     }
     document.querySelectorAll('.uc-dot').forEach((d,i) => d.classList.toggle('uc-dot-on', i===idx));
     const counter = document.querySelector('.uc-counter');
-    if(counter) counter.textContent = `0${idx+1} / 06`;
+    if(counter) counter.textContent = `0${idx+1} / 04`;
     if(!fromTimer) ucStartTimer();
   }
-  function ucNext(){ switchUc((ucCurrentIdx()+1)%6); }
-  function ucPrev(){ switchUc((ucCurrentIdx()+5)%6); }
+  function ucNext(){ switchUc((ucCurrentIdx()+1)%4); }
+  function ucPrev(){ switchUc((ucCurrentIdx()+3)%4); }
   ucStartTimer();
   // Pause auto-rotate on hover so visitors can read at their own pace
   (function(){
@@ -2058,30 +2185,6 @@
       el.addEventListener('mouseenter', () => { ucPaused = true; });
       el.addEventListener('mouseleave', () => { ucPaused = false; });
     });
-  })();
-
-  /* ── COMMUNITY LIBRARY ── */
-  function cmtyLike(el){
-    const countEl = el.querySelector('.cmty-like-count');
-    if(!countEl) return;
-    const liked = el.classList.toggle('liked');
-    let n = parseInt(countEl.textContent.replace(/[^0-9]/g,''),10) || 0;
-    countEl.textContent = liked ? (n+1) : Math.max(0,n-1);
-  }
-  // Live counter — slowly tick up the "new templates this week" badge
-  (function(){
-    const el = document.getElementById('cmtyLiveCount');
-    if(!el) return;
-    let n = 12;
-    setInterval(() => {
-      if(Math.random() > .55){
-        n++;
-        el.textContent = n;
-        el.style.transition = 'color .3s';
-        el.style.color = '#BBF7D0';
-        setTimeout(() => el.style.color = '', 600);
-      }
-    }, 9000);
   })();
 
   /* ── FAQ (click + keyboard accessible) ── */
@@ -2106,34 +2209,6 @@
     entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); revealObs.unobserve(e.target); }});
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-
-  /* ── ANIMATED COUNTERS ── */
-  function animateCounter(el) {
-    if(!el.dataset.target) return;
-    const target = parseInt(el.dataset.target);
-    const suffix = el.dataset.suffix || '';
-    const prefix = el.dataset.prefix || '';
-    const duration = 1200;
-    const start = performance.now();
-    function tick(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.round(eased * target);
-      el.textContent = prefix + current + suffix;
-      if(progress < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-  }
-  const counterObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if(e.isIntersecting){
-        e.target.querySelectorAll('.counter-value').forEach(animateCounter);
-        counterObs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.3 });
-  const counterBar = document.querySelector('.counter-bar');
-  if(counterBar) counterObs.observe(counterBar);
 
   /* ── SALES PIPELINE — LIVE TEMPLATE SIMULATION ── */
   (function(){
@@ -2434,5 +2509,44 @@
     }, 45000);
   })();
 </script>
+
+<script>
+  // Hero template slideshow
+  let heroSlideIndex = 0;
+  const heroSlideCount = 3;
+  let heroSlideTimer;
+
+  function goHeroSlide(i) {
+    heroSlideIndex = i;
+    document.querySelectorAll('.hero-slide').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.hero-slide-dot').forEach(d => d.classList.remove('active'));
+    const slide = document.querySelector('.hero-slide[data-slide="'+i+'"]');
+    const dot = document.querySelectorAll('.hero-slide-dot')[i];
+    if (slide) slide.classList.add('active');
+    if (dot) dot.classList.add('active');
+    clearInterval(heroSlideTimer);
+    heroSlideTimer = setInterval(nextHeroSlide, 4000);
+  }
+
+  function nextHeroSlide() {
+    goHeroSlide((heroSlideIndex + 1) % heroSlideCount);
+  }
+
+  heroSlideTimer = setInterval(nextHeroSlide, 4000);
+
+  // Video playlist loop
+  document.addEventListener("DOMContentLoaded", function() {
+    const vp = document.getElementById("canopy-demo-video");
+    const playlist = ["Demo1.mp4", "Demo2.mp4"];
+    let vi = 0;
+
+    vp.addEventListener("ended", function() {
+      vi = (vi + 1) % playlist.length;
+      vp.src = playlist[vi];
+      vp.play();
+    });
+  });
+</script>
+
 </body>
 </html>
