@@ -356,7 +356,7 @@
       border-radius: 14px; overflow: hidden;
       box-shadow: 0 40px 100px rgba(0,0,0,.45), 0 12px 30px rgba(0,0,0,.25);
     }
-    .hero-video-screen video { width: 100%; display: block; object-fit: cover; }
+    .hero-video-screen video { width: 100%; display: block; object-fit: cover; filter: brightness(1.18) contrast(1.04); }
     .hero-dark-tagline {
       text-align: center; margin-top: 48px;
       font-family: var(--serif);
@@ -698,6 +698,11 @@
     .agency-math-arrow{font-size:1.2rem;color:var(--blue);font-weight:700;font-family:var(--mono)}
     .agency-cta{display:inline-flex;align-items:center;gap:7px;background:var(--blue);color:white;padding:11px 22px;border-radius:10px;font-weight:700;font-size:.85rem;text-decoration:none;transition:transform .2s,box-shadow .2s}
     .agency-cta:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(37,117,232,.4)}
+    .partner-perks{list-style:none;padding:0;margin:0 0 26px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px 22px;max-width:640px}
+    .partner-perks li{display:flex;gap:11px;align-items:flex-start;font-size:.92rem;color:var(--dark);line-height:1.55}
+    .partner-perks strong{color:var(--blue-d);font-weight:700}
+    .perk-dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:8px;box-shadow:0 0 0 4px rgba(37,117,232,.14)}
+    @media (max-width:620px){.partner-perks{grid-template-columns:1fr}}
 
 
     /* ── HOW IT WORKS ── */
@@ -1141,10 +1146,9 @@
   <div class="hero-split-grid">
 
     <div class="hero-left-content">
-      <h1>The CRM data Viewer in Google Sheets.<br><em>Without paying for seats.</em></h1>
-      <p class="hero-sub">Pre-built templates sync your Zoho CRM into clean dashboards anyone on the team can read <br><h4>Say stop to extra licences</h4>
-        <br>Canopy is a no-code data connector that lets you sync your CRM into Google Sheets, so you can build dashboards and reports without paying for extra seats.</p>
-      <br><div class="hero-flow-diagram">
+      <h1>Your CRM data inside Google Sheets.<br><em>Without paying for seats.</em></h1>
+      <p class="hero-sub">Pre-built templates sync your Zoho CRM into clean dashboards anyone on the team can read &mdash; no extra licences, no manual exports, no code.</p>
+      <div class="hero-flow-diagram">
         <div class="flow-node"><img src="ZohoCRM.png" alt="Zoho CRM"/><span>Zoho</span></div>
         <div class="flow-arrow-animated"><span></span></div>
         <div class="flow-node"><img src="transparent-logo-simple.png" alt="Canopy"/><span>Canopy</span></div>
@@ -1887,7 +1891,7 @@
       <div class="p-card featured">
         <div class="p-chip">Most popular</div>
         <div class="p-name">Pro</div>
-        <div class="p-amount">9.99 &euro; <sub>/ mo</sub></div>
+        <div class="p-amount">8.99 &euro; <sub>/ mo</sub></div>
         <p class="p-desc">Three key dashboards, always fresh — for the cost of one coffee a week.</p>
         <ul class="p-feats">
           <li>3 standard templates</li>
@@ -1931,25 +1935,14 @@
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Partner Program &mdash; for CRM consultants &amp; integrators
         </div>
-        <h3>&euro;39 <sub>/ mo</sub> &mdash; up to 10 client CRMs</h3>
-        <p>Turn your CRM expertise into a recurring revenue stream. Deploy Canopy for your clients, brand the reports as your own deliverable, and stop burning hours on manual data formatting.</p>
-        <div class="agency-math">
-          <div class="agency-math-item">
-            <div class="agency-math-num">&euro;39</div>
-            <div class="agency-math-lbl">Your monthly cost<br>(all 10 clients included)</div>
-          </div>
-          <div class="agency-math-arrow">&rarr;</div>
-          <div class="agency-math-item">
-            <div class="agency-math-num">&euro;3.90</div>
-            <div class="agency-math-lbl">Per client, per month<br>(if you serve 10)</div>
-          </div>
-          <div class="agency-math-arrow">=</div>
-          <div class="agency-math-item highlight">
-            <div class="agency-math-num">95%</div>
-            <div class="agency-math-lbl">Gross margin on every<br>reporting retainer you bill</div>
-          </div>
-        </div>
-        <p style="font-size:.85rem;color:var(--slate);margin:18px 0 24px;max-width:580px;line-height:1.6">Your clients get live dashboards in Google Sheets. You skip the Zapier debugging, the CSV exports, the broken automations. Bill it as a monthly reporting service — we stay invisible.</p>
+        <h3>Turn your CRM expertise into a recurring revenue stream.</h3>
+        <p>Deploy Canopy across all your clients from one place. Deliver live, ready-to-read dashboards under your own brand &mdash; without touching a single line of code or babysitting another broken automation.</p>
+        <ul class="partner-perks">
+          <li><span class="perk-dot"></span><span><strong>Own the reporting layer</strong> your clients rely on every week &mdash; without extra dev hours.</span></li>
+          <li><span class="perk-dot"></span><span><strong>Bill it as a premium service.</strong> Position it as your deliverable, keep the margin, stay invisible.</span></li>
+          <li><span class="perk-dot"></span><span><strong>Scale your practice</strong> instead of your headaches &mdash; one workspace, all your client CRMs.</span></li>
+          <li><span class="perk-dot"></span><span><strong>Early Partner status.</strong> Founding integrators get priority onboarding, direct access to the product team, and co-marketing opportunities.</span></li>
+        </ul>
         <div class="p-input-wrap" style="max-width:360px">
           <input type="email" id="agencyEmail" placeholder="you@consultancy.com" aria-label="Your email for the Partner program"/>
           <button class="p-btn btn-fi" onclick="joinAgency()">Apply for Partner access &rarr;</button>
