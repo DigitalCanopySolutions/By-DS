@@ -6,14 +6,14 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-R5RGX394L2"></script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Canopy — Zoho CRM reports in Google Sheets, automatically.</title>
+  <title>Canopy, Zoho CRM reports in Google Sheets, automatically.</title>
   <meta name="description" content="Canopy syncs Zoho CRM data into shareable Google Sheets reports with pre-built templates, daily sync, and zero manual exports."/>
-  <meta property="og:title" content="Canopy — Zoho CRM reports in Google Sheets"/>
+  <meta property="og:title" content="Canopy, Zoho CRM reports in Google Sheets"/>
   <meta property="og:description" content="Stop exporting CSVs manually. Canopy turns Zoho CRM data into formatted Google Sheets reports your team can actually use."/>
   <meta property="og:image" content="transparent-logo.png"/>
   <meta property="og:type" content="website"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Canopy — Zoho CRM reports in Google Sheets"/>
+  <meta name="twitter:title" content="Canopy, Zoho CRM reports in Google Sheets"/>
   <meta name="twitter:description" content="Sync Zoho CRM data to Google Sheets. Pre-built templates. Zero code. Share one live report with the team."/>
   <link rel="icon" type="image/x-icon" href="transparent-logo-simple.png"/>
   <link rel="apple-touch-icon" href="transparent-logo-simple.png"/>
@@ -193,7 +193,7 @@
     }
     @keyframes data-flow { from{transform:translateX(-100%)} to{transform:translateX(100%)} }
 
-    /* Right column — Google Sheets mockup */
+    /* Right column, Google Sheets mockup */
     .hero-right-display { position: relative; perspective: 1200px; }
     .hero-screen-mockup {
       width: 100%;
@@ -502,7 +502,7 @@
   
 
 
-    /* ── PILLARS (What Canopy gives back) — editorial, no icon boxes ── */
+    /* ── PILLARS (What Canopy gives back), editorial, no icon boxes ── */
     .pillars-section{background:var(--white);padding:120px 48px;border-bottom:1px solid var(--border)}
     .pillars-wrap{max-width:920px;margin:0 auto}
     .pillars-header{margin-bottom:88px;max-width:640px}
@@ -1034,6 +1034,279 @@
   100% { background-position: -100% center; }
 }
 
+
+/* ═══════════════════════════════════════════════════════════════
+   FLUID RESPONSIVE LAYER — v2 (2026-07-06)
+   Proportional scaling via clamp() + auto-fit grids.
+   Only ONE structural breakpoint for the 2-col → 1-col switch.
+   Everything else flows continuously with the viewport.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* --- 0. Global foundations ------------------------------------- */
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html, body { max-width: 100vw; overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }
+img, video, svg, iframe, canvas, picture { max-width: 100%; height: auto; }
+h1, h2, h3, h4, p, li, span, a {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+input, textarea, select, button { max-width: 100%; font-size: max(16px, .95rem); }
+
+/* --- 1. Fluid scale tokens ------------------------------------- */
+/* Values interpolate smoothly between 360px and 1440px viewports. */
+:root {
+  --pad-x:    clamp(16px, 4vw, 64px);   /* horizontal section padding  */
+  --pad-y:    clamp(56px, 8vw, 128px);  /* vertical   section padding  */
+  --gap-lg:   clamp(20px, 3vw, 44px);
+  --gap-md:   clamp(14px, 2vw, 28px);
+  --gap-sm:   clamp(10px, 1.4vw, 18px);
+  --topbar-h: clamp(56px, 6vw, 72px);
+  --topbar-x: clamp(12px, 3vw, 48px);
+}
+
+/* --- 2. Sections & topbar : proportional padding --------------- */
+section,
+.hero, .cta-section, .tmpl-section, .pain-section,
+.pillars-section, .pricing-section, .faq-section {
+  padding-left:  var(--pad-x);
+  padding-right: var(--pad-x);
+  padding-top:    var(--pad-y);
+  padding-bottom: var(--pad-y);
+}
+.hero-light-section {
+  padding-top:    clamp(80px, 12vw, 150px);
+  padding-bottom: clamp(80px, 14vw, 200px);
+  padding-left:   0;                          /* let hero-split-grid handle side pad */
+  padding-right:  0;
+  overflow-x: hidden;                         /* clip any overshoot from the mockup */
+}
+.hero-split-grid {
+  padding-left:  var(--pad-x);
+  padding-right: var(--pad-x);
+  max-width: min(1300px, 100%);
+}
+.hero-left-content h1,
+.hero-sub {
+  max-width: 100%;                            /* let text wrap on narrow screens */
+}
+.hero-right-display,
+.hero-screen-mockup,
+.hero-slides-container {
+  max-width: 100%;
+  min-width: 0;                               /* allow flex/grid item to actually shrink */
+}
+.hero-screen-mockup { overflow: hidden; }     /* clip the sheets table inside */
+.topbar-canopy {
+  height:  var(--topbar-h);
+  padding: 0 var(--topbar-x);
+}
+.topbar-logo img {
+  height: clamp(24px, 3vw, 32px);
+  width:  clamp(24px, 3vw, 32px);
+}
+.topbar-text  { font-size: clamp(.82rem, 1.1vw, 1.05rem); }
+.btn-topbar   { padding: clamp(7px, .9vw, 10px) clamp(12px, 1.8vw, 22px);
+                font-size: clamp(.72rem, .9vw, .84rem); }
+
+/* --- 3. Fluid typography --------------------------------------- */
+.hero-left-content h1 {
+  font-size: clamp(1.9rem, 5.2vw, 4.2rem);
+  line-height: 1.05;
+}
+.hero-sub  { font-size: clamp(.9rem,  1.1vw, 1.05rem); line-height: 1.6; }
+.s-title   { font-size: clamp(1.6rem, 3.4vw, 3rem);    line-height: 1.12; }
+.s-sub     { font-size: clamp(.92rem, 1.05vw, 1.02rem); }
+.p-amount  { font-size: clamp(1.8rem, 3vw, 2.6rem); }
+.pain-card-q      { font-size: clamp(.88rem, 1.05vw, .98rem); }
+.value-stat       { font-size: clamp(2rem,  4vw, 3.4rem); }
+.pillar-word      { font-size: clamp(1.25rem, 2vw, 1.75rem); }
+.pillar-body      { font-size: clamp(.9rem,  1.05vw, 1rem); }
+.agency-pack h3   { font-size: clamp(1.15rem, 2.2vw, 1.7rem); line-height: 1.3; }
+.agency-pack p    { font-size: clamp(.88rem, 1.1vw, .98rem); }
+.partner-perks li { font-size: clamp(.85rem, 1vw, .95rem); }
+
+/* --- 4. Grids : fixed columns matching the card count ---------- */
+/* Desktop default : the design speaks best in 3 columns.
+   We drop to 2 on tablet, then flip to a horizontal carousel on
+   mobile (see section 12). */
+.value-grid   { grid-template-columns: repeat(3, 1fr); gap: var(--gap-md); }
+.quotes-grid  { grid-template-columns: repeat(3, 1fr); gap: var(--gap-md); }
+.pricing-grid { grid-template-columns: repeat(3, 1fr); gap: var(--gap-md); max-width: 1080px; margin-inline: auto; }
+.tmpl-gallery { grid-template-columns: repeat(5, 1fr); gap: var(--gap-sm); }
+.partner-perks{ grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: var(--gap-sm); }
+
+/* Tablet portrait / small laptop (2-col comfort zone) ----------- */
+@media (max-width: 1024px) and (min-width: 721px) {
+  .value-grid   { grid-template-columns: repeat(3, 1fr); max-width: 900px; margin-inline: auto; }
+  .pricing-grid { grid-template-columns: repeat(3, 1fr); max-width: 860px; }
+  .quotes-grid  { grid-template-columns: repeat(2, 1fr); max-width: 780px; margin-inline: auto; }
+  .tmpl-gallery { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 860px) and (min-width: 721px) {
+  .value-grid   { grid-template-columns: repeat(2, 1fr); max-width: 640px; }
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); max-width: 640px; }
+  .tmpl-gallery { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* --- 5. Hero : proportional split, flips at ONE breakpoint ----- */
+.hero-split-grid { gap: var(--gap-lg); max-width: min(1300px, 100%); margin: 0 auto; }
+.hero-flow-diagram { flex-wrap: wrap; gap: clamp(8px, 1.5vw, 20px); justify-content: center; }
+.flow-node img { width: clamp(36px, 5vw, 64px); height: clamp(36px, 5vw, 64px); }
+.hero-slides-container { height: clamp(220px, 32vw, 380px); }
+.hero-video-overflow {
+  margin-top:   clamp(-140px, -8vw, -50px);
+  margin-left:  var(--pad-x);
+  margin-right: var(--pad-x);
+}
+.hero-dark-curtain {
+  padding: clamp(32px, 5vw, 80px) var(--pad-x) clamp(48px, 7vw, 120px);
+}
+
+/* THE only structural breakpoint : split → stacked layout ------- */
+@media (max-width: 860px) {
+  .hero-split-grid { grid-template-columns: 1fr; }
+  .hero-left-content { align-items: center; text-align: center; }
+  .hero-sub { margin-left: auto; margin-right: auto; max-width: 560px; }
+  .pillar  { grid-template-columns: 1fr; gap: var(--gap-md); }
+  .hero-screen-mockup { transform: none; }
+}
+
+/* --- 6. Component polish : proportional inner spacing ---------- */
+.p-card     { padding: clamp(22px, 2.5vw, 34px); }
+.pain-card  { padding: clamp(22px, 2.6vw, 36px); }
+.value-card { padding: clamp(22px, 2.5vw, 34px); }
+.agency-pack{ padding: clamp(24px, 3vw, 40px); border-radius: clamp(14px, 1.6vw, 22px); }
+
+/* --- 7. Topbar : hide the "text" beside logo on tiny screens --- */
+/* Cheap trick using container-relative units, no media query.
+   The label disappears when the viewport is narrower than ~430px. */
+@container (max-width: 430px) {
+  .topbar-text { display: none; }
+}
+/* Fallback for browsers without container queries */
+@media (max-width: 430px) {
+  .topbar-text { display: none; }
+  .btn-topbar.secondary { display: none; }
+}
+
+/* --- 8. Google-Sheets mockup : keep chrome readable on mobile -- */
+.hsm-sheets-menu { font-size: clamp(.55rem, .7vw, .68rem); }
+.hsm-toolbar     { font-size: clamp(.58rem, .75vw, .72rem); }
+.gs-c            { font-size: clamp(.58rem, .78vw, .72rem); }
+
+/* --- 9. Landscape phones (short height) ------------------------ */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero-light-section { padding-top: 80px; padding-bottom: 80px; }
+  .hero-tree-bg { opacity: .04; }
+}
+
+/* --- 10. Touch UX (no hover, bigger tap targets) --------------- */
+@media (hover: none) and (pointer: coarse) {
+  .hero-screen-mockup,
+  .hero-screen-mockup:hover { transform: none !important; }
+  .value-card:hover, .pain-card:hover,
+  .tmpl-card:hover, .p-card:hover { transform: none; }
+  .btn-topbar, .p-btn, .hero-btn, .value-card-cta {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* --- 11. Reduced motion ---------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* --- 12. MOBILE DENSITY : horizontal snap-carousels ------------ */
+/* Below 720px, dense card grids stop stacking and become swipeable
+   rows. Each card takes ~85% of the viewport, next card peeks on the
+   right so the user knows there's more to see. Zero library, pure CSS.
+   Cards snap to their LEFT edge — simpler and always fully visible. */
+@media (max-width: 720px) {
+
+  /* Common carousel behaviour */
+  .value-grid,
+  .quotes-grid,
+  .pricing-grid {
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding-left: var(--pad-x);
+    gap: 12px;
+    padding: 8px var(--pad-x);
+    max-width: 100%;
+    scrollbar-width: none;
+  }
+  .value-grid::-webkit-scrollbar,
+  .quotes-grid::-webkit-scrollbar,
+  .pricing-grid::-webkit-scrollbar { display: none; }
+
+  .value-grid > *,
+  .quotes-grid > *,
+  .pricing-grid > * {
+    flex: 0 0 min(80vw, 320px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Compression : tighter padding & stats, more info per screen */
+  .value-card    { padding: 20px 20px 22px; }
+  .value-stat    { font-size: clamp(1.6rem, 8vw, 2.2rem); margin-bottom: 6px; }
+  .value-card p  { font-size: .88rem; line-height: 1.5; }
+  .value-card-cta{ padding: 10px 18px; font-size: .82rem; }
+
+  .pain-card     { padding: 22px 22px 20px; }
+  .pain-card-q   { font-size: .88rem; line-height: 1.55; margin-bottom: 20px; }
+  .pain-author   { padding-top: 14px; }
+
+  .p-card        { padding: 24px 22px; }
+  .p-name        { font-size: .78rem; }
+  .p-amount      { font-size: clamp(1.7rem, 7vw, 2.1rem); }
+  .p-desc        { font-size: .85rem; margin-bottom: 16px; }
+  .p-feats li    { font-size: .82rem; padding: 5px 0; }
+  .p-btn         { padding: 12px 18px; font-size: .82rem; }
+
+  /* Faint scroll hint after the last card */
+  .value-grid::after,
+  .quotes-grid::after,
+  .pricing-grid::after {
+    content: '';
+    flex: 0 0 var(--pad-x);
+  }
+
+  /* Section paddings : compress vertical rhythm on mobile */
+  section,
+  .pain-section, .pillars-section, .pricing-section,
+  .value-section, .tmpl-section {
+    padding-top:    clamp(48px, 8vw, 72px);
+    padding-bottom: clamp(48px, 8vw, 72px);
+  }
+  .s-sub { margin-bottom: 28px; }
+
+  /* Templates : keep as grid but smaller thumbs so 3 fit at once */
+  .tmpl-gallery { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .tmpl-card-thumb { height: 74px; }
+}
+
+/* Below 480px : a bit more card, a bit less peek */
+@media (max-width: 480px) {
+  .value-grid > *,
+  .quotes-grid > *,
+  .pricing-grid > * {
+    flex-basis: 82vw;
+  }
+  .tmpl-gallery { grid-template-columns: repeat(2, 1fr); }
+}
+
   </style>
 </head>
 <body>
@@ -1060,7 +1333,7 @@
     <p>Thanks for signing up. We'll notify you as soon as Canopy is ready. Check your inbox for a welcome email.</p>
     <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:24px;margin:20px 0 24px;text-align:center">
       <img src="DS.png" alt="Digital Substrate" style="height:50px;object-fit:contain;margin-bottom:10px;border-radius:6px"/>
-      <p style="font-size:.82rem;color:var(--slate);margin-bottom:14px;line-height:1.6">Canopy is a <strong>Digital Substrate</strong> product &mdash; a studio specializing in data connectivity and automation.</p>
+      <p style="font-size:.82rem;color:var(--slate);margin-bottom:14px;line-height:1.6">Canopy is a <strong>Digital Substrate</strong> product,; a studio specializing in data connectivity and automation.</p>
       <a href="https://digitalsubstrate.io/" target="_blank" class="ty-sub" style="display:block;text-align:center;text-decoration:none;font-size:.85rem;padding:11px 24px">Discover Digital Substrate &rarr;</a>
     </div>
     <button type="button" class="ty-skip" onclick="tyClose()">Close</button>
@@ -1146,8 +1419,8 @@
   <div class="hero-split-grid">
 
     <div class="hero-left-content">
-      <h1>Your CRM data inside Google Sheets.<br><em>Without paying for seats.</em></h1>
-      <p class="hero-sub">Pre-built templates sync your Zoho CRM into clean dashboards anyone on the team can read &mdash; no extra licences, no manual exports, no code.</p>
+      <h1>Your CRM data Viewer in Google Sheets.<br><em>Without paying for seats.</em></h1>
+      <p class="hero-sub">Pre-built templates sync your Zoho CRM into clean dashboards anyone on the team can read, no extra licences, no manual exports, no code.</p>
       <div class="hero-flow-diagram">
         <div class="flow-node"><img src="ZohoCRM.png" alt="Zoho CRM"/><span>Zoho</span></div>
         <div class="flow-arrow-animated"><span></span></div>
@@ -1168,7 +1441,7 @@
         <div class="hsm-sheets-head">
           <svg class="hsm-sheets-icon" viewBox="0 0 24 24"><rect x="3" y="1" width="18" height="22" rx="2" fill="#0F9D58"/><rect x="6" y="5" width="12" height="14" rx="1" fill="white"/><line x1="6" y1="9" x2="18" y2="9" stroke="#E0E0E0" stroke-width=".8"/><line x1="6" y1="13" x2="18" y2="13" stroke="#E0E0E0" stroke-width=".8"/><line x1="12" y1="5" x2="12" y2="19" stroke="#E0E0E0" stroke-width=".8"/></svg>
           <div class="hsm-sheets-meta">
-            <div class="hsm-sheets-name">Sales Pipeline — Canopy Sync</div>
+            <div class="hsm-sheets-name">Sales Pipeline, Canopy Sync</div>
             <div class="hsm-sheets-menu">
               <span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Data</span><span>Tools</span><span>Add-ons</span><span>Help</span>
             </div>
@@ -1193,7 +1466,7 @@
         <div class="hsm-fx">
           <span class="hsm-fx-ref">B2</span>
           <span style="color:#9AA0A6;font-size:.6rem">&#402;x</span>
-          <span class="hsm-fx-bar">Acme Corp — Enterprise</span>
+          <span class="hsm-fx-bar">Acme Corp, Enterprise</span>
         </div>
 
         <!-- === SLIDE AREA === -->
@@ -1204,7 +1477,7 @@
             <div class="gs-grid">
               <div class="gs-row"><span class="gs-c rn"></span><span class="gs-c">A</span><span class="gs-c">B</span><span class="gs-c">C</span><span class="gs-c">D</span><span class="gs-c">E</span></div>
               <div class="gs-row"><span class="gs-c rn">1</span><span class="gs-c" style="font-weight:700;color:#202124">Deal Name</span><span class="gs-c" style="font-weight:700;color:#202124">Stage</span><span class="gs-c" style="font-weight:700;color:#202124">Amount</span><span class="gs-c" style="font-weight:700;color:#202124">Close Date</span><span class="gs-c" style="font-weight:700;color:#202124">Owner</span></div>
-              <div class="gs-row"><span class="gs-c rn">2</span><span class="gs-c">Acme Corp — Enterprise</span><span class="gs-c"><span class="gs-badge neg">Negotiation</span></span><span class="gs-c num">$48,000</span><span class="gs-c">Jul 12</span><span class="gs-c">A. Martin</span></div>
+              <div class="gs-row"><span class="gs-c rn">2</span><span class="gs-c">Acme Corp, Enterprise</span><span class="gs-c"><span class="gs-badge neg">Negotiation</span></span><span class="gs-c num">$48,000</span><span class="gs-c">Jul 12</span><span class="gs-c">A. Martin</span></div>
               <div class="gs-row"><span class="gs-c rn">3</span><span class="gs-c">GlobalTech Renewal</span><span class="gs-c"><span class="gs-badge won">Closed Won</span></span><span class="gs-c num grn">$125,000</span><span class="gs-c">Jun 28</span><span class="gs-c">T. Nguyen</span></div>
               <div class="gs-row"><span class="gs-c rn">4</span><span class="gs-c">NovaPay Integration</span><span class="gs-c"><span class="gs-badge prop">Proposal</span></span><span class="gs-c num">$32,500</span><span class="gs-c">Jul 20</span><span class="gs-c">E. Clark</span></div>
               <div class="gs-row"><span class="gs-c rn">5</span><span class="gs-c">Helios SaaS Upsell</span><span class="gs-c"><span class="gs-badge neg">Negotiation</span></span><span class="gs-c num">$67,000</span><span class="gs-c">Aug 3</span><span class="gs-c">R. Lopez</span></div>
@@ -1342,7 +1615,7 @@
       </video>
     </div>
   </div>
-  <p class="hero-dark-tagline">See it live — <em>your data, refreshed every morning.</em></p>
+  <p class="hero-dark-tagline">See it live, <em>your data, refreshed every morning.</em></p>
 </section>
 
 <!-- VALUE PROPOSITION CARDS -->
@@ -1361,7 +1634,7 @@
       <div class="value-card-rule"></div>
       <div class="value-card-stat">5.5 hrs</div>
       <div class="value-card-stat-label">saved per week on manual reporting</div>
-      <p class="value-card-body">No more Monday-morning CSV exports. Canopy syncs your pipeline, contacts and commissions overnight — your dashboards are ready before you open your laptop.</p>
+      <p class="value-card-body">No more Monday-morning CSV exports. Canopy syncs your pipeline, contacts and commissions overnight, your dashboards are ready before you open your laptop.</p>
       <a href="#templates" class="value-card-cta">See templates &rarr;</a>
     </div>
 
@@ -1373,7 +1646,7 @@
       <div class="value-card-rule"></div>
       <div class="value-card-stat">$6,700</div>
       <div class="value-card-stat-label">saved per year vs. viewer seats</div>
-      <p class="value-card-body">A read-only Zoho seat is $14/user/month. Multiply by 40 people who just need to see the data — Canopy replaces all of them with a single $9 subscription.</p>
+      <p class="value-card-body">A read-only Zoho seat is $14/user/month. Multiply by 40 people who just need to see the data, Canopy replaces all of them with a single $9 subscription.</p>
       <a href="#pricing" class="value-card-cta">Compare pricing &rarr;</a>
     </div>
 
@@ -1405,7 +1678,7 @@
 
     <div class="quotes-grid">
       <div class="pain-card">
-        <div class="pain-card-q">"We're paying <em>$23,000 a year</em> in CRM licenses for people who log in once a week to check pipeline numbers. Finance flagged it in the last audit — we just couldn't find an alternative."</div>
+        <div class="pain-card-q">"We're paying <em>$23,000 a year</em> in CRM licenses for people who log in once a week to check pipeline numbers. Finance flagged it in the last audit, we just couldn't find an alternative."</div>
         <div class="pain-author">
           <div class="pa-av c1">VP</div>
           <div class="pa-info">
@@ -1438,7 +1711,7 @@
       </div>
 
       <div class="pain-card">
-        <div class="pain-card-q">"43% of CRM users say they use <em>less than half</em> of the features they pay for. The reporting module is always the first thing they stop opening — the data's there, but it's not accessible."</div>
+        <div class="pain-card-q">"43% of CRM users say they use <em>less than half</em> of the features they pay for. The reporting module is always the first thing they stop opening, the data's there, but it's not accessible."</div>
         <div class="pain-author">
           <div class="pa-av c4">An</div>
           <div class="pa-info">
@@ -1449,7 +1722,7 @@
       </div>
 
       <div class="pain-card">
-        <div class="pain-card-q">"I've set up Zapier→Sheets automations for 12 clients this year. Every one breaks within a month — <em>a field name changes, a module gets renamed</em>, the whole flow dies silently."</div>
+        <div class="pain-card-q">"I've set up Zapier→Sheets automations for 12 clients this year. Every one breaks within a month, <em>a field name changes, a module gets renamed</em>, the whole flow dies silently."</div>
         <div class="pain-author">
           <div class="pa-av c5">JL</div>
           <div class="pa-info">
@@ -1564,14 +1837,14 @@
           <thead>
             <tr>
               <th></th>
-              <th>A &mdash; Opportunity</th>
-              <th>B &mdash; Pipeline</th>
-              <th>C &mdash; Stage</th>
-              <th class="num">D &mdash; Value</th>
-              <th class="num">E &mdash; Prob</th>
-              <th class="num">F &mdash; Weighted</th>
-              <th>G &mdash; Owner</th>
-              <th>H &mdash; Close date</th>
+              <th>A,; Opportunity</th>
+              <th>B,; Pipeline</th>
+              <th>C,; Stage</th>
+              <th class="num">D,; Value</th>
+              <th class="num">E,; Prob</th>
+              <th class="num">F,; Weighted</th>
+              <th>G,; Owner</th>
+              <th>H,; Close date</th>
             </tr>
           </thead>
           <tbody id="pipeRows"></tbody>
@@ -1607,7 +1880,7 @@
       </div>
       <div class="sh-wrap">
         <table class="dt">
-          <thead><tr><th></th><th>A &mdash; Name</th><th>B &mdash; Email</th><th>C &mdash; Organization</th><th>D &mdash; Source</th><th>E &mdash; Tags</th><th>F &mdash; Last activity</th><th>G &mdash; Created</th></tr></thead>
+          <thead><tr><th></th><th>A,; Name</th><th>B,; Email</th><th>C,; Organization</th><th>D,; Source</th><th>E,; Tags</th><th>F,; Last activity</th><th>G,; Created</th></tr></thead>
           <tbody>
             <tr class="hr"><td>1</td><td>Name</td><td>Email</td><td>Organization</td><td>Source</td><td>Tags</td><td>Last activity</td><td>Created</td></tr>
             <tr class="hl"><td>2</td><td>Sarah Johnson</td><td>s.johnson@acme.co</td><td>Acme Corp</td><td><span class="b b-bl">Website</span></td><td>VIP, Enterprise</td><td>May 31, 2026</td><td>Jan 12, 2026</td></tr>
@@ -1660,7 +1933,7 @@
       </div>
       <div class="sh-wrap">
         <table class="dt">
-          <thead><tr><th></th><th>A &mdash; Task</th><th>B &mdash; Project</th><th>C &mdash; Priority</th><th>D &mdash; Deadline</th><th>E &mdash; Status</th><th>F &mdash; Assigned</th><th>G &mdash; Progress</th></tr></thead>
+          <thead><tr><th></th><th>A,; Task</th><th>B,; Project</th><th>C,; Priority</th><th>D,; Deadline</th><th>E,; Status</th><th>F,; Assigned</th><th>G,; Progress</th></tr></thead>
           <tbody>
             <tr class="hr"><td>1</td><td>Task</td><td>Project</td><td>Priority</td><td>Deadline</td><td>Status</td><td>Assigned</td><td>Progress</td></tr>
             <tr class="hl"><td>2</td><td>Update pricing page</td><td>Website Revamp</td><td><span class="b" style="background:#FEE2E2;color:#991B1B">High</span></td><td>Jun 03, 2026</td><td><span class="b b-ye">In progress</span></td><td>Marie D.</td><td>75%</td></tr>
@@ -1711,7 +1984,7 @@
       </div>
       <div class="sh-wrap">
         <table class="dt">
-          <thead><tr><th></th><th>A &mdash; Metric</th><th>B &mdash; This week</th><th>C &mdash; Last week</th><th>D &mdash; Change</th><th>E &mdash; MTD</th><th>F &mdash; Target</th><th>G &mdash; % Target</th></tr></thead>
+          <thead><tr><th></th><th>A,; Metric</th><th>B,; This week</th><th>C,; Last week</th><th>D,; Change</th><th>E,; MTD</th><th>F,; Target</th><th>G,; % Target</th></tr></thead>
           <tbody>
             <tr class="hr"><td>1</td><td>Metric</td><td>This week</td><td>Last week</td><td>Change</td><td>MTD</td><td>Target</td><td>% Target</td></tr>
             <tr class="hl"><td>2</td><td>New leads</td><td>28</td><td>25</td><td><span style="color:#16A34A;font-weight:600">+12%</span></td><td>118</td><td>150</td><td>79%</td></tr>
@@ -1765,7 +2038,7 @@
       </div>
       <div class="sh-wrap">
         <table class="dt">
-          <thead><tr><th></th><th>A &mdash; Project</th><th>B &mdash; Client</th><th>C &mdash; Start</th><th>D &mdash; Deadline</th><th>E &mdash; Status</th><th>F &mdash; Owner</th><th>G &mdash; Progress</th></tr></thead>
+          <thead><tr><th></th><th>A,; Project</th><th>B,; Client</th><th>C,; Start</th><th>D,; Deadline</th><th>E,; Status</th><th>F,; Owner</th><th>G,; Progress</th></tr></thead>
           <tbody>
             <tr class="hr"><td>1</td><td>Project</td><td>Client</td><td>Start</td><td>Deadline</td><td>Status</td><td>Owner</td><td>Progress</td></tr>
             <tr class="hl"><td>2</td><td>Website Redesign</td><td>Acme Corp</td><td>Apr 01</td><td>Jul 15</td><td><span class="b b-gr">On track</span></td><td>Marie D.</td><td>68%</td></tr>
@@ -1805,7 +2078,7 @@
       <div class="sh-tabs"><div class="sh-tab on">Overview</div><div class="sh-tab">Timeline</div><div class="sh-tab">Milestones</div><div class="sh-tab" style="color:#9AA0A6">+</div></div>
     </div>
 
-    <p style="text-align:center;color:var(--slate-l);font-size:.74rem;margin-top:12px">Preview &mdash; this is what your synced data will look like in Canopy</p>
+    <p style="text-align:center;color:var(--slate-l);font-size:.74rem;margin-top:12px">Preview,; this is what your synced data will look like in Canopy</p>
 
     <p style="text-align:center;color:var(--slate);font-size:.92rem;margin-top:34px">More templates are on the way. <a href="#pricing" style="color:var(--blue-d);font-weight:700;text-decoration:none;border-bottom:1px dashed var(--blue-l)">See which plan fits your team &rarr;</a></p>
 
@@ -1843,12 +2116,12 @@
       <div class="step">
         <div class="step-n">2</div>
         <h3>Link Zoho CRM</h3>
-        <p>Paste your API key &mdash; we'll provide a step-by-step tutorial to find it in 30 seconds.</p>
+        <p>Paste your API key,; we'll provide a step-by-step tutorial to find it in 30 seconds.</p>
       </div>
       <div class="step">
         <div class="step-n">3</div>
         <h3>Pick a template that fits</h3>
-        <p>Choose from 5 pre-built templates &mdash; each one designed around a real business workflow.</p>
+        <p>Choose from 5 pre-built templates,; each one designed around a real business workflow.</p>
       </div>
       <div class="step">
         <div class="step-n">4</div>
@@ -1874,7 +2147,7 @@
       <div class="p-card">
         <div class="p-name">Explorer</div>
         <div class="p-amount">Free</div>
-        <p class="p-desc">See Canopy work in 2 minutes — no card required.</p>
+        <p class="p-desc">See Canopy work in 2 minutes, no card required.</p>
         <ul class="p-feats">
           <li>1 standard template (yours forever)</li>
           <li>Daily sync (every 24h)</li>
@@ -1892,7 +2165,7 @@
         <div class="p-chip">Most popular</div>
         <div class="p-name">Pro</div>
         <div class="p-amount">8.99 &euro; <sub>/ mo</sub></div>
-        <p class="p-desc">Three key dashboards, always fresh — for the cost of one coffee a week.</p>
+        <p class="p-desc">Three key dashboards, always fresh, for the cost of one coffee a week.</p>
         <ul class="p-feats">
           <li>3 standard templates</li>
           <li>Sync every 12h + 3 manual refreshes</li>
@@ -1911,7 +2184,7 @@
         <div class="p-chip" style="background:var(--gold)">Full power</div>
         <div class="p-name">Apex</div>
         <div class="p-amount">17.99 &euro; <sub>/ mo</sub></div>
-        <p class="p-desc">Unlimited templates, hourly sync, on-demand refresh — zero limits.</p>
+        <p class="p-desc">Unlimited templates, hourly sync, on-demand refresh, zero limits.</p>
         <ul class="p-feats">
           <li>Unlimited templates</li>
           <li>Hourly sync + on-demand refresh</li>
@@ -1933,14 +2206,14 @@
       <div class="agency-pack-content">
         <div class="agency-pack-tag">
           <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          Partner Program &mdash; for CRM consultants &amp; integrators
+          Partner Program,; for CRM consultants &amp; integrators
         </div>
         <h3>Turn your CRM expertise into a recurring revenue stream.</h3>
-        <p>Deploy Canopy across all your clients from one place. Deliver live, ready-to-read dashboards under your own brand &mdash; without touching a single line of code or babysitting another broken automation.</p>
+        <p>Deploy Canopy across all your clients from one place. Deliver live, ready-to-read dashboards under your own brand,; without touching a single line of code or babysitting another broken automation.</p>
         <ul class="partner-perks">
-          <li><span class="perk-dot"></span><span><strong>Own the reporting layer</strong> your clients rely on every week &mdash; without extra dev hours.</span></li>
+          <li><span class="perk-dot"></span><span><strong>Own the reporting layer</strong> your clients rely on every week,; without extra dev hours.</span></li>
           <li><span class="perk-dot"></span><span><strong>Bill it as a premium service.</strong> Position it as your deliverable, keep the margin, stay invisible.</span></li>
-          <li><span class="perk-dot"></span><span><strong>Scale your practice</strong> instead of your headaches &mdash; one workspace, all your client CRMs.</span></li>
+          <li><span class="perk-dot"></span><span><strong>Scale your practice</strong> instead of your headaches,; one workspace, all your client CRMs.</span></li>
           <li><span class="perk-dot"></span><span><strong>Early Partner status.</strong> Founding integrators get priority onboarding, direct access to the product team, and co-marketing opportunities.</span></li>
         </ul>
         <div class="p-input-wrap" style="max-width:360px">
@@ -1980,7 +2253,7 @@
       </div>
       <div class="faq-item">
         <div class="faq-q"><h4>What happens if I cancel?</h4><svg class="faq-chevron" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a"><p>Your Google Sheet will stay in your Drive &mdash; it's yours. Automatic sync simply stops. No hidden fees, no penalties. You'll be able to restart your subscription anytime.</p></div>
+        <div class="faq-a"><p>Your Google Sheet will stay in your Drive,; it's yours. Automatic sync simply stops. No hidden fees, no penalties. You'll be able to restart your subscription anytime.</p></div>
       </div>
       <div class="faq-item">
         <div class="faq-q"><h4>Why Canopy instead of Zapier?</h4><svg class="faq-chevron" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
@@ -1992,11 +2265,11 @@
       </div>
       <div class="faq-item">
         <div class="faq-q"><h4>What's the difference between Explorer, Pro, and Apex?</h4><svg class="faq-chevron" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a"><p>Explorer is free forever &mdash; 1 standard template, 1,000 rows, daily sync, self-serve support. Pro (&euro;8.99/mo) gives you 3 standard templates, 5,000 rows, sync every 12h plus 3 manual syncs, and 48h email support. Apex (&euro;17.99/mo) unlocks everything: unlimited templates, hourly sync plus on-demand refresh, unlimited rows, dedicated onboarding, and 24h priority support. CRM integrators can also pick the Agency Pack at &euro;39/mo to connect up to 10 client CRMs. All plans cancel anytime, no commitment.</p></div>
+        <div class="faq-a"><p>Explorer is free forever,; 1 standard template, 1,000 rows, daily sync, self-serve support. Pro (&euro;8.99/mo) gives you 3 standard templates, 5,000 rows, sync every 12h plus 3 manual syncs, and 48h email support. Apex (&euro;17.99/mo) unlocks everything: unlimited templates, hourly sync plus on-demand refresh, unlimited rows, dedicated onboarding, and 24h priority support. CRM integrators can also pick the Agency Pack at &euro;39/mo to connect up to 10 client CRMs. All plans cancel anytime, no commitment.</p></div>
       </div>
       <div class="faq-item">
         <div class="faq-q"><h4>Which Zoho CRM plans are compatible?</h4><svg class="faq-chevron" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a"><p>Canopy will work with any Zoho CRM plan that has API access &mdash; Free, Standard, Professional, and Premium. If you can access your data via the Zoho CRM API, Canopy will be compatible.</p></div>
+        <div class="faq-a"><p>Canopy will work with any Zoho CRM plan that has API access,; Free, Standard, Professional, and Premium. If you can access your data via the Zoho CRM API, Canopy will be compatible.</p></div>
       </div>
     </div>
   </div>
@@ -2126,10 +2399,10 @@
     setTimeout(() => { btn.textContent = origText; btn.style.background=origBg; btn.style.color=origColor; btn.style.borderColor=origBorder; btn.disabled=false; }, 3000);
   }
 
-  function joinExplorer() { joinSignup('explorerEmail', 'Explorer — Free', 'You\'re in!'); }
-  function joinPro() { joinSignup('proEmail', 'Pro — €8.99/mo', 'Signed up!'); }
-  function joinApex() { joinSignup('apexEmail', 'Apex — €17.99/mo', 'Welcome to Apex!'); }
-  function joinAgency() { joinSignup('agencyEmail', 'Agency — €39/mo', 'Welcome to the Agency Pack!'); }
+  function joinExplorer() { joinSignup('explorerEmail', 'Explorer, Free', 'You\'re in!'); }
+  function joinPro() { joinSignup('proEmail', 'Pro, €8.99/mo', 'Signed up!'); }
+  function joinApex() { joinSignup('apexEmail', 'Apex, €17.99/mo', 'Welcome to Apex!'); }
+  function joinAgency() { joinSignup('agencyEmail', 'Agency, €39/mo', 'Welcome to the Agency Pack!'); }
 
   function tyClose() {
     document.getElementById('tyOverlay').classList.remove('show');
@@ -2204,7 +2477,7 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-  /* ── SALES PIPELINE — LIVE TEMPLATE SIMULATION ── */
+  /* ── SALES PIPELINE, LIVE TEMPLATE SIMULATION ── */
   (function(){
     const root = document.getElementById('t0');
     if(!root) return;
@@ -2295,7 +2568,7 @@
       const tbody = document.getElementById('pipeRows');
 
       if(list.length === 0){
-        tbody.innerHTML = `<tr><td colspan="9" class="pipe-empty">No deals match the current filters &mdash; try resetting them.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="9" class="pipe-empty">No deals match the current filters,; try resetting them.</td></tr>`;
         return;
       }
 
@@ -2540,6 +2813,63 @@
       vp.play();
     });
   });
+</script>
+
+<!-- ── Mobile carousel auto-scroll ─────────────────────────────
+     Very slow horizontal drift on card carousels, mobile only.
+     Pauses on user touch, resumes 3s after they let go.
+     Loops smoothly back to start when reaching the end. -->
+<script>
+(function() {
+  const MOBILE_MAX = 720;                 // must match the CSS breakpoint
+  const SPEED_PX_PER_SEC = 18;            // very slow drift (~1.1 cards/6s)
+  const RESUME_DELAY_MS = 3000;           // idle time before restarting
+
+  const grids = document.querySelectorAll('.value-grid, .quotes-grid, .pricing-grid');
+  if (!grids.length) return;
+
+  const state = new Map();                // grid → { paused, resumeAt, lastT }
+
+  function isMobile() {
+    return window.matchMedia('(max-width: ' + MOBILE_MAX + 'px)').matches;
+  }
+
+  grids.forEach(grid => {
+    state.set(grid, { paused: false, resumeAt: 0, lastT: 0 });
+    const pause = () => {
+      const s = state.get(grid);
+      s.paused = true;
+      s.resumeAt = performance.now() + RESUME_DELAY_MS;
+    };
+    ['touchstart', 'pointerdown', 'wheel', 'mouseenter'].forEach(ev =>
+      grid.addEventListener(ev, pause, { passive: true })
+    );
+  });
+
+  function tick(now) {
+    if (!isMobile()) {
+      requestAnimationFrame(tick);
+      return;
+    }
+    grids.forEach(grid => {
+      const s = state.get(grid);
+      if (s.paused && now >= s.resumeAt) s.paused = false;
+      if (s.paused) { s.lastT = now; return; }
+      if (!s.lastT) { s.lastT = now; return; }
+
+      const dt = (now - s.lastT) / 1000;
+      s.lastT = now;
+      const dx = SPEED_PX_PER_SEC * dt;
+
+      const max = grid.scrollWidth - grid.clientWidth - 1;
+      let next = grid.scrollLeft + dx;
+      if (next >= max) next = 0;          // loop back
+      grid.scrollLeft = next;
+    });
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
 </script>
 
 </body>
