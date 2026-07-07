@@ -15,8 +15,11 @@
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Canopy, Zoho CRM reports in Google Sheets"/>
   <meta name="twitter:description" content="Sync Zoho CRM data to Google Sheets. Pre-built templates. Zero code. Share one live report with the team."/>
-  <link rel="icon" type="image/x-icon" href="transparent-logo-simple.png"/>
-  <link rel="apple-touch-icon" href="transparent-logo-simple.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet"/>
@@ -1195,6 +1198,16 @@ section,
 .hsm-toolbar     { font-size: clamp(.58rem, .75vw, .72rem); }
 .gs-c            { font-size: clamp(.58rem, .78vw, .72rem); }
 
+/* Narrow screens : 5 data columns + row numbers don't fit ~340px.
+   Drop the row-number column (least useful) and let the table itself
+   scroll horizontally if content still overflows, instead of clipping
+   the last column silently via the mockup's overflow:hidden. */
+@media (max-width: 560px) {
+  .gs-c.rn { display: none; }
+  .gs-grid { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .gs-row  { min-width: max-content; }
+}
+
 /* --- 9. Landscape phones (short height) ------------------------ */
 @media (max-height: 520px) and (orientation: landscape) {
   .hero-light-section { padding-top: 80px; padding-bottom: 80px; }
@@ -1419,7 +1432,7 @@ section,
   <div class="hero-split-grid">
 
     <div class="hero-left-content">
-      <h1>Your CRM data Viewer in Google Sheets.<br><em>Without paying for seats.</em></h1>
+      <h1><strong style="color:var(--blue)">Your CRM data Viewer</strong> <br><span style="color:#0F9D58">in Google Sheets.</span><br><em>Without paying for seats.</em></h1>
       <p class="hero-sub">Pre-built templates sync your Zoho CRM into clean dashboards anyone on the team can read, no extra licences, no manual exports, no code.</p>
       <div class="hero-flow-diagram">
         <div class="flow-node"><img src="ZohoCRM.png" alt="Zoho CRM"/><span>Zoho</span></div>
