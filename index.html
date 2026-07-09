@@ -63,9 +63,24 @@
   .err{color:var(--red);font-size:.82rem;margin-top:12px;display:none;font-weight:600}
   .err.show{display:block}
 
-  .contact-line{margin-top:22px;font-size:.8rem;color:var(--slate-l)}
+  .contact-line{margin-top:16px;font-size:.8rem;color:var(--slate-l)}
   .contact-line a{color:var(--blue-d);text-decoration:none;font-weight:600}
   .contact-line a:hover{text-decoration:underline}
+
+  .back-link{
+    display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;
+    color:var(--slate);text-decoration:none;margin-bottom:18px;transition:color .2s;
+  }
+  .back-link:hover{color:var(--blue-d)}
+  .back-link svg{flex-shrink:0}
+
+  .want-code-btn{
+    display:block;width:100%;padding:12px;border-radius:10px;margin-top:10px;
+    background:var(--gold-l);color:var(--gold-d);border:1.5px solid rgba(180,83,9,.25);
+    font-size:.86rem;font-weight:700;text-decoration:none;font-family:'Inter',sans-serif;
+    transition:background .2s,transform .2s,box-shadow .2s;
+  }
+  .want-code-btn:hover{background:var(--gold);color:#3D2A06;transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(245,158,11,.45)}
 
   /* ── Unlocked state ── */
   .unlocked-content{display:none;text-align:left}
@@ -100,6 +115,7 @@
     .resource{border-color:#22304A;color:#E7ECF5}
     .contact-line{color:#7C8BA8}
     .portal-logo span{color:#F3F6FB}
+    .back-link{color:#9AA9C2}
   }
   :root[data-theme="dark"] body{background:#0B1220;color:#E7ECF5}
   :root[data-theme="dark"] .card{background:#111A2C;border-color:#22304A}
@@ -111,6 +127,10 @@
 
 <body>
   <div style="width:100%;max-width:420px">
+    <a href="index.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to website
+    </a>
     <div class="portal-logo">
       <div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.97 0 9 3.13 9 7s-4.03 7-9 7c-.7 0-1.38-.07-2.04-.2L6 19v-3.35C3.61 14.13 3 12.15 3 10c0-3.87 4.03-7 9-7z"/></svg></div>
       <span>Canopy</span>
@@ -132,7 +152,8 @@
         <button class="unlock-btn" id="unlockBtn" onclick="tryUnlock()">Unlock portal</button>
         <p class="err" id="errMsg">That code isn't valid. Double-check the email we sent you, or contact us below.</p>
 
-        <p class="contact-line">No code yet? Email <a href="mailto:contact@digitalsubstrate.io?subject=Canopy%20beta%20access%20request">contact@digitalsubstrate.io</a> to request one.</p>
+        <a href="index.html?beta=1#pricing" class="want-code-btn">Want a beta code? Sign up in 30 seconds →</a>
+        <p class="contact-line">Or email <a href="mailto:contact@digitalsubstrate.io?subject=Canopy%20beta%20access%20request">contact@digitalsubstrate.io</a> directly.</p>
       </div>
 
       <!-- Unlocked state -->
@@ -159,19 +180,14 @@
   </div>
 
 <script>
-  // ── Hugo-controlled access codes ──
-  // One entry per beta tester. Only SHA-256 hashes are stored here, never the plain
-  // codes — nothing readable from view-source. This list is managed automatically by
-  // canopy_beta_admin.py (local app on Hugo's Mac): add or revoke a tester there,
-  // then redeploy this page. Light gate for a hand-picked beta group, not a real
-  // security boundary — the Google Sheet's own sharing settings protect the data.
-  const CODE_HASHES = [
-    /* BEGIN CANOPY HASHES */
-    /* END CANOPY HASHES */
-  ];
+  // ── Live backend (Apps Script Web App bound to the "Leads Canopy" Sheet) ──
+  // Codes are checked live against the "Beta Codes" tab — nothing is baked into
+  // this file anymore, so revoking a code in canopy_beta_admin.py takes effect
+  // immediately, with no redeploy needed. See Canopy_Beta_Portal_Backend.gs.
+  const BACKEND_URL = 'REPLACE_WITH_APPS_SCRIPT_WEB_APP_URL';
 
   // ── Fill in once you have them ──
-  const TEMPLATE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/REPLACE_WITH_TEMPLATE_ID/copy';
+  const TEMPLATE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1TJJDb-VXv2A5h0F2RQfVKAYZ8Bhre4ws3MfchCabTXM/copy';
   const GUIDE_PDF_URL = 'Canopy-Beta-Setup-Guide.pdf';
 
   document.getElementById('sheetLink').href = TEMPLATE_SHEET_URL;
@@ -189,12 +205,24 @@
     if (!input.value) { input.focus(); return; }
     btn.disabled = true; btn.textContent = 'Checking...';
     const hash = await sha256Hex(input.value.trim());
-    if (CODE_HASHES.includes(hash)) {
+    let result = { valid: false, reason: 'error' };
+    try {
+      const url = BACKEND_URL + '?action=check&hash=' + encodeURIComponent(hash) +
+        '&ua=' + encodeURIComponent(navigator.userAgent);
+      const res = await fetch(url);
+      result = await res.json();
+    } catch (e) {
+      console.warn('Canopy backend unreachable:', e);
+    }
+    if (result.valid) {
       err.classList.remove('show');
       document.getElementById('lockedView').style.display = 'none';
       document.getElementById('unlockedView').classList.add('show');
       sessionStorage.setItem('canopyBetaUnlocked', '1');
     } else {
+      err.textContent = result.reason === 'revoked'
+        ? 'This code has been deactivated. Contact us below if you think that\'s a mistake.'
+        : 'That code isn\'t valid. Double-check the email we sent you, or contact us below.';
       err.classList.add('show');
       btn.disabled = false; btn.textContent = 'Unlock portal';
       input.style.borderColor = 'var(--red)';
