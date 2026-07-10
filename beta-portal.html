@@ -132,7 +132,7 @@
       Back to website
     </a>
     <div class="portal-logo">
-      <div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c4.97 0 9 3.13 9 7s-4.03 7-9 7c-.7 0-1.38-.07-2.04-.2L6 19v-3.35C3.61 14.13 3 12.15 3 10c0-3.87 4.03-7 9-7z"/></svg></div>
+       <img src="transparent-logo-simple.png" alt="Canopy Logo" width="75" height="75"/>
       <span>Canopy</span>
     </div>
 
@@ -161,18 +161,19 @@
         <span class="welcome-badge">✓ Access granted</span>
         <h1 style="margin-bottom:4px">Welcome to the beta.</h1>
         <p class="sub" style="margin-bottom:22px">Here's everything you need to get Canopy running on your own Zoho CRM data.</p>
-
+        
+        <a class="resource" href="#" id="guideLink" target="_blank" rel="noopener">
+                  <div class="r-ico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+                  <div class="r-text"><strong>Setup guide</strong><span>Step-by-step: G-Connector, Zoho, first sync</span></div>
+                  <svg class="r-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/></svg>
+                </a>
         <a class="resource" href="#" id="sheetLink" target="_blank" rel="noopener">
           <div class="r-ico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div>
           <div class="r-text"><strong>Your Canopy template</strong><span>Make your own copy of the Google Sheet</span></div>
           <svg class="r-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/></svg>
         </a>
 
-        <a class="resource" href="#" id="guideLink" target="_blank" rel="noopener">
-          <div class="r-ico"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-          <div class="r-text"><strong>Setup guide</strong><span>Step-by-step: G-Connector, Zoho, first sync</span></div>
-          <svg class="r-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 6 15 12 9 18"/></svg>
-        </a>
+        
 
         <div class="note-box">This is an early, hand-run beta rather than a self-serve product. If anything looks off or you get stuck on a step, just reply to the email that got you here.</div>
       </div>
@@ -187,7 +188,7 @@
   const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbyKSwjZDgsODIPs6rfTBs3cAgZMUniyTSmOAvF-1x2sW0N-7tPqtXPcIW9FMnuLtFvAfw/exec';
 
   // ── Fill in once you have them ──
-  const TEMPLATE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1TJJDb-VXv2A5h0F2RQfVKAYZ8Bhre4ws3MfchCabTXM/copy';
+  const TEMPLATE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1-e_vq4j5O_1xIjnYdEkpw5r4enTLNHa8KmOi4V2VxkE/edit?gid=548086828#gid=548086828/copy';
   const GUIDE_PDF_URL = 'Canopy-Beta-Setup-Guide.pdf';
 
   document.getElementById('sheetLink').href = TEMPLATE_SHEET_URL;
