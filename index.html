@@ -107,12 +107,14 @@
       font-family: 'Inter', sans-serif;
     }
     .btn-topbar.primary {
-      background: var(--blue); color: white;
-      box-shadow: 0 4px 14px rgba(37,117,232,.3);
+      background: #16A34A; color: white;
+      box-shadow: 0 4px 14px rgba(22,163,74,.35);
+      animation: live-glow 2.6s ease-in-out infinite;
     }
     .btn-topbar.primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 22px rgba(37,117,232,.4);
+      box-shadow: 0 8px 22px rgba(22,163,74,.5);
+      animation-play-state: paused;
     }
     .btn-topbar.secondary {
       background: transparent; color: var(--dark);
@@ -636,6 +638,13 @@
     .tmpl-status{display:inline-block;margin-top:6px;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.03em}
     .tmpl-status.launch{background:var(--blue);color:#fff;border:none;box-shadow:0 2px 8px rgba(37,117,232,.3);animation:pulse-soft 3.4s ease-in-out infinite}
     .tmpl-status.next{background:#F1F5F9;color:var(--slate);border:1px solid var(--border)}
+    .tmpl-status.live{background:#16A34A;color:#fff;border:none;box-shadow:0 2px 10px rgba(22,163,74,.4);display:inline-flex;align-items:center;gap:5px;animation:live-glow 2.6s ease-in-out infinite}
+    .tmpl-status.live::before{content:'';width:6px;height:6px;border-radius:50%;background:#fff;animation:live-dot 1.4s ease-in-out infinite}
+    .tmpl-card.active .tmpl-card-thumb{position:relative}
+    .tmpl-card.active .tmpl-card-thumb::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 0 2px rgba(22,163,74,.5);opacity:0;animation:card-ring 3.4s ease-in-out infinite}
+    @keyframes live-glow{0%,100%{box-shadow:0 2px 10px rgba(22,163,74,.4)}50%{box-shadow:0 2px 16px rgba(22,163,74,.75)}}
+    @keyframes live-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+    @keyframes card-ring{0%,100%{opacity:0}50%{opacity:1}}
     .thumb-pipeline{background:linear-gradient(135deg,#EBF2FD 0%,#C8DFFB 100%)}
     .thumb-contacts{background:linear-gradient(135deg,#DBEAFE 0%,#BFDBFE 100%)}
     .thumb-tasks{background:linear-gradient(135deg,#FEF3C7 0%,#FDE68A 100%)}
@@ -716,6 +725,7 @@
     .pipe-flag{display:inline-flex;align-items:center;gap:3px;font-family:'Inter',sans-serif;font-size:.62rem;font-weight:700;padding:1px 6px;border-radius:4px;margin-left:5px;letter-spacing:.03em}
     .pipe-flag.stalled{background:#FCE8E6;color:#C5221F}
     .pipe-flag.hot{background:#FEF3C7;color:#92400E}
+    .pipe-flag.isnew{background:#E8F0FE;color:#1967D2}
     .pipe-empty{padding:48px 24px;text-align:center;color:#9AA0A6;font-size:.85rem}
     .kpi-v{transition:color .3s}
     .kpi-bump{animation:kpi-bump .5s ease}
@@ -772,6 +782,10 @@
     .pricing-section{background:var(--white)}
     .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:880px;margin:0 auto}
     .p-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r-xl);padding:34px 28px;position:relative;transition:transform .2s,box-shadow .2s,border-color .2s;box-shadow:var(--shadow-xs)}
+    #betaCard{border-color:rgba(22,163,74,.35);animation:beta-card-breathe 3.6s ease-in-out infinite}
+    #betaCard:hover{animation-play-state:paused}
+    @keyframes beta-card-breathe{0%,100%{box-shadow:var(--shadow-xs)}50%{box-shadow:0 0 0 1px rgba(22,163,74,.25),0 12px 28px -8px rgba(22,163,74,.28)}}
+    .p-chip .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#fff;margin-right:5px;animation:live-dot 1.4s ease-in-out infinite}
     .p-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--border-d)}
     .p-card.featured{border-color:rgba(37,117,232,.4);box-shadow:0 0 0 1px rgba(37,117,232,.25),var(--shadow-lg);transform:scale(1.02)}
     .p-card.featured:hover{transform:scale(1.02) translateY(-4px)}
@@ -1398,7 +1412,7 @@ section,
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
       Got a beta code?
     </a>
-    <a href="#pricing" class="btn-topbar primary">Get early access</a>
+    <a href="#pricing" class="btn-topbar primary">Join the beta &mdash; it's live</a>
     <a href="#demo" class="btn-topbar secondary">Learn more &rarr;</a>
   </div>
 </header>
@@ -1410,7 +1424,7 @@ section,
   <div class="ty-card">
     <div style="font-size:3rem;margin-bottom:8px;color:var(--blue)">&#10003;</div>
     <h2 id="tyTitle">You're on the list!</h2>
-    <p>Thanks for signing up. We'll notify you as soon as Canopy is ready. Check your inbox for a welcome email.</p>
+    <p id="tyText">Thanks for signing up. We'll notify you as soon as Canopy is ready. Check your inbox for a welcome email.</p>
     <div style="background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:24px;margin:20px 0 24px;text-align:center">
       <img src="img/DS.png" alt="Digital Substrate" style="height:50px;object-fit:contain;margin-bottom:10px;border-radius:6px"/>
       <p style="font-size:.82rem;color:var(--slate);margin-bottom:14px;line-height:1.6">Canopy is a <strong>Digital Substrate</strong> product — a studio specializing in data connectivity and automation.</p>
@@ -1521,7 +1535,7 @@ section,
         <div class="hsm-sheets-head">
           <svg class="hsm-sheets-icon" viewBox="0 0 24 24"><rect x="3" y="1" width="18" height="22" rx="2" fill="#0F9D58"/><rect x="6" y="5" width="12" height="14" rx="1" fill="white"/><line x1="6" y1="9" x2="18" y2="9" stroke="#E0E0E0" stroke-width=".8"/><line x1="6" y1="13" x2="18" y2="13" stroke="#E0E0E0" stroke-width=".8"/><line x1="12" y1="5" x2="12" y2="19" stroke="#E0E0E0" stroke-width=".8"/></svg>
           <div class="hsm-sheets-meta">
-            <div class="hsm-sheets-name">Sales Pipeline, Canopy Sync</div>
+            <div class="hsm-sheets-name">Canopy Sync</div>
             <div class="hsm-sheets-menu">
               <span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Data</span><span>Tools</span><span>Add-ons</span><span>Help</span>
             </div>
@@ -1844,8 +1858,8 @@ section,
         <circle class="dt-leaf" cx="46" cy="22" r="5"/>
         <circle class="dt-leaf" cx="30" cy="14" r="5.5"/>
       </svg>
-      <h2 class="s-title">Here's what Canopy<br/><em>will do for you.</em></h2>
-      <p class="s-sub">5 pre-built templates designed for Zoho CRM users. Pick one, connect your CRM, and your Sheet updates itself. Here's a preview.</p>
+      <h2 class="s-title">Here's what Canopy<br/><em>does for you.</em></h2>
+      <p class="s-sub">5 pre-built templates designed for Zoho CRM users. Leads Pipeline is live in beta today &mdash; the rest are on the way. Pick one, connect your CRM, and your Sheet updates itself.</p>
     </div>
 
     <div class="tmpl-gallery">
@@ -1853,7 +1867,7 @@ section,
         <div class="tmpl-card-thumb thumb-pipeline">
           <svg width="100%" height="90" viewBox="0 0 200 90"><rect x="10" y="50" width="28" height="30" rx="3" fill="#2575E8" opacity=".5"/><rect x="46" y="38" width="28" height="42" rx="3" fill="#2575E8" opacity=".7"/><rect x="82" y="55" width="28" height="25" rx="3" fill="#2575E8" opacity=".5"/><rect x="118" y="25" width="28" height="55" rx="3" fill="#1B3F7A"/><rect x="154" y="42" width="28" height="38" rx="3" fill="#5A9BF0"/><line x1="5" y1="82" x2="195" y2="82" stroke="rgba(37,117,232,.3)" stroke-width="1"/></svg>
         </div>
-        <div class="tmpl-card-body"><h4>Sales Pipeline</h4><p>Deals, stages, probabilities, weighted revenue</p><span class="tmpl-status launch">Available at launch</span></div>
+        <div class="tmpl-card-body"><h4>Leads Pipeline</h4><p>Leads, KPIs, funnel, alerts &mdash; live from your Zoho CRM</p><span class="tmpl-status live">Live in beta</span></div>
       </div>
       <div class="tmpl-card" onclick="showTmpl(1)">
         <div class="tmpl-card-thumb thumb-contacts">
@@ -1884,7 +1898,7 @@ section,
     <!-- T0 : Pipeline (interactive live simulation) -->
     <div class="tmpl-preview-area show" id="t0">
       <div class="app-bar">
-        <div class="app-bar-left"><div class="app-bar-dots"><span class="ab-r"></span><span class="ab-y"></span><span class="ab-g"></span></div><span class="app-bar-title">Sales Pipeline &middot; Canopy Sync</span></div>
+        <div class="app-bar-left"><div class="app-bar-dots"><span class="ab-r"></span><span class="ab-y"></span><span class="ab-g"></span></div><span class="app-bar-title">Leads Pipeline &middot; Canopy Sync</span></div>
         <div class="app-bar-sync" id="pipeSync"><span class="sync-dot"></span><span id="pipeSyncLabel">Synced just now</span></div>
       </div>
       <div class="sheet-header">
@@ -1901,7 +1915,7 @@ section,
           </div>
         </div>
         <div class="pipe-filter-group">
-          <span class="pipe-filter-label">Stage</span>
+          <span class="pipe-filter-label">Status</span>
           <div class="pipe-chips" id="pipeStageChips">
             <button class="pipe-chip on" data-filter="stage" data-value="all" type="button">All</button>
           </div>
@@ -1917,14 +1931,14 @@ section,
           <thead>
             <tr>
               <th></th>
-              <th>A — Opportunity</th>
-              <th>B — Pipeline</th>
-              <th>C — Stage</th>
-              <th class="num">D — Value</th>
-              <th class="num">E — Prob</th>
-              <th class="num">F — Weighted</th>
-              <th>G — Owner</th>
-              <th>H — Close date</th>
+              <th>A — Full name</th>
+              <th>B — Company</th>
+              <th>C — Status</th>
+              <th>D — Rating</th>
+              <th>E — Owner</th>
+              <th>F — Industry</th>
+              <th class="num">G — Days quiet</th>
+              <th>H — Alert</th>
             </tr>
           </thead>
           <tbody id="pipeRows"></tbody>
@@ -1932,12 +1946,12 @@ section,
       </div>
       <div class="chart-zone">
         <div class="chart-head">
-          <div class="chart-ttl">Pipeline value by stage</div>
+          <div class="chart-ttl">Leads by status</div>
           <div class="chart-legend"><span class="chart-legend-dot"></span> Live data &middot; refreshes every sync</div>
         </div>
         <svg id="pipeChart" width="100%" height="160" viewBox="0 0 900 160" preserveAspectRatio="xMidYMid meet"></svg>
       </div>
-      <div class="sh-tabs"><div class="sh-tab on">Pipeline</div><div class="sh-tab">Cross view</div><div class="sh-tab">Alerts</div><div class="sh-tab" style="color:#9AA0A6">+</div></div>
+      <div class="sh-tabs"><div class="sh-tab on">Leads</div><div class="sh-tab">Dashboard</div><div class="sh-tab">Alerts</div><div class="sh-tab" style="color:#9AA0A6">+</div></div>
     </div>
 
     <!-- T1 : Contact Database -->
@@ -2225,7 +2239,7 @@ section,
     </div>
     <div class="pricing-grid">
       <div class="p-card" id="betaCard">
-        <div class="p-chip" style="background:#16A34A">Open now</div>
+        <div class="p-chip" style="background:#16A34A"><span class="live-dot"></span>Open now</div>
         <div class="p-name" style="color:#166534">Beta Tester</div>
         <div class="p-amount">Free</div>
         <p class="p-desc">Test Canopy on your real Zoho data before launch, and help shape what we build next.</p>
@@ -2350,7 +2364,7 @@ section,
       </div>
       <div class="faq-item">
         <div class="faq-q"><h4>When will Canopy launch?</h4><svg class="faq-chevron" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a"><p>We're targeting summer 2026. Sign up now to get early access and be among the first users. We'll keep you updated on progress.</p></div>
+        <div class="faq-a"><p>The beta is already live: Leads Pipeline is available to test today, on your own Zoho CRM data. The other 4 templates and paid plans are targeting summer 2026 for full public launch. Sign up now to get your beta code and be among the first users.</p></div>
       </div>
       <div class="faq-item">
         <div class="faq-q"><h4>What's the difference between Explorer, Pro, and Apex?</h4><svg class="faq-chevron" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div>
@@ -2367,9 +2381,9 @@ section,
 <!-- CTA -->
 <section class="cta-section" id="cta">
   <div style="position:relative;z-index:1">
-    <span class="s-tag">Launching soon</span>
-    <h2 class="s-title" style="color:white;max-width:560px;margin:0 auto 12px">Don't miss the launch.</h2>
-    <p class="s-sub" style="color:rgba(255,255,255,.7);margin:0 auto 44px">Join the waitlist now. Be among the first to automate your Zoho CRM workflow.</p>
+    <span class="s-tag" style="background:rgba(22,163,74,.18);border-color:rgba(22,163,74,.35);color:#6EE7A8">&#9679; Beta open now</span>
+    <h2 class="s-title" style="color:white;max-width:560px;margin:0 auto 12px">Don't wait for the launch.</h2>
+    <p class="s-sub" style="color:rgba(255,255,255,.7);margin:0 auto 44px">Join the beta today and automate your Zoho CRM workflow this week &mdash; not next summer.</p>
     <div class="cta-card">
       <div style="text-align:center;margin-bottom:16px">
         <div style="display:inline-flex;align-items:center;gap:10px">
@@ -2382,8 +2396,8 @@ section,
         <div style="text-align:center"><span style="font-size:.7rem;font-weight:700;color:var(--blue-l);text-transform:uppercase;letter-spacing:.08em">Pro</span><br/><span style="font-size:1.1rem;font-weight:800;color:white">&euro;8.99<span style="font-size:.75rem;font-weight:500;color:rgba(255,255,255,.5)">/mo</span></span></div>
         <div style="text-align:center"><span style="font-size:.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em">Apex</span><br/><span style="font-size:1.1rem;font-weight:800;color:white">&euro;17.99<span style="font-size:.75rem;font-weight:500;color:rgba(255,255,255,.5)">/mo</span></span></div>
       </div>
-      <p class="cta-dur">Free plan available &middot; No payment required to sign up &middot; Early adopters get priority access</p>
-      <a href="#pricing" style="display:inline-block;padding:14px 32px;background:var(--blue);color:white;border-radius:999px;font-size:.95rem;font-weight:800;text-decoration:none;font-family:'Inter',sans-serif;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 14px rgba(37,117,232,.5);margin-bottom:20px" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 22px rgba(37,117,232,.5)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 14px rgba(37,117,232,.5)'">Join the early access &rarr;</a>
+      <p class="cta-dur">Beta is free &middot; No payment required to sign up &middot; Beta testers keep founder pricing for life</p>
+      <a href="#pricing" style="display:inline-block;padding:14px 32px;background:#16A34A;color:white;border-radius:999px;font-size:.95rem;font-weight:800;text-decoration:none;font-family:'Inter',sans-serif;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 14px rgba(22,163,74,.5);margin-bottom:20px;animation:live-glow 2.6s ease-in-out infinite" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 22px rgba(22,163,74,.6)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 14px rgba(22,163,74,.5)'">Join the beta &rarr;</a>
     </div>
     <div class="trust-row">
       <div class="ti">
@@ -2429,7 +2443,7 @@ section,
         <h4>Privacy Policy</h4>
         <p>Canopy, operated by Digital Substrate, collects your name, email, company and how you use Zoho when you request beta access, or just your email for early access on other plans. This data is stored in a Google Sheet we control, used only to manage the beta and send you product updates, and never sold or shared beyond the tools we use to run it (Google, and EmailJS for notification emails). You can request deletion at any time by emailing us. We never store your Zoho or Google credentials, your CRM data connects through G-Connector directly into a Google Sheet you own, and Canopy's scripts run inside that sheet under your own account, we never receive or host a copy of it. All data transits encrypted (HTTPS/TLS).</p>
         <h4>Terms of Use</h4>
-        <p>Canopy is in pre-launch phase. By signing up, you may receive email communications about launch updates. Explorer plan is free forever. Pro plan includes a 14-day free trial, then &euro;8.99/mo. Apex plan is free for the first month, then &euro;17.99/mo. Agency Pack at &euro;39/mo for CRM integrators (up to 10 connected client CRMs). All subscriptions are month-to-month with no commitment, cancel anytime. Prices before applicable taxes. Digital Substrate reserves the right to modify pricing and features before the official launch.</p>
+        <p>Canopy's Leads Pipeline template is live in open beta; other templates and paid plans are in pre-launch phase. By signing up, you may receive email communications about beta access or launch updates. Explorer plan is free forever. Pro plan includes a 14-day free trial, then &euro;8.99/mo. Apex plan is free for the first month, then &euro;17.99/mo. Agency Pack at &euro;39/mo for CRM integrators (up to 10 connected client CRMs). All subscriptions are month-to-month with no commitment, cancel anytime. Prices before applicable taxes. Digital Substrate reserves the right to modify pricing and features before the official launch.</p>
       </div>
     </div>
   </div>
@@ -2487,7 +2501,7 @@ section,
     btn.style.background = '#22C55E';
     btn.style.color = 'white';
     btn.style.borderColor = '#22C55E';
-    setTimeout(() => { document.getElementById('tyOverlay').classList.add('show'); }, 800);
+    setTimeout(() => { tyOpen("You're on the list!", "Thanks for signing up. We'll notify you as soon as Canopy is ready. Check your inbox for a welcome email."); }, 800);
     setTimeout(() => { btn.textContent = origText; btn.style.background=origBg; btn.style.color=origColor; btn.style.borderColor=origBorder; btn.disabled=false; }, 3000);
   }
 
@@ -2511,8 +2525,13 @@ section,
     });
     btn.textContent = 'Request sent!';
     btn.style.background = '#22C55E';
-    setTimeout(() => { document.getElementById('tyOverlay').classList.add('show'); }, 800);
+    setTimeout(() => { tyOpen("You're in the beta!", "Thanks — the Leads Pipeline template is live now. You'll get your personal access code by email in the next few minutes, with a link to the setup guide."); }, 800);
     setTimeout(() => { btn.textContent = origText; btn.style.background = '#16A34A'; btn.disabled = false; }, 3000);
+  }
+  function tyOpen(title, text) {
+    document.getElementById('tyTitle').textContent = title;
+    document.getElementById('tyText').textContent = text;
+    document.getElementById('tyOverlay').classList.add('show');
   }
   function joinPro() { joinSignup('proEmail', 'Pro, €8.99/mo', 'Signed up!'); }
   function joinApex() { joinSignup('apexEmail', 'Apex, €17.99/mo', 'Welcome to Apex!'); }
