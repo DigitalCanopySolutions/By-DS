@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Canopy — Beta Access Portal</title>
 <meta name="robots" content="noindex, nofollow"/>
-<link rel="icon" href="../favicon-32.png" sizes="32x32"/>
+<link rel="icon" href="../img/favicon-32.png" sizes="32x32"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet"/>
@@ -105,6 +105,14 @@
     padding:14px 16px;font-size:.82rem;color:var(--gold-d);margin-top:6px;line-height:1.5;
   }
 
+  .consent{display:flex;gap:9px;align-items:flex-start;text-align:left;margin:16px 0 14px;padding:12px 14px;background:var(--slate-ll);border-radius:10px}
+  .consent input{margin-top:2px;flex-shrink:0;width:15px;height:15px;accent-color:var(--blue)}
+  .consent label{font-size:.78rem;color:var(--slate);line-height:1.45;cursor:pointer}
+  .consent a{color:var(--blue-d);font-weight:600;text-decoration:none}
+  .consent a:hover{text-decoration:underline}
+  @media (prefers-color-scheme: dark){ .consent{background:#0B1220} }
+  :root[data-theme="dark"] .consent{background:#0B1220}
+
   @media (prefers-color-scheme: dark){
     body{background:#0B1220;color:#E7ECF5;background-image:radial-gradient(circle at 20% 15%, rgba(37,117,232,.12), transparent 45%),radial-gradient(circle at 85% 85%, rgba(245,158,11,.08), transparent 45%)}
     .card{background:#111A2C;border-color:#22304A}
@@ -132,7 +140,7 @@
       Back to website
     </a>
     <div class="portal-logo">
-       <img src="../transparent-logo-simple.png" alt="Canopy Logo" width="75" height="75"/>
+       <img src="../img/transparent-logo-simple.png" alt="Canopy Logo" width="75" height="75"/>
       <span>Canopy</span>
     </div>
 
@@ -149,7 +157,11 @@
           <label for="pwInput">Access code</label>
           <input type="password" id="pwInput" placeholder="••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')tryUnlock()"/>
         </div>
-        <button class="unlock-btn" id="unlockBtn" onclick="tryUnlock()">Unlock portal</button>
+        <div class="consent">
+          <input type="checkbox" id="consentBox" onchange="document.getElementById('unlockBtn').disabled = !this.checked"/>
+          <label for="consentBox">I agree to test Canopy on my own Zoho CRM data via G-Connector, connecting into a Google Sheet I own. I've read the <a href="../?beta=1#privacy" target="_blank" rel="noopener">Privacy Policy</a> and understand Canopy never receives or stores a copy of my CRM data.</label>
+        </div>
+        <button class="unlock-btn" id="unlockBtn" onclick="tryUnlock()" disabled>Unlock portal</button>
         <p class="err" id="errMsg">That code isn't valid. Double-check the email we sent you, or contact us below.</p>
 
         <a href="../?beta=1#pricing" class="want-code-btn">Want a beta code? Sign up in 30 seconds →</a>
@@ -203,13 +215,15 @@
     const input = document.getElementById('pwInput');
     const btn = document.getElementById('unlockBtn');
     const err = document.getElementById('errMsg');
+    const consent = document.getElementById('consentBox');
+    if (!consent.checked) { consent.focus(); return; }
     if (!input.value) { input.focus(); return; }
     btn.disabled = true; btn.textContent = 'Checking...';
     const hash = await sha256Hex(input.value.trim());
     let result = { valid: false, reason: 'error' };
     try {
       const url = BACKEND_URL + '?action=check&hash=' + encodeURIComponent(hash) +
-        '&ua=' + encodeURIComponent(navigator.userAgent);
+        '&ua=' + encodeURIComponent(navigator.userAgent) + '&consent=1';
       const res = await fetch(url);
       result = await res.json();
     } catch (e) {
@@ -221,7 +235,9 @@
       document.getElementById('unlockedView').classList.add('show');
       sessionStorage.setItem('canopyBetaUnlocked', '1');
     } else {
-      err.textContent = result.reason === 'revoked'
+      err.textContent = result.reason === 'rate_limited'
+        ? 'Too many attempts right now. Wait a minute and try again, or contact us below.'
+        : result.reason === 'revoked'
         ? 'This code has been deactivated. Contact us below if you think that\'s a mistake.'
         : 'That code isn\'t valid. Double-check the email we sent you, or contact us below.';
       err.classList.add('show');
