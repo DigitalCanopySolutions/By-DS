@@ -200,10 +200,17 @@
   const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbyKSwjZDgsODIPs6rfTBs3cAgZMUniyTSmOAvF-1x2sW0N-7tPqtXPcIW9FMnuLtFvAfw/exec';
 
   // ── Fill in once you have them ──
-  // Format simple "/copy" directement après l'ID (pas après un #gid=...) :
-  // plus fiable pour déclencher la fenêtre native "Make a copy" de Google
-  // Sheets (corrigé le 15/07/2026 — l'ancien format ouvrait le fichier en
-  // Viewer au lieu d'afficher la fenêtre de copie).
+  // ⚠️ CRITIQUE (voir Canopy Beta Admin/Conformite-RGPD-Beta.md §0) : ce lien
+  // DOIT toujours déclencher la fenêtre native "Make a copy" de Google, jamais
+  // ouvrir le document original. Chaque testeur connecte son G-Connector sur
+  // SA PROPRE copie ; s'il finit par éditer l'original, les données CRM de
+  // tous les testeurs se mélangeraient dans le même fichier = fuite de
+  // données. Format simple "/copy" directement après l'ID (pas après un
+  // #gid=...) : plus fiable pour déclencher la fenêtre native (corrigé le
+  // 15/07/2026 — l'ancien format ouvrait le fichier en Viewer au lieu
+  // d'afficher la fenêtre de copie). Le fichier source doit rester partagé
+  // "Anyone with the link : Viewer" (jamais Editor) — retester ce parcours
+  // avec un compte Google neuf après tout changement.
   const TEMPLATE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1-e_vq4j5O_1xIjnYdEkpw5r4enTLNHa8KmOi4V2VxkE/copy';
   const GUIDE_PDF_URL = '../Canopy-Beta-Setup-Guide.pdf';
 
