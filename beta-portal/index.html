@@ -200,7 +200,11 @@
   const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbyKSwjZDgsODIPs6rfTBs3cAgZMUniyTSmOAvF-1x2sW0N-7tPqtXPcIW9FMnuLtFvAfw/exec';
 
   // ── Fill in once you have them ──
-  const TEMPLATE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1-e_vq4j5O_1xIjnYdEkpw5r4enTLNHa8KmOi4V2VxkE/edit?gid=548086828#gid=548086828/copy';
+  // Format simple "/copy" directement après l'ID (pas après un #gid=...) :
+  // plus fiable pour déclencher la fenêtre native "Make a copy" de Google
+  // Sheets (corrigé le 15/07/2026 — l'ancien format ouvrait le fichier en
+  // Viewer au lieu d'afficher la fenêtre de copie).
+  const TEMPLATE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/1-e_vq4j5O_1xIjnYdEkpw5r4enTLNHa8KmOi4V2VxkE/copy';
   const GUIDE_PDF_URL = '../Canopy-Beta-Setup-Guide.pdf';
 
   document.getElementById('sheetLink').href = TEMPLATE_SHEET_URL;
