@@ -2260,6 +2260,12 @@ section,
             <option value="Evaluating it">Evaluating it</option>
             <option value="Not yet">Not yet</option>
           </select>
+          <select id="betaLicense" aria-label="Zoho One or Zoho CRM only?">
+            <option value="">Zoho One, or CRM only?</option>
+            <option value="Zoho One (all apps)">Zoho One (all apps bundle)</option>
+            <option value="Zoho CRM only">Zoho CRM only (no bundle)</option>
+            <option value="Not sure">Not sure</option>
+          </select>
           <button class="p-btn" style="background:#16A34A;color:white;box-shadow:0 6px 18px -4px rgba(22,163,74,.5)" onclick="joinBeta()">Request beta access &rarr;</button>
           <p class="p-price-note">Limited seats &middot; You'll receive your personal access code by email</p>
         </div>
@@ -2512,6 +2518,7 @@ section,
     const companyEl = document.getElementById('betaCompany');
     const emailEl = document.getElementById('betaEmail');
     const zohoEl = document.getElementById('betaZoho');
+    const licenseEl = document.getElementById('betaLicense');
     if (!nameEl.value.trim()) { nameEl.style.borderColor = '#EF4444'; nameEl.focus(); return; }
     if (!emailEl.value || !emailEl.value.includes('@')) { emailEl.style.borderColor = '#EF4444'; emailEl.focus(); return; }
     nameEl.style.borderColor = ''; emailEl.style.borderColor = '';
@@ -2521,7 +2528,7 @@ section,
     btn.textContent = 'Sending...';
     btn.disabled = true;
     await sendToSheet(emailEl.value, 'Beta tester request', {
-      name: nameEl.value.trim(), company: companyEl.value.trim(), zoho: zohoEl.value
+      name: nameEl.value.trim(), company: companyEl.value.trim(), zoho: zohoEl.value, license: licenseEl.value
     });
     btn.textContent = 'Request sent!';
     btn.style.background = '#22C55E';
